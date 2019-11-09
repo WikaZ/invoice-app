@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  * @note Some props are injected and some are configuration (rendering) settings
  */
 const htmlPlugin = new HtmlWebPackPlugin({
-	title: "Reactron",
+	title: "Invoice App",
 	template: "./src/index.html",
 	filename: "./index.html"
 });

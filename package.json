@@ -1,9 +1,9 @@
 {
-  "name": "reactron",
+  "name": "invoice-app",
   "version": "1.0.0",
   "private": false,
-  "author": "Mitch Pierias <github.com/MitchPierias>",
-  "description": "Simplified Electron with React Boilerplate",
+  "author": "Wiktoria Zawadzka",
+  "description": "Handy Invoicing App",
   "main": "main.js",
   "scripts": {
     "start": "npm start:react",
@@ -35,8 +35,8 @@
     "sass-loader": "^7.3.1"
   },
   "build": {
-    "productName": "Reactron",
-    "appId": "com.reactron.app",
+    "productName": "Invoice App",
+    "appId": "org.wika.invoiceApp",
     "directories": {
       "buildResources": "build",
       "output": "dist"

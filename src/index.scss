@@ -1,3 +1,5 @@
+$body-bckg-color: #f9f9f9;
+
 /** Force App wrapper to bounds */
 [data-reactroot] {
 	width: 100vw !important;
@@ -14,12 +16,13 @@
 body {
 	width: 100% !important;
 	height: 100% !important;
-	background-color: #f9f9f9;
+	background-color: $body-bckg-color;
 	color: #7f8080;
 	font-family: Montserrat,sans-serif,-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
+
 }
 
 .app {

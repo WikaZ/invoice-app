@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 /**
  * HTML Webpack Plugin
  * @desc Configuration for building the HTML page
@@ -14,6 +14,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 const hotModulePlugin = new webpack.HotModuleReplacementPlugin();
+const miniCssPlugin = new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"})
 
 /**
  * Webpack Configuration
@@ -41,14 +42,18 @@ module.exports = {
 					}
 				}
 			}, {
-				test: /\.(s*)css$/,
-				use: ['style-loader','css-loader']
+				test: /\.css$/,
+				use: [MiniCssExtractPlugin.loader, 'css-loader']
+			}, {
+				test: /\.scss$/,
+				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
 			}
 		]
 	},
 	plugins:[
 		htmlPlugin,
-		hotModulePlugin
+		hotModulePlugin,
+        miniCssPlugin
 	],
 	resolve: {
 		extensions: ['.js','.jsx']

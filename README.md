@@ -32,7 +32,7 @@ npm run-script start:react
 
 Terminal 2 (to start electron app that gets sources from webpack dev server)
 ```
-npm run-script start:electro
+npm run-script start:electron
 ```
 ### Requirements
 - Node ^9.X.X

@@ -18,7 +18,7 @@ function createWindow() {
 		width:600,
 		height:400
 	});
-	// Display devleoper tools
+	// Display developer tools
 	if (inDevelopmentMode) {
 		mainWindow.webContents.openDevTools();
 		BrowserWindow.addDevToolsExtension(

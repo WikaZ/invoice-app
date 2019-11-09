@@ -21,6 +21,19 @@ Build the Electron distribution;
 npm run-script dist
 ```
 
+Run development mode:
+
+Open two terminals
+
+Terminal 1 (to start webpack that rebuilds react app):
+```
+npm run-script start:react
+```
+
+Terminal 2 (to start electron app that gets sources from webpack dev server)
+```
+npm run-script start:electro
+```
 ### Requirements
 - Node ^9.X.X
 - Electron ^3.X.X

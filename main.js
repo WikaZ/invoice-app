@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
+const os = require('os');
 
 // Constants
 const inDevelopmentMode = (process.env.MODE === 'dev')
@@ -18,8 +19,12 @@ function createWindow() {
 		height:400
 	});
 	// Display devleoper tools
-	if (inDevelopmentMode)
-		mainWindow.webContents.openDevTools()
+	if (inDevelopmentMode) {
+		mainWindow.webContents.openDevTools();
+		BrowserWindow.addDevToolsExtension(
+			path.join(os.homedir(), '.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0')
+		)
+	}
 	// Load primary UI
 	mainWindow.loadURL(inDevelopmentMode ? `http://localhost:9000` : `file://${__dirname}/build/index.html`);
 	// Handle 'closed' window event

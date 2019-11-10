@@ -85,10 +85,10 @@ module.exports = {
         lazy: false,
         compress: true,
         historyApiFallback: true,
-        port: 9001,
+        port: 9000,
         proxy: {
             '/assets/*': {
-                target: 'http://localhost:9001/',
+                target: 'http://localhost:9000/',
                 pathRewrite: {'^/assets': ''},
             }
         }

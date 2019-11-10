@@ -7,63 +7,62 @@ class CommonData extends React.Component {
         super(props);
         this.state = {
             invoice: "",
-            invoiceNumber:"",
+            invoiceNumber: "",
             date: "",
             address: "",
             terms: "",
             errors: {
                 invoice: "",
-                invoiceNumber: "",
-                date: "",
-                address: "",
-                terms: ""
-            }
+                invoiceNumber: " ",
+                date: " ",
+                address: " ",
+                terms: " "
+            },
+            showItem: false
+
 
         }
     }
+
 
     handleGetData = (e) => {
         e.preventDefault();
         this.handleValidateData(e);
         this.setState({
             [e.target.name]: e.currentTarget.value
-        })
-
-    };
-
-    handleValidateData = (e) => {
-        e.preventDefault();
+        });
         let errors = this.state.errors;
         const {name, value} = e.target;
         console.log('Name: ', name);
-        const validateDate = RegExp(/^[12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/);
+        const validateDate = RegExp(/^[1-9]{4}-[1-9]{2}-[1-9]{2}$/g);
+        const validateInvoice = RegExp(/^[a-z]{2,}$/g);
+        const validateNum = RegExp(/^[1-9]{1,}\S[1-9]{1,}$/g);
         switch (name) {
             case 'invoice':
                 errors.invoice =
-                    !value.length || typeof value !== "string"
-                        ? 'Czy to jest faktura?!'
-                        : '';
+                    validateInvoice.test(value)
+                        ? ""
+                        : 'Proszę wpisac nazwę';
                 break;
             case 'invoiceNumber':
                 errors.invoiceNumber =
-                    value.length
+                    validateNum.test(value)
                         ? ''
                         : 'Numer faktury jest barzdo waZny!';
                 break;
             case 'date':
                 errors.date =
-                    validateDate.test(value)
-                        ? ''
+                    validateDate.test(value) ? ''
                         : 'Proszę wpisac datę w formacie rrrr-mm-dd!';
                 break;
             case 'address':
                 errors.address =
-                    value.length
+                    value !== "" && typeof value === "string"
                         ? ''
                         : 'Proszę wpisać adres!';
                 break;
             case 'terms':
-                errors.date =
+                errors.terms =
                     validateDate.test(value)
                         ? ''
                         : 'Proszę wpisac datę w formacie rrrr-mm-dd!';
@@ -71,9 +70,30 @@ class CommonData extends React.Component {
             default:
                 break;
         }
-        this.setState({errors, [name]: value}, () => {
-            console.log(errors)
+
+
+        this.setState({
+            errors, [name]: value
+        });
+
+        // console.log(this.state.errors, "bledy w sTATE");
+        // this.state(this.state.errors).map((el,i)=>{
+        //     console.log(el);
+        // })
+// klucze this.state.errors
+        console.log(Object.keys(this.state.errors), "obj error");
+        Object.keys(this.state.errors).forEach((key)=>{
+            console.log(this.state.errors[key])
         })
+    };
+
+
+
+
+    handleValidateData = (e) => {
+        e.preventDefault();
+
+
     };
 
     render() {
@@ -87,31 +107,31 @@ class CommonData extends React.Component {
                         <div className={'formInvoice'}>
                             <label> Dokument
                                 <input type="text" placeholder={"faktura"} value={this.state.invoice}
-                                       name={"invoice"} onChange={this.handleGetData}/>
+                                       name={"invoice"} onChange={this.handleGetData} required/>
                             </label>
                         </div>
                         <div className={'formInvoiceNumber'}>
                             <label> Numer
                                 <input type="text" placeholder={`${month}/${year}`} value={this.state.invoiceNumber}
-                                       name={"invoiceNumber"} onChange={this.handleGetData}/>
+                                       name={"invoiceNumber"} onChange={this.handleGetData} required/>
                             </label>
                         </div>
                         <div className={'formDate'}>
                             <label>Data wystawienia
                                 <input type="text" placeholder={"rrrr-mm-dd"} value={this.state.date}
-                                       name={"date"} onChange={this.handleGetData}/>
+                                       name={"date"} onChange={this.handleGetData} required/>
                             </label>
                         </div>
                         <div className={'formAddress'}>
                             <label>Miejsce wystawienia
                                 <input type="text" value={this.state.address} name={"address"}
-                                       onChange={this.handleGetData}/>
+                                       onChange={this.handleGetData} required/>
                             </label>
                         </div>
                         <div className={'formTerms'}>
                             <label>Data sprzedaży
                                 <input type="text" placeholder={"rrrr-mm-dd"} value={this.state.terms}
-                                       name={"terms"} onChange={this.handleGetData}/>
+                                       name={"terms"} onChange={this.handleGetData} required/>
                             </label>
                         </div>
                         <input type="submit" value={"GOTOWE"}/>

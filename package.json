@@ -7,18 +7,20 @@
   "main": "main.js",
   "scripts": {
     "start": "npm start:react",
-    "start:react": "MODE=dev webpack-dev-server --mode development --progress",
+    "start:react": "MODE=dev webpack-dev-server --debug --mode development --progress ",
     "start:electron": "MODE=dev electron .",
     "build": "webpack --mode production",
     "dist": "electron-builder"
   },
   "dependencies": {
+    "moment": "^2.24.0",
     "path": "^0.12.7",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "webpack-dev-server": "^3.3.1"
   },
   "devDependencies": {
+    "moment-locales-webpack-plugin": "^1.1.0",
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",

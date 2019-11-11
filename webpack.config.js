@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 /**
  * HTML Webpack Plugin
  * @desc Configuration for building the HTML page
@@ -14,7 +15,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 const hotModulePlugin = new webpack.HotModuleReplacementPlugin();
-const miniCssPlugin = new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"})
+const miniCssPlugin = new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"});
 
 /**
  * Webpack Configuration
@@ -27,6 +28,7 @@ module.exports = {
         publicPath: './',
         filename: 'bundle.js'
     },
+    devtool: "eval-source-map",
     module: {
         rules: [
             {
@@ -66,6 +68,9 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             }, {
                 test: /\.scss$/,
+                include: [
+                    path.resolve(__dirname, 'src/scss')
+                ],
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             }
         ]
@@ -73,10 +78,13 @@ module.exports = {
     plugins: [
         htmlPlugin,
         hotModulePlugin,
-        miniCssPlugin
+        miniCssPlugin,
+        new MomentLocalesPlugin({
+            localesToKeep: ['es-us', 'ru', 'pl'],
+        })
     ],
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.scss']
     },
     devServer: {
         publicPath: 'http://localhost:9000',

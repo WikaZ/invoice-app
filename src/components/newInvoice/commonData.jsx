@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import dateUtils from './commonDataFn';
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+
 let active = {
     color: "#010601",
     backgroundColor: "rgba(170, 160, 0, 0.91)"
@@ -14,43 +18,80 @@ let notActive = {
 class CommonData extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            invoice: "Faktura",
-            invoiceNumber: "01/2019",
-            date: "2019-01-01",
-            address: "Jk",
-            terms: "2019-01-01",
-            isActive: notActive,
-            isShow: false,
-            errors: {
-                invoice: "",
-                invoiceNumber: "",
-                date: "",
-                address: "",
-                terms: ""
-            }
-
-
-        }
+        this.state = this.initialState;
     }
+
+    initialState = {
+        invoice: "Faktura",
+        invoiceNumber: "01/2019",
+        date: moment("2019-01-01", "YYYY-MM-DD"),
+        address: "Jk",
+        terms: moment("2019-01-01", "YYYY-MM-DD"),
+        isActive: notActive,
+        isShow: false,
+        errors: {
+            invoice: "",
+            invoiceNumber: "",
+            date: "",
+            address: "",
+            terms: ""
+        }
+    };
 
 // sprawdzamy, czy value w obj error sa puste---> w render
     isEmpty = (el) => {
         return el === ""
     };
 
+    handleChangeDate = (date) => {
+
+        let errors = this.state.errors;
+        console.log('Date changed:', date);
+        errors.date =
+            !date ? 'Proszę wpisac datę w formacie rrrr-mm-dd!'
+                : null;
+
+        console.log(errors);
+        let stateChange = {
+            errors,
+            date: date ? moment(date) : null
+        };
+        this.handleValidateData(stateChange);
+
+        this.setState(stateChange);
+    };
+
+    handleChangeTerms = (terms) => {
+
+        let errors = this.state.errors;
+        console.log('Date changed:', terms);
+        errors.terms =
+            !terms ? 'Proszę wpisac datę w formacie rrrr-mm-dd!'
+                : null;
+
+        console.log(errors);
+        let stateChange = {
+            errors,
+            terms: terms ? moment(terms) : null
+        };
+        this.handleValidateData(stateChange);
+
+        this.setState(stateChange);
+    };
+
 
     handleGetData = (e) => {
         e.preventDefault();
-        this.handleValidateData(e);
-        this.setState({
+
+        let stateChange = {
             [e.target.name]: e.currentTarget.value
-        });
+        };
+
         let errors = this.state.errors;
         const {name, value} = e.target;
         console.log('Name: ', name);
         const validateInvoice = RegExp(/^[a-z]{2,}$/g);
-        const validateNum = RegExp(/^[1-9]{1,}\/|-[1-9]{1,}$/g);
+        const validateNum = RegExp(/^[0-9]{1,}\/|-[0-9]{1,}$/g);
         switch (name) {
             case 'invoice':
                 errors.invoice =
@@ -64,12 +105,7 @@ class CommonData extends React.Component {
                         ? ''
                         : 'Numer faktury jest barzdo waZny!';
                 break;
-            case 'date':
-                errors.date =
-                    !dateUtils.validateDate(value) ? 'Proszę wpisac datę w formacie rrrr-mm-dd!'
-                        :  '';
 
-                break;
             case 'address':
                 errors.address =
                     value !== "" && typeof value === "string"
@@ -79,16 +115,16 @@ class CommonData extends React.Component {
             case 'terms':
                 errors.terms =
                     !dateUtils.validateDate(value)
-                        ? 'Proszę wpisac datę sprzedaży w formacie rrrr-mm-dd!': '';
+                        ? 'Proszę wpisac datę sprzedaży w formacie rrrr-mm-dd!' : '';
                 break;
             default:
                 break;
         }
 
-
-        this.setState({
-            errors, [name]: value
-        });
+        stateChange.errors = errors;
+        stateChange[name] = value;
+        this.handleValidateData(stateChange);
+        this.setState(stateChange);
 
 
 //test!!!!!! klucze this.state.errors  wipisac wszystkie błedy!!!
@@ -103,15 +139,20 @@ class CommonData extends React.Component {
 
     // event dla submit --> active/ not active btn zapisz
 
-    handleValidateData = (e) => {
-        e.preventDefault();
-        if (Object.values(this.state.errors).every(this.isEmpty)) {
-            this.setState({
-                isActive: active,
-                isShow: true
-            })
+    handleValidateData = (stateChange) => {
+        if (Object.values(stateChange.errors).every(this.isEmpty)) {
+            stateChange.isActive = active;
+            stateChange.isShow = true;
+        } else {
+            stateChange.isShow = false;
+            stateChange.isActive = notActive;
         }
 
+    };
+
+    dateOrNull = (fieldName) => {
+        const value = this.state[fieldName];
+        return value ? value.toDate() : null;
     };
 
     render() {
@@ -136,8 +177,8 @@ class CommonData extends React.Component {
                         </div>
                         <div className={'formDate'}>
                             <label>Data wystawienia
-                                <input type="text" placeholder={"rrrr-mm-dd"} value={this.state.date}
-                                       name={"date"} onChange={this.handleGetData} required/>
+                                <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
+                                            onChange={this.handleChangeDate}/>
                             </label>
                         </div>
                         <div className={'formAddress'}>
@@ -148,15 +189,15 @@ class CommonData extends React.Component {
                         </div>
                         <div className={'formTerms'}>
                             <label>Data sprzedaży
-                                <input type="text" placeholder={"rrrr-mm-dd"} value={this.state.terms}
-                                       name={"terms"} onChange={this.handleGetData} required/>
+                                <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
+                                            onChange={this.handleChangeTerms}/>
                             </label>
                         </div>
                         <input type="submit" value={"GOTOWE"} style={this.state.isActive}/>
                     </div>
                 </form>
 
-                {this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
+                {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
                     return (
 
                         <p key={i} style={{listStyleType: "none"}}> {el}</p>

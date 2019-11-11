@@ -23,77 +23,16 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 
+
 }
 
-.app {
-	width: 100% !important;
-	height: 100% !important;
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: stretch;
+.active{
+	color: #010601;
+	background-color: rgba(170, 160, 0, 0.91);
 }
 
-header {
-	flex: 7 1;
-	padding: 3vw;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+.notActive {
+	color: #010601;
+	background-color: rgba(1, 6, 1, 0.32);
 }
 
-.sym-add {
-	font-size: 3em;
-	color: #d2d2d2;
-	margin: 8vw;
-}
-
-section {
-	flex: 2 6;
-	padding: 3vw;
-}
-
-footer {
-	flex: 3 2;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-content: center;
-	padding: 3vw;
-}
-
-h1 {
-	font-size: 1.4em;
-}
-
-h2 {
-	font-size: 1.2em;
-	padding: 2vmin;
-}
-
-small {
-	font-size: 0.8em;
-	display: block;
-	opacity: 0.8;
-}
-
-.link-container {
-	align-self: stretch;
-	display: flex;
-	flex-direction:row;
-	justify-content: center;
-	align-content: center;
-}
-
-a, a:link {
-	color: #1bd4a5;
-	text-decoration: none;
-	margin: 2vmin 3vw;
-}
-
-a:visited {
-	color: inherit;
-	text-decoration: inherit;
-}

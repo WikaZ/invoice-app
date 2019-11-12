@@ -2,22 +2,21 @@ import React from 'react';
 import CommonData from './components/newInvoice/commonData';
 import FromData from './components/newInvoice/from';
 import ToData from './components/newInvoice/to';
+import InvoiceForm from "./components/newInvoice/invoiceForm";
 
-class Home extends React.Component{
+class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-
-        }
+        this.state = {}
     }
 
     render() {
-        return(
+        return (
             <>
-
-                <CommonData/>
-                <FromData/>
-                <ToData/>
+                <InvoiceForm/>
+                {/*<CommonData/>*/}
+                {/*<FromData/>*/}
+                {/*<ToData/>*/}
             </>)
 
     }

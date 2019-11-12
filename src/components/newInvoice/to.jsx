@@ -21,8 +21,6 @@ class ToData extends React.Component {
                     <label>Adres<input type="text" placeholder={"ulica, nr, m"}/></label>
                     <label>Kod pocztowy<input type="text" placeholder={"00-000"}/></label>
                     <label>Podpis<input type="text"/></label>
-                    <input type="submit" value={"GOTOWE"}/>
-
                 </form>
             </>
         )

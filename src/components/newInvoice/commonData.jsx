@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import dateUtils from './commonDataFn';
+import dateUtils from './functionHelper';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

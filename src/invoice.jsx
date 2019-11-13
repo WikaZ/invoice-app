@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import InvoiceList from "./components/InvoiceList/invoiceList";
 
 class Invoice extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class Invoice extends React.Component {
 
     render() {
         return (
-            <p>Invoice element</p>
+            <InvoiceList/>
         )
     }
 }

@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
 /**
  * HTML Webpack Plugin
  * @desc Configuration for building the HTML page

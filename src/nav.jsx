@@ -23,12 +23,12 @@ class NavBar extends React.Component {
             <>
                 <HashRouter>
                     <>
-                        <nav className={"o"}>
-                            <ul>
-                                <Link to={"/"}> Strona główna</Link>
-                                <Link to={"/klienci"}>Moi klienci</Link>
-                                <Link to={"/usługi"}> Moje Usługi</Link>
-                                <Link to={"/faktury"}>Moje Faktury</Link>
+                        <nav >
+                            <ul >
+                                <Link to={"/"}className={"mainNav"}> Strona główna</Link>
+                                <Link to={"/klienci"}className={"mainNav"}>Moi klienci</Link>
+                                <Link to={"/usługi"}className={"mainNav"}> Moje Usługi</Link>
+                                <Link to={"/faktury"}className={"mainNav"}>Moje Faktury</Link>
                             </ul>
                         </nav>
                         <Switch>

@@ -15,9 +15,9 @@ class InvoiceForm extends React.Component {
         return (
             <>
                 <CommonData/>
-                <From/>
-                <To/>
-                <SendMainData/>
+                {/*<From/>*/}
+                {/*<To/>*/}
+                {/*<SendMainData/>*/}
             </>
         )
     }

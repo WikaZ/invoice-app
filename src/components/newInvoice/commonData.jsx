@@ -6,14 +6,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
-let active = {
-    color: "#010601",
-    backgroundColor: "rgba(170, 160, 0, 0.91)"
-};
-let notActive = {
-    color: "#010601",
-    backgroundColor: "rgba(1, 6, 1, 0.32)"
-};
 
 class CommonData extends React.Component {
     constructor(props) {
@@ -27,7 +19,7 @@ class CommonData extends React.Component {
         date: moment("2019-01-01", "YYYY-MM-DD"),
         address: "Jk",
         terms: moment("2019-01-01", "YYYY-MM-DD"),
-        isActive: notActive,
+        isActive: "notActive",
         isShow: false,
         errors: {
             invoice: "",
@@ -141,11 +133,11 @@ class CommonData extends React.Component {
 
     handleValidateData = (stateChange) => {
         if (Object.values(stateChange.errors).every(this.isEmpty)) {
-            stateChange.isActive = active;
+            stateChange.isActive = "active";
             stateChange.isShow = true;
         } else {
             stateChange.isShow = false;
-            stateChange.isActive = notActive;
+            stateChange.isActive = "notActive";
         }
 
     };
@@ -163,7 +155,7 @@ class CommonData extends React.Component {
             <>
                 <form action="" onSubmit={this.handleValidateData}>
                     <div className={'formWrapper'}>
-                        <div className={'formInvoice'}>
+                        <div className={'commonInvoiceData'}>
                             <label> Dokument
                                 <input type="text" placeholder={"faktura"} value={this.state.invoice}
                                        name={"invoice"} onChange={this.handleGetData} required/>
@@ -193,7 +185,76 @@ class CommonData extends React.Component {
                                             onChange={this.handleChangeTerms}/>
                             </label>
                         </div>
-                        <input type="submit" value={"GOTOWE"} style={this.state.isActive}/>
+
+                        <input type="submit" value={"GOTOWE"} className={this.state.isActive}/>
+                        <div className={'myData'}>
+                            <label> Sprzedawca
+                                <select name="" id="" value={this.initialState.businessName} onChange={this.getData}>
+                                    <option value="inne" name={"businessName"}>Inne</option>
+                                </select>
+                            </label>
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessPostalCode"}
+                                               value={this.initialState.businessNumber}
+                                               onChange={this.getData}/></label>
+                            <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}
+                                               value={this.initialState.businessAddress}
+                                               onChange={this.getData}/></label>
+                            <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}
+                                                      value={this.initialState.businessPostalCode}
+                                                      onChange={this.getData}/></label>
+                            <label>Podpis<input type="text" value={this.initialState.businessSignature}
+                                                name={"businessSignature"} onChange={this.getData}/></label>
+
+                        </div>
+                        <div className={"clientsData"}>
+                            <label> Nabywca <input type="text" placeholder={"Nazwa firmy"}/></label>
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"}/></label>
+                            <label>Adres<input type="text" placeholder={"ulica, nr, m"}/></label>
+                            <label>Kod pocztowy<input type="text" placeholder={"00-000"}/></label>
+                            <label>Podpis<input type="text"/></label>
+                        </div>
+                        <div className={"itemDescription"}>
+                            <div>
+                                <table>
+                                    <thead className={"description"}>
+                                    <tr>
+                                        <th>Nazwa usługi</th>
+                                        <th>Cena</th>
+                                        <th>Ilość</th>
+                                        <th>Jednostka miary</th>
+                                        <th>Stawka VAT</th>
+                                        <th>Kwota faktury Netto</th>
+                                        <th>Kwota faktury Brutto</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="number"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>SUMA:</th>
+                                        <th><input type="text"/></th>
+                                    </tr>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </form>
 

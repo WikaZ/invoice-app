@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ProductsList from "./components/productsList/productsList";
 
 class Products extends React.Component{
     constructor(props) {
@@ -11,7 +12,7 @@ class Products extends React.Component{
 
     render() {
         return(
-            <p>Products element</p>
+            <ProductsList/>
         )
     }
 }

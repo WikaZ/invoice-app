@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ClientsList from "./components/clients/clientsList";
 
 class Clients extends React.Component{
     constructor(props) {
@@ -11,7 +12,7 @@ class Clients extends React.Component{
 
     render() {
         return(
-            <p>Clients element</p>
+           <ClientsList/>
         )
     }
 }

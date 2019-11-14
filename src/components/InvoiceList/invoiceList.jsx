@@ -117,12 +117,7 @@ class InvoiceList extends Component {
         console.log("mam wszystkie dane tej faktury");
 
     };
-// Here, we replaced the rowData assignment in the constructor with a data fetch from a remote service
-    // componentDidMount() {
-    //     fetch('https://api.myjson.com/bins/15psn9')
-    //         .then(result => result.json())
-    //         .then(rowData => this.setState({rowData}))
-    // }
+
 
     render() {
         return (
@@ -144,7 +139,7 @@ class InvoiceList extends Component {
                             onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
                         </AgGridReact>
                     </div>
-                    <p style={{color: 'red'}}>{this.state.name}</p>
+
                 </div>
             </>
         );
@@ -154,6 +149,3 @@ class InvoiceList extends Component {
 export default InvoiceList;
 
 
-// ??????????????????
-// jesli lista jest dluga i sie nie miesci??
-//     suma rate (12,34 + 24,67)

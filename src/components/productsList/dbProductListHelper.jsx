@@ -13,3 +13,16 @@
 //         console.error("Error writing document: ", error);
 //     });
 
+
+
+
+// wydrukowac nowa strone
+
+onBtPrint = () => {
+    var gridApi = this.gridApi;
+    // setPrinterFriendly(gridApi);
+    setTimeout(function () {
+        print();
+        // setNormal(gridApi);
+    }, 2000);
+};

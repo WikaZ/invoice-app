@@ -4,6 +4,7 @@ import {passProduct} from "./dbProductListHelper"
 import {AgGridReact} from '@ag-grid-community/react';
 import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
+import {db} from '../../db/dbconfig';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
 // import *  as firebase from 'firebase';
 // var db = firebase.firestore();
@@ -22,21 +23,6 @@ function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, e
 
 const arrayLength = 5;
 
-function createRowData() {
-    var rowData = [];
-    for (var i = 0; i < arrayLength; i++) {
-        var item = {
-            rate: "a",
-            product: "a",
-            qty: "a",
-            unit: "a",
-            vat: "a"
-
-        };
-        rowData.push(item);
-    }
-    return rowData;
-}
 
 class ProductsList extends Component {
     constructor(props) {
@@ -50,7 +36,7 @@ class ProductsList extends Component {
                 columnDef("Stawka VAT", "vat", true, true, true, true, 120),
             ],
 
-            rowData: createRowData(),
+            rowData: this.createRowData(),
             defaultColDef: {width: 100},
             domLayout: "autoHeight"
 
@@ -58,6 +44,29 @@ class ProductsList extends Component {
         }
 
     }
+
+    createRowData = () => {
+        this.reloadTable();
+        console.log('Finished row data');
+        return [];
+    };
+
+    reloadTable = () => {
+
+        db.collection('productList').get().then(
+            querySnapshot => {
+                let rowData = [];
+                querySnapshot.docs.forEach(doc => {
+                    console.log('RowData: ', doc.data());
+                    rowData.push(doc.data());
+                });
+                this.setState({
+                    rowData: rowData
+                });
+            }
+        );
+
+    };
 
     onGridSizeChanged(params) {
         var gridWidth = document.getElementById("grid-wrapper").offsetWidth;
@@ -79,34 +88,37 @@ class ProductsList extends Component {
         params.api.sizeColumnsToFit();
     }
 
-    onGridReady = params => {
-        this.gridApi = params.api;
-        this.gridColumnApi = params.columnApi;
-    };
 
     onBtPrinterFriendly() {
-        var eGridDiv = document.querySelector("#myGrid");
+        var eGridDiv = document.querySelector("#grid-wrapper");
         eGridDiv.style.width = "";
         eGridDiv.style.height = "";
         eGridDiv.style.margin = "0 auto";
         this.gridApi.setDomLayout("print");
     }
-
-    onBtNormal() {
-        var eGridDiv = document.querySelector("#myGrid");
-        eGridDiv.style.width = "800px";
-        eGridDiv.style.height = "400px";
-        this.gridApi.setDomLayout(null);
+     setPrinterFriendly(api) {
+        var eGridDiv = document.querySelector("#grid-wrapper");
+        eGridDiv.style.width = "";
+        eGridDiv.style.height = "";
+        api.setDomLayout("print");
     }
 
-    onBtPrint() {
+
+    // onBtNormal() {
+    //     var eGridDiv = document.querySelector("#grid");
+    //     eGridDiv.style.width = "800px";
+    //     eGridDiv.style.height = "400px";
+    //     this.gridApi.setDomLayout(null);
+    // }
+
+    onBtPrint = () => {
         var gridApi = this.gridApi;
-        setPrinterFriendly(gridApi);
+        // setPrinterFriendly(gridApi);
         setTimeout(function () {
             print();
-            setNormal(gridApi);
+            // setNormal(gridApi);
         }, 2000);
-    }
+    };
 
     onAddRow() {
         var newItem = createNewRowData();
@@ -119,22 +131,6 @@ class ProductsList extends Component {
         console.log("usun usluge");
     };
 
-    onButtonClickAdd = () => {
-        console.log("dodaj usluge");
-        // db.collection("productList").doc("VqUP5n7POyFxV6Ph0cOG").set({
-        //     rate: "1 ",
-        //     product: "Usługa",
-        //     qty: "12",
-        //     unit: "szt",
-        //     vat: "5%"
-        // })
-        //     .then(function () {
-        //         console.log("Document successfully written!");
-        //     })
-        //     .catch(function (error) {
-        //         console.error("Error writing document: ", error);
-        //     });
-    };
 
 // Here, we replaced the rowData assignment in the constructor with a data fetch from a remote service
     // componentDidMount() {
@@ -147,24 +143,29 @@ class ProductsList extends Component {
         return (
             <>
                 <button onClick={this.onButtonClick}>Get selected rows</button>
-                <div
-                    className="ag-theme-balham mainTable"
-                    style={{
-                        height: '100vh',
-                        width: '100vw'
-                    }}
-                >
 
-                    <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
-                        <AgGridReact
-                            columnDefs={this.state.columnDefs}
-                            rowData={this.state.rowData}
-                            modules={AllCommunityModules}
-                            rowSelection="single"
-                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
-                        </AgGridReact>
+                    <div
+                        className="ag-theme-balham mainTable"
+                        style={{
+                            height: '100vh',
+                            width: '100vw'
+                        }}
+                    >
+
+                        <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
+
+                            <AgGridReact
+                                columnDefs={this.state.columnDefs}
+                                rowData={this.state.rowData}
+                                modules={AllCommunityModules}
+                                rowSelection="single"
+                                onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                            </AgGridReact>
+
+                        </div>
                     </div>
-                </div>
+
+                <button onClick={this.onBtPrint.bind(this)}>Print</button>
             </>
 
 
@@ -189,14 +190,14 @@ function setRowData() {
 }
 
 function setPrinterFriendly(api) {
-    var eGridDiv = document.querySelector("#myGrid");
+    var eGridDiv = document.querySelector("#grid-wrapper");
     eGridDiv.style.width = "";
     eGridDiv.style.height = "";
     api.setDomLayout("print");
 }
 
 function setNormal(api) {
-    var eGridDiv = document.querySelector("#myGrid");
+    var eGridDiv = document.querySelector("#grid-wrapper");
     eGridDiv.style.width = "600px";
     eGridDiv.style.height = "200px";
     api.setDomLayout(null);

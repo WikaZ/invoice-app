@@ -242,7 +242,7 @@ class CommonData extends React.Component {
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th></th>
+                                        <th ></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -275,3 +275,20 @@ class CommonData extends React.Component {
 }
 
 export default CommonData;
+// wyslat
+// onButtonClickAdd = () => {
+//     console.log("dodaj usluge");
+//     db.collection("productList").doc().set({
+//         rate: "1 ",
+//         product: "Usługa",
+//         qty: "12",
+//         unit: "szt",
+//         vat: "5%"
+//     })
+//         .then(function () {
+//             console.log("Document successfully written!");
+//         })
+//         .catch(function (error) {
+//             console.error("Error writing document: ", error);
+//         });
+// };

@@ -106,6 +106,27 @@ class ClientsList extends Component {
     //         .then(rowData => this.setState({rowData}))
     // }
 
+    // szerokosc tabelki
+    onGridSizeChanged(params) {
+        var gridWidth = document.getElementById("grid-wrapper").offsetWidth;
+        var columnsToShow = [];
+        var columnsToHide = [];
+        var totalColsWidth = 0;
+        var allColumns = params.columnApi.getAllColumns();
+        for (var i = 0; i < allColumns.length; i++) {
+            var column = allColumns[i];
+            totalColsWidth += column.getMinWidth();
+            if (totalColsWidth > gridWidth) {
+                columnsToHide.push(column.colId);
+            } else {
+                columnsToShow.push(column.colId);
+            }
+        }
+        params.columnApi.setColumnsVisible(columnsToShow, true);
+        params.columnApi.setColumnsVisible(columnsToHide, false);
+        params.api.sizeColumnsToFit();
+    }
+
     render() {
         return (
             <div
@@ -116,12 +137,15 @@ class ClientsList extends Component {
                 }}
             >
                 <button onClick={this.onButtonClick}>Get selected rows</button>
+                <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
                 <AgGridReact
                     columnDefs={this.state.columnDefs}
                     rowData={this.state.rowData}
                     modules={AllCommunityModules}
-                    rowSelection="single">
+                    rowSelection="single"
+                    onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
                 </AgGridReact>
+                    </div>
             </div>
         );
     }

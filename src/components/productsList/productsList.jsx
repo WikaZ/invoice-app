@@ -7,7 +7,7 @@ import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
 // import *  as firebase from 'firebase';
 // var db = firebase.firestore();
-function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, editable, width) {
+function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, editable, minWidth) {
     return {
         headerName: headerName,
         field: fieldName,
@@ -15,7 +15,7 @@ function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, e
         filter: filter,
         checkboxSelection: checkboxSelection,
         editable: editable,
-        width: width
+        minWidth: minWidth
     }
 }
 
@@ -51,11 +51,32 @@ class ProductsList extends Component {
             ],
 
             rowData: createRowData(),
-            defaultColDef: {width: 100}
+            defaultColDef: {width: 100},
+            domLayout: "autoHeight"
 
 
         }
 
+    }
+
+    onGridSizeChanged(params) {
+        var gridWidth = document.getElementById("grid-wrapper").offsetWidth;
+        var columnsToShow = [];
+        var columnsToHide = [];
+        var totalColsWidth = 0;
+        var allColumns = params.columnApi.getAllColumns();
+        for (var i = 0; i < allColumns.length; i++) {
+            var column = allColumns[i];
+            totalColsWidth += column.getMinWidth();
+            if (totalColsWidth > gridWidth) {
+                columnsToHide.push(column.colId);
+            } else {
+                columnsToShow.push(column.colId);
+            }
+        }
+        params.columnApi.setColumnsVisible(columnsToShow, true);
+        params.columnApi.setColumnsVisible(columnsToHide, false);
+        params.api.sizeColumnsToFit();
     }
 
     onGridReady = params => {
@@ -67,9 +88,25 @@ class ProductsList extends Component {
         var eGridDiv = document.querySelector("#myGrid");
         eGridDiv.style.width = "";
         eGridDiv.style.height = "";
+        eGridDiv.style.margin = "0 auto";
         this.gridApi.setDomLayout("print");
     }
 
+    onBtNormal() {
+        var eGridDiv = document.querySelector("#myGrid");
+        eGridDiv.style.width = "800px";
+        eGridDiv.style.height = "400px";
+        this.gridApi.setDomLayout(null);
+    }
+
+    onBtPrint() {
+        var gridApi = this.gridApi;
+        setPrinterFriendly(gridApi);
+        setTimeout(function () {
+            print();
+            setNormal(gridApi);
+        }, 2000);
+    }
 
     onAddRow() {
         var newItem = createNewRowData();
@@ -108,33 +145,29 @@ class ProductsList extends Component {
 
     render() {
         return (
-            <div
-                className="ag-theme-balham mainTable"
-                style={{
-                    height: '100vh',
-                    width: '100vw'
-                }}
-            >
-                <button onClick={this.onButtonClickRemove.bind(this)}>Usuń usługę</button>
-                <button onClick={this.onButtonClickAdd.bind(this)}>Dodaj nową usługę</button>
-                <button onClick={this.onBtPrinterFriendly.bind(this)}>Printer Friendly Layout</button>
+            <>
+                <button onClick={this.onButtonClick}>Get selected rows</button>
                 <div
-                    id="myGrid"
+                    className="ag-theme-balham mainTable"
                     style={{
-                        height: "200px",
-                        width: "400px"
+                        height: '100vh',
+                        width: '100vw'
                     }}
-                    className="ag-theme-balham"
                 >
-                    <AgGridReact
-                        columnDefs={this.state.columnDefs}
-                        rowData={this.state.rowData}
-                        modules={AllCommunityModules}
-                        rowSelection="single"
-                        onGridReady={this.onGridReady}>
-                    </AgGridReact>
+
+                    <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
+                        <AgGridReact
+                            columnDefs={this.state.columnDefs}
+                            rowData={this.state.rowData}
+                            modules={AllCommunityModules}
+                            rowSelection="single"
+                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                        </AgGridReact>
+                    </div>
                 </div>
-            </div>
+            </>
+
+
         );
     }
 }
@@ -153,4 +186,18 @@ function createNewRowData() {
 
 function setRowData() {
     console.log("nowy wiersz");
+}
+
+function setPrinterFriendly(api) {
+    var eGridDiv = document.querySelector("#myGrid");
+    eGridDiv.style.width = "";
+    eGridDiv.style.height = "";
+    api.setDomLayout("print");
+}
+
+function setNormal(api) {
+    var eGridDiv = document.querySelector("#myGrid");
+    eGridDiv.style.width = "600px";
+    eGridDiv.style.height = "200px";
+    api.setDomLayout(null);
 }

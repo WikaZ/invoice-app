@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-// import logo from './logo.svg';
-// import './App.css';
 import {AgGridReact} from '@ag-grid-community/react';
 import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
-import *  as firebase from 'firebase';
+import {db} from "../../db/dbconfig";
+
 
 function columnDef(headerName, fieldName, sortable, filter, checkboxSelection) {
     return {
@@ -39,58 +38,40 @@ class InvoiceList extends Component {
                 columnDef("Adres", "clientAddress", true, true, true),
                 columnDef("Kod Pocztowy", "clientPostalCode", true, true, true),
                 columnDef("Podpis", "clientSignature", true, true, true),
+                columnDef("Usługa", "product", true, true, true),
+                columnDef("Ilość", "qty", true, true, true),
+                columnDef("Cena", "rate", true, true, true),
+                columnDef("Jednostka Miary", "unit", true, true, true),
+                columnDef("VAT", "vat", true, true, true),
             ],
             // tylko przyklad, pozniej usunac
-            rowData: [{
-                invoice: "",
-                invoiceNumber: "",
-                date: "",
-                address: "",
-                terms: "",
-                businessName: "",
-                businessNumber: "",
-                businessAddress: "",
-                businessPostalCode: "",
-                businessSignature: "",
-                clientName: "",
-                clientNumber: "",
-                clientAddress: "",
-                clientPostalCode: "",
-                clientSignature: "",
-                rate: "",
-                product: "",
-                qty: "",
-                unit: "",
-                vat: ""
-
-
-            },
-                {
-                    invoice: "",
-                    invoiceNumber: "",
-                    date: "",
-                    address: "",
-                    terms: "",
-                    businessName: "",
-                    businessNumber: "",
-                    businessAddress: "",
-                    businessPostalCode: "",
-                    businessSignature: "",
-                    clientName: "",
-                    clientNumber: "",
-                    clientAddress: "",
-                    clientPostalCode: "",
-                    clientSignature: "",
-                    rate: "",
-                    product: "",
-                    qty: "",
-                    unit: "",
-                    vat: ""
-
-
-                }]
+            rowData: this.createRowData(),
         }
     }
+
+// wszystkie dane z bazy --> to, co wpisal uzytkownik do form na ekr glownym
+    createRowData = () => {
+        this.reloadTable();
+        console.log('Finished row data');
+        return [];
+    };
+
+    reloadTable = () => {
+
+        db.collection('invoice').get().then(
+            querySnapshot => {
+                let rowData = [];
+                querySnapshot.docs.forEach(doc => {
+                    console.log('RowData: ', doc.data());
+                    rowData.push(doc.data());
+                });
+                this.setState({
+                    rowData: rowData
+                });
+            }
+        );
+
+    };
 
     onGridSizeChanged(params) {
         var gridWidth = document.getElementById("grid-wrapper").offsetWidth;

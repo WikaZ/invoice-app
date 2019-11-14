@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import dateUtils from './functionHelper';
-
+import {db} from '../../db/dbconfig';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
@@ -19,6 +19,23 @@ class CommonData extends React.Component {
         date: moment("2019-01-01", "YYYY-MM-DD"),
         address: "Jk",
         terms: moment("2019-01-01", "YYYY-MM-DD"),
+        businessName: "",
+        businessNumber: "",
+        businessAddress: "",
+        businessPostalCode: "",
+        businessSignature: "",
+        clientName: "",
+        clientNumber: "",
+        clientAddress: "",
+        clientPostalCode: "",
+        clientSignature: "",
+        product: "",
+        qty: "",
+        rate: "",
+        unit: "",
+        vat: "",
+        subtotal: "",
+        grossPrice: "",
         isActive: "notActive",
         isShow: false,
         errors: {
@@ -26,7 +43,22 @@ class CommonData extends React.Component {
             invoiceNumber: "",
             date: "",
             address: "",
-            terms: ""
+            terms: "",
+            businessName: "",
+            businessNumber: "",
+            businessAddress: "",
+            businessPostalCode: "",
+            businessSignature: "",
+            clientName: "",
+            clientNumber: "",
+            clientAddress: "",
+            clientPostalCode: "",
+            clientSignature: "",
+            product: "",
+            qty: "",
+            rate: "",
+            unit: "",
+            vat: ""
         }
     };
 
@@ -147,6 +179,42 @@ class CommonData extends React.Component {
         return value ? value.toDate() : null;
     };
 
+
+    // wysylame dane
+
+    handlePassData=(e)=>{
+e.preventDefault()
+        console.log(this.state, "state");
+        db.collection("invoice").doc().set({
+        invoice:this.state.invoice,
+        invoiceNumber: this.state.invoiceNumber,
+        // date:this.state.date,
+        address: this.state.address,
+        // terms: this.state.terms,
+        businessName:this.state.businessName ,
+        businessNumber: this.state.businessNumber,
+        businessAddress:this.state.businessAddress ,
+        businessPostalCode:this.state.businessPostalCode ,
+        businessSignature: this.state.businessSignature,
+        clientName: this.state.clientName,
+        clientNumber: this.state.clientNumber,
+        clientAddress: this.state.clientAddress,
+        clientPostalCode: this.state.clientPostalCode,
+        clientSignature: this.state.clientSignature,
+        product:this.state.product,
+        qty: this.state.qty,
+        rate: this.state.rate,
+        unit: this.state.unit,
+        vat: this.state.vat
+    }
+    )
+        .then(function () {
+            console.log("Document successfully written!");
+        })
+        .catch(function (error) {
+            console.error("Error writing document: ", error);
+        });
+    };
     render() {
         const date = new Date();
         const month = date.getMonth();
@@ -186,32 +254,41 @@ class CommonData extends React.Component {
                             </label>
                         </div>
 
-                        <input type="submit" value={"GOTOWE"} className={this.state.isActive}/>
+
                         <div className={'myData'}>
                             <label> Sprzedawca
-                                <select name="" id="" value={this.initialState.businessName} onChange={this.getData}>
+                                <select name="" id="" value={this.initialState.businessName}
+                                        onChange={this.handleGetData}>
                                     <option value="inne" name={"businessName"}>Inne</option>
                                 </select>
                             </label>
                             <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessPostalCode"}
                                                value={this.initialState.businessNumber}
-                                               onChange={this.getData}/></label>
+                                               onChange={this.handleGetData}/></label>
                             <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}
                                                value={this.initialState.businessAddress}
-                                               onChange={this.getData}/></label>
+                                               onChange={this.handleGetData}/></label>
                             <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}
                                                       value={this.initialState.businessPostalCode}
-                                                      onChange={this.getData}/></label>
+                                                      onChange={this.handleGetData}/></label>
                             <label>Podpis<input type="text" value={this.initialState.businessSignature}
-                                                name={"businessSignature"} onChange={this.getData}/></label>
+                                                name={"businessSignature"} onChange={this.handleGetData}/></label>
 
                         </div>
                         <div className={"clientsData"}>
-                            <label> Nabywca <input type="text" placeholder={"Nazwa firmy"}/></label>
-                            <label> NIP <input type="text" placeholder={"000-000-00-00"}/></label>
-                            <label>Adres<input type="text" placeholder={"ulica, nr, m"}/></label>
-                            <label>Kod pocztowy<input type="text" placeholder={"00-000"}/></label>
-                            <label>Podpis<input type="text"/></label>
+                            <label> Nabywca <input type="text" placeholder={"Nazwa firmy"}
+                                                   onChange={this.handleGetData}/></label>
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"} value={this.state.clientNumber}
+                                               name={"clientNumber"}
+                                               onChange={this.handleGetData} required/></label>
+                            <label>Adres<input type="text" placeholder={"ulica, nr, m"} value={this.state.clientAddress}
+                                               name={"clientAddress"}
+                                               onChange={this.handleGetData} required/></label>
+                            <label>Kod pocztowy<input type="text" placeholder={"00-000"}
+                                                      value={this.state.clientPostalCode} name={"clientPostalCode"}
+                                                      onChange={this.handleGetData} required/></label>
+                            <label>Podpis<input type="text" value={this.state.clientSignature}
+                                                name={"clientSignature"} onChange={this.handleGetData}/></label>
                         </div>
                         <div className={"itemDescription"}>
                             <div>
@@ -230,31 +307,48 @@ class CommonData extends React.Component {
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text"/></td>
-                                        <td><input type="text"/></td>
-                                        <td><input type="number"/></td>
-                                        <td><input type="text"/></td>
-                                        <td><input type="text"/></td>
-                                        <td><input type="text"/></td>
-                                        <td><input type="text"/></td>
+                                        <td><input type="text" value={this.state.product} name={"product"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="text" value={this.state.rate} name={"rate"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="number" value={this.state.qty} name={"qty"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="text" value={this.state.unit} name={"unit"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="text" value={this.state.vat} name={"vat"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="text" value={this.state.subtotal} name={"subtotal"}
+                                                   onChange={this.handleGetData}/></td>
+                                        <td><input type="text" value={this.state.grossPrice} name={"grossPrice"}
+                                                   onChange={this.handleGetData}/></td>
                                     </tr>
 
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th ></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th>SUMA:</th>
-                                        <th><input type="text"/></th>
+                                        <th></th>
+                                        <th>SUMA NETTO:</th>
+                                        <th><input type="text" value={this.state.subtotal}/></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>SUMA :</th>
+                                        <th><input type="text" value={this.state.grossPrice}/></th>
                                     </tr>
 
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
+                        <input type="submit" value={"GOTOWE"} className={this.state.isActive} onClick={this.handlePassData}/>
                     </div>
                 </form>
 

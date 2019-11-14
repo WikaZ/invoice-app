@@ -21,7 +21,7 @@ function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, e
 }
 
 
-const arrayLength = 5;
+
 
 
 class ProductsList extends Component {
@@ -57,7 +57,8 @@ class ProductsList extends Component {
             querySnapshot => {
                 let rowData = [];
                 querySnapshot.docs.forEach(doc => {
-                    console.log('RowData: ', doc.data());
+                    console.log('RowData: ', doc.data())
+                    console.log( "docs: ", querySnapshot.docs);
                     rowData.push(doc.data());
                 });
                 this.setState({
@@ -89,83 +90,39 @@ class ProductsList extends Component {
     }
 
 
-    onBtPrinterFriendly() {
-        var eGridDiv = document.querySelector("#grid-wrapper");
-        eGridDiv.style.width = "";
-        eGridDiv.style.height = "";
-        eGridDiv.style.margin = "0 auto";
-        this.gridApi.setDomLayout("print");
-    }
-     setPrinterFriendly(api) {
-        var eGridDiv = document.querySelector("#grid-wrapper");
-        eGridDiv.style.width = "";
-        eGridDiv.style.height = "";
-        api.setDomLayout("print");
-    }
-
-
-    // onBtNormal() {
-    //     var eGridDiv = document.querySelector("#grid");
-    //     eGridDiv.style.width = "800px";
-    //     eGridDiv.style.height = "400px";
-    //     this.gridApi.setDomLayout(null);
-    // }
-
-    onBtPrint = () => {
-        var gridApi = this.gridApi;
-        // setPrinterFriendly(gridApi);
-        setTimeout(function () {
-            print();
-            // setNormal(gridApi);
-        }, 2000);
-    };
-
-    onAddRow() {
-        var newItem = createNewRowData();
-        console.log(newItem);
-    }
-
-
-    // fn dla onClick na selected row
-    onButtonClickRemove = () => {
-        console.log("usun usluge");
-    };
-
-
-// Here, we replaced the rowData assignment in the constructor with a data fetch from a remote service
-    // componentDidMount() {
-    //     fetch('https://api.myjson.com/bins/15psn9')
-    //         .then(result => result.json())
-    //         .then(rowData => this.setState({rowData}))
-    // }
 
     render() {
         return (
             <>
-                <button onClick={this.onButtonClick}>Get selected rows</button>
 
-                    <div
-                        className="ag-theme-balham mainTable"
-                        style={{
-                            height: '100vh',
-                            width: '100vw'
-                        }}
-                    >
 
-                        <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
+                <div
+                    className="ag-theme-balham mainTable"
+                    style={{
+                        height: '100vh',
+                        width: '100vw'
+                    }}
+                >
+                   {/*<button onClick={this.onAddRow}>Add Row</button>*/}
+                    {/*<button onClick={this.onAddRow.bind(this)}>Add Row</button>*/}
+                    {/*<button onClick={this.onInsertRowAt2.bind(this)}>Insert Row @ 2</button>*/}
+                    {/*<button onClick={this.updateItems.bind(this)}>Update First 5</button>*/}
+                    {/*<button onClick={this.onRemoveSelected.bind(this)}>Remove Selected</button>*/}
+                    {/*<button onClick={this.getRowData.bind(this)}>Get Row Data</button>*/}
+                    <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
 
-                            <AgGridReact
-                                columnDefs={this.state.columnDefs}
-                                rowData={this.state.rowData}
-                                modules={AllCommunityModules}
-                                rowSelection="single"
-                                onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
-                            </AgGridReact>
+                        <AgGridReact
+                            columnDefs={this.state.columnDefs}
+                            rowData={this.state.rowData}
+                            modules={AllCommunityModules}
+                            rowSelection="single"
+                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                        </AgGridReact>
 
-                        </div>
                     </div>
+                </div>
 
-                <button onClick={this.onBtPrint.bind(this)}>Print</button>
+
             </>
 
 

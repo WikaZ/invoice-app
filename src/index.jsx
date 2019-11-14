@@ -4,17 +4,23 @@ import App from './app';
 import style from './scss/index.scss';
 import *  as firebase from 'firebase';
 
+// Required for side-effects
+require("firebase/firestore");
+
 
 var firebaseConfig = {
-	apiKey: "AIzaSyA1EHzaQaEos3rLFDrwqiJgoxOr3eSgOJw",
-	authDomain: "invoice-generator-3ef22.firebaseapp.com",
-	databaseURL: "https://invoice-generator-3ef22.firebaseio.com",
-	projectId: "invoice-generator-3ef22",
-	storageBucket: "invoice-generator-3ef22.appspot.com",
-	messagingSenderId: "532412143501",
-	appId: "1:532412143501:web:cf92e824228c12a9904fc4"
+	apiKey: "AIzaSyC3fQhO2NSuqm9u_3Z7otu5RNSLNXScnCk",
+	authDomain: "mojefaktury-8bd42.firebaseapp.com",
+	databaseURL: "https://mojefaktury-8bd42.firebaseio.com",
+	projectId: "mojefaktury-8bd42",
+	storageBucket: "mojefaktury-8bd42.appspot.com",
+	messagingSenderId: "17858788706",
+	appId: "1:17858788706:web:4197f2428508be0640803b"
 };
+
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
 
 

@@ -14,15 +14,36 @@
 //     });
 
 
+import {db} from "../../db/dbconfig";
+
+// get data
+//
+// basereloadTable = () => {
+//
+//     db.collection('products').get().then(
+//         querySnapshot => {
+//             let rowData = [];
+//             querySnapshot.docs.forEach(doc => {
+//                 console.log('RowData: ', doc.data());
+//                 rowData.push(doc.data());
+//             });
+//             this.setState({
+//                 rowData: rowData
+//             });
+//         }
+//     );
+//
+// };
+
 
 
 // wydrukowac nowa strone
 
-onBtPrint = () => {
-    var gridApi = this.gridApi;
-    // setPrinterFriendly(gridApi);
-    setTimeout(function () {
-        print();
-        // setNormal(gridApi);
-    }, 2000);
-};
+// onBtPrint = () => {
+//     var gridApi = this.gridApi;
+//     // setPrinterFriendly(gridApi);
+//     setTimeout(function () {
+//         print();
+//         // setNormal(gridApi);
+//     }, 2000);
+// };

@@ -6,8 +6,7 @@ import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
 import {db} from '../../db/dbconfig';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
-// import *  as firebase from 'firebase';
-// var db = firebase.firestore();
+
 function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, editable, minWidth) {
     return {
         headerName: headerName,

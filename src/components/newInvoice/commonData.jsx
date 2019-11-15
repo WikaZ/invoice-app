@@ -7,10 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
 
+
 class CommonData extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.initialState;
+
     }
 
     initialState = {
@@ -80,6 +82,7 @@ class CommonData extends React.Component {
             errors,
             date: date ? moment(date) : null
         };
+
         this.handleValidateData(stateChange);
 
         this.setState(stateChange);
@@ -92,7 +95,8 @@ class CommonData extends React.Component {
         errors.terms =
             !terms ? 'Proszę wpisac datę w formacie rrrr-mm-dd!'
                 : null;
-
+        console.log(moment(terms).format("YYYY-MM-DD").toString())
+        console.log(typeof moment().toString())
         console.log(errors);
         let stateChange = {
             errors,
@@ -182,39 +186,41 @@ class CommonData extends React.Component {
 
     // wysylame dane
 
-    handlePassData=(e)=>{
-e.preventDefault()
+    handlePassData = (e) => {
+        e.preventDefault();
         console.log(this.state, "state");
+
         db.collection("invoice").doc().set({
-        invoice:this.state.invoice,
-        invoiceNumber: this.state.invoiceNumber,
-        // date:this.state.date,
-        address: this.state.address,
-        // terms: this.state.terms,
-        businessName:this.state.businessName ,
-        businessNumber: this.state.businessNumber,
-        businessAddress:this.state.businessAddress ,
-        businessPostalCode:this.state.businessPostalCode ,
-        businessSignature: this.state.businessSignature,
-        clientName: this.state.clientName,
-        clientNumber: this.state.clientNumber,
-        clientAddress: this.state.clientAddress,
-        clientPostalCode: this.state.clientPostalCode,
-        clientSignature: this.state.clientSignature,
-        product:this.state.product,
-        qty: this.state.qty,
-        rate: this.state.rate,
-        unit: this.state.unit,
-        vat: this.state.vat
-    }
-    )
-        .then(function () {
-            console.log("Document successfully written!");
-        })
-        .catch(function (error) {
-            console.error("Error writing document: ", error);
-        });
+                invoice: this.state.invoice,
+                invoiceNumber: this.state.invoiceNumber,
+                date:(this.state.date).format('YYYY-MM-DD').toString(),
+                address: this.state.address,
+                terms: (this.state.terms).format('YYYY-MM-DD').toString(),
+                businessName: this.state.businessName,
+                businessNumber: this.state.businessNumber,
+                businessAddress: this.state.businessAddress,
+                businessPostalCode: this.state.businessPostalCode,
+                businessSignature: this.state.businessSignature,
+                clientName: this.state.clientName,
+                clientNumber: this.state.clientNumber,
+                clientAddress: this.state.clientAddress,
+                clientPostalCode: this.state.clientPostalCode,
+                clientSignature: this.state.clientSignature,
+                product: this.state.product,
+                qty: this.state.qty,
+                rate: this.state.rate,
+                unit: this.state.unit,
+                vat: this.state.vat
+            }
+        )
+            .then(function () {
+                console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
     };
+
     render() {
         const date = new Date();
         const month = date.getMonth();
@@ -260,6 +266,7 @@ e.preventDefault()
                                 <select name="" id="" value={this.initialState.businessName}
                                         onChange={this.handleGetData}>
                                     <option value="inne" name={"businessName"}>Inne</option>
+                                    <option value=" " name={"businessName"}>Inne</option>
                                 </select>
                             </label>
                             <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessPostalCode"}
@@ -348,7 +355,8 @@ e.preventDefault()
                                 </table>
                             </div>
                         </div>
-                        <input type="submit" value={"GOTOWE"} className={this.state.isActive} onClick={this.handlePassData}/>
+                        <input type="submit" value={"GOTOWE"} className={this.state.isActive}
+                               onClick={this.handlePassData}/>
                     </div>
                 </form>
 
@@ -371,7 +379,7 @@ e.preventDefault()
 export default CommonData;
 // wyslat
 // onButtonClickAdd = () => {
-//     console.log("dodaj usluge");
+//     console.log("dodaj nabywce do listy ");
 //     db.collection("productList").doc().set({
 //         rate: "1 ",
 //         product: "Usługa",

@@ -1,8 +1,6 @@
 import React from 'react';
 import CommonData from "./commonData";
-import From from "./from";
-import To from "./to";
-import SendMainData from './sendMainData'
+
 
 
 class InvoiceForm extends React.Component {
@@ -15,9 +13,6 @@ class InvoiceForm extends React.Component {
         return (
             <>
                 <CommonData/>
-                {/*<From/>*/}
-                {/*<To/>*/}
-                {/*<SendMainData/>*/}
             </>
         )
     }

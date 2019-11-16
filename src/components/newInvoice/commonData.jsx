@@ -4,8 +4,8 @@ import dateUtils from './functionHelper';
 import {db} from '../../db/dbconfig';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SelectOrTypeClient from "./SelectOrTypeClient"
 import moment from 'moment';
-
 
 
 class CommonData extends React.Component {
@@ -95,8 +95,8 @@ class CommonData extends React.Component {
         errors.terms =
             !terms ? 'Proszę wpisac datę w formacie rrrr-mm-dd!'
                 : null;
-        console.log(moment(terms).format("YYYY-MM-DD").toString())
-        console.log(typeof moment().toString())
+        console.log(moment(terms).format("YYYY-MM-DD").toString());
+        console.log(typeof moment().toString());
         console.log(errors);
         let stateChange = {
             errors,
@@ -106,6 +106,14 @@ class CommonData extends React.Component {
 
         this.setState(stateChange);
     };
+
+    // dane z komponentu selectOr TypeClient
+    handlePassClientName = (arg) => {
+        console.log(arg ,"przekazany arg");
+        this.setState({
+            clientName: arg
+        })
+    }
 
 
     handleGetData = (e) => {
@@ -154,7 +162,12 @@ class CommonData extends React.Component {
         this.handleValidateData(stateChange);
         this.setState(stateChange);
 
-
+        // handlePassClientName = (ClientName) => {
+        //      console.log(ClientName);
+        //      this.setState({
+        //          ClientName: ClientName
+        //      })
+        //  };
 //test!!!!!! klucze this.state.errors  wipisac wszystkie błedy!!!
         console.log(Object.keys(this.state.errors), "obj error");
         Object.keys(this.state.errors).forEach((key) => {
@@ -193,7 +206,7 @@ class CommonData extends React.Component {
         db.collection("invoice").doc().set({
                 invoice: this.state.invoice,
                 invoiceNumber: this.state.invoiceNumber,
-                date:(this.state.date).format('YYYY-MM-DD').toString(),
+                date: (this.state.date).format('YYYY-MM-DD').toString(),
                 address: this.state.address,
                 terms: (this.state.terms).format('YYYY-MM-DD').toString(),
                 businessName: this.state.businessName,
@@ -263,28 +276,28 @@ class CommonData extends React.Component {
 
                         <div className={'myData'}>
                             <label> Sprzedawca
-                                <select name="" id="" value={this.initialState.businessName}
+                                <select name="" id="" value={this.state.businessName}
                                         onChange={this.handleGetData}>
-                                    <option value="inne" name={"businessName"}>Inne</option>
-                                    <option value=" " name={"businessName"}>Inne</option>
+                                    <option value="inne " name={"businessName"}>Inne</option>
+                                    <option value="mojaFirma" name={"businessName"}>Moja firma</option>
+
                                 </select>
                             </label>
-                            <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessPostalCode"}
-                                               value={this.initialState.businessNumber}
-                                               onChange={this.handleGetData}/></label>
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessNumber"}
+                                               value={this.state.businessNumber} onChange={this.handleGetData}/></label>
                             <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}
-                                               value={this.initialState.businessAddress}
+                                               value={this.state.businessAddress}
                                                onChange={this.handleGetData}/></label>
                             <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}
-                                                      value={this.initialState.businessPostalCode}
+                                                      value={this.state.businessPostalCode}
                                                       onChange={this.handleGetData}/></label>
-                            <label>Podpis<input type="text" value={this.initialState.businessSignature}
+                            <label>Podpis<input type="text" value={this.state.businessSignature}
                                                 name={"businessSignature"} onChange={this.handleGetData}/></label>
 
                         </div>
-                        <div className={"clientsData"}>
-                            <label> Nabywca <input type="text" placeholder={"Nazwa firmy"}
-                                                   onChange={this.handleGetData}/></label>
+                        <div className={"clientData"}>
+
+                            <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
                             <label> NIP <input type="text" placeholder={"000-000-00-00"} value={this.state.clientNumber}
                                                name={"clientNumber"}
                                                onChange={this.handleGetData} required/></label>

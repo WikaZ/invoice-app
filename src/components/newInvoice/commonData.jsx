@@ -5,6 +5,7 @@ import {db} from '../../db/dbconfig';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectOrTypeClient from "./SelectOrTypeClient"
+import SelectVat from "./selectVat"
 import moment from 'moment';
 
 
@@ -40,6 +41,7 @@ class CommonData extends React.Component {
         grossPrice: "",
         isActive: "notActive",
         isShow: false,
+        clientsIndex:"",
         errors: {
             invoice: "",
             invoiceNumber: "",
@@ -109,11 +111,21 @@ class CommonData extends React.Component {
 
     // dane z komponentu selectOr TypeClient
     handlePassClientName = (arg) => {
+        console.log(arg ,"handlePassClientName przekazany arg", arg);
+        this.setState({
+            ...arg
+        })
+    };
+
+    handlePassVat = (arg) => {
         console.log(arg ,"przekazany arg");
         this.setState({
-            clientName: arg
+            vat: arg,
+
         })
     }
+
+
 
 
     handleGetData = (e) => {
@@ -162,12 +174,7 @@ class CommonData extends React.Component {
         this.handleValidateData(stateChange);
         this.setState(stateChange);
 
-        // handlePassClientName = (ClientName) => {
-        //      console.log(ClientName);
-        //      this.setState({
-        //          ClientName: ClientName
-        //      })
-        //  };
+
 //test!!!!!! klucze this.state.errors  wipisac wszystkie błedy!!!
         console.log(Object.keys(this.state.errors), "obj error");
         Object.keys(this.state.errors).forEach((key) => {
@@ -335,8 +342,8 @@ class CommonData extends React.Component {
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.unit} name={"unit"}
                                                    onChange={this.handleGetData}/></td>
-                                        <td><input type="text" value={this.state.vat} name={"vat"}
-                                                   onChange={this.handleGetData}/></td>
+                                        <SelectVat handlePassVat={this.handlePassVat} vatData={[23,8,5,0]}/>
+
                                         <td><input type="text" value={this.state.subtotal} name={"subtotal"}
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.grossPrice} name={"grossPrice"}

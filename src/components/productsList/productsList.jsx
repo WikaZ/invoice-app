@@ -20,21 +20,19 @@ function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, e
 }
 
 
-
-
-
 class ProductsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             columnDefs: [
-                columnDef("Cena", "rate", true, true, true, true, 80),
                 columnDef("Usługa", "product", true, true, true, true, 300),
-                columnDef("Ilość", "qty", true, true, true, true, 120),
-                columnDef("Jednostka Miary", "unit", true, true, true, true, 120),
-                columnDef("Stawka VAT", "vat", true, true, true, true, 120),
+                columnDef("Cena", "rate", true, true, false, true, 80),
+                columnDef("Ilość", "qty", true, true, false, true, 120),
+                columnDef("Jednostka Miary", "unit", true, true, false, true, 120),
+                columnDef("Stawka VAT", "vat", true, true, false, true, 120),
             ],
 
+            // rowData: this.createRowData(),
             rowData: this.createRowData(),
             defaultColDef: {width: 100},
             domLayout: "autoHeight"
@@ -46,25 +44,44 @@ class ProductsList extends Component {
 
     createRowData = () => {
         this.reloadTable();
+
         console.log('Finished row data');
         return [];
     };
 
+
+
     reloadTable = () => {
 
-        db.collection('productList').get().then(
-            querySnapshot => {
-                let rowData = [];
-                querySnapshot.docs.forEach(doc => {
-                    console.log('RowData: ', doc.data())
-                    console.log( "docs: ", querySnapshot.docs);
-                    rowData.push(doc.data());
-                });
-                this.setState({
-                    rowData: rowData
-                });
-            }
-        );
+        // db.collection("productList").doc().set({
+        //         // invoice: this.state.columnDefs[0],
+        //         // invoiceNumber: this.state.columnDefs[1]
+        //         // date: (this.state.date).format('YYYY-MM-DD').toString(),
+        //         // address: this.state.address,
+        //         // terms: (this.state.terms).format('YYYY-MM-DD').toString(),
+        //         // businessName: this.state.businessName,
+        //         // businessNumber: this.state.businessNumber,
+        //         // businessAddress: this.state.businessAddress,
+        //         // businessPostalCode: this.state.businessPostalCode,
+        //         // businessSignature: this.state.businessSignature,
+        //         // clientName: this.state.clientName,
+        //         // clientNumber: this.state.clientNumber,
+        //         // clientAddress: this.state.clientAddress,
+        //         // clientPostalCode: this.state.clientPostalCode,
+        //         // clientSignature: this.state.clientSignature,
+        //         // product: this.state.product,
+        //         // qty: this.state.qty,
+        //         // rate: this.state.rate,
+        //         // unit: this.state.unit,
+        //         // vat: this.state.vat
+        //     }
+        // )
+        //     .then(function () {
+        //         console.log("Document successfully written!");
+        //     })
+        //     .catch(function (error) {
+        //         console.error("Error writing document: ", error);
+        //     });
 
     };
 
@@ -88,9 +105,45 @@ class ProductsList extends Component {
         params.api.sizeColumnsToFit();
     }
 
+// copy
+    onGridReady = params => {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+    };
+
+    getRowData() {
+        var rowData = [];
+        this.gridApi.forEachNode(function(node) {
+            rowData.push(node.data);
+        });
+        console.log(this.gridApi.node.data ,"Row Data:");
+
+    }
+
+    onAddRow() {
+        var newItem = createNewRowData();
+        console.log(this.gridApi, "gridApi");
+
+        var res = this.gridApi.updateRowData({ add: [newItem] });
+
+        printResult(res, "res");
+
+    }
 
 
+    onRemoveSelected() {
+        var selectedData = this.gridApi.getSelectedRows();
+        var res = this.gridApi.updateRowData({ remove: selectedData });
+        printResult(res);
+    }
+
+    saveRowData(){
+
+    }
+
+    // copy end
     render() {
+
         return (
             <>
 
@@ -102,12 +155,7 @@ class ProductsList extends Component {
                         width: '100vw'
                     }}
                 >
-                   {/*<button onClick={this.onAddRow}>Add Row</button>*/}
-                    {/*<button onClick={this.onAddRow.bind(this)}>Add Row</button>*/}
-                    {/*<button onClick={this.onInsertRowAt2.bind(this)}>Insert Row @ 2</button>*/}
-                    {/*<button onClick={this.updateItems.bind(this)}>Update First 5</button>*/}
-                    {/*<button onClick={this.onRemoveSelected.bind(this)}>Remove Selected</button>*/}
-                    {/*<button onClick={this.getRowData.bind(this)}>Get Row Data</button>*/}
+
                     <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
 
                         <AgGridReact
@@ -115,11 +163,18 @@ class ProductsList extends Component {
                             rowData={this.state.rowData}
                             modules={AllCommunityModules}
                             rowSelection="single"
-                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}
+                            onGridReady={this.onGridReady}>
                         </AgGridReact>
 
                     </div>
                 </div>
+<div>
+                <button onClick={this.onAddRow.bind(this)}>Add Row</button>
+                <button onClick={this.onRemoveSelected.bind(this)}>Remove Selected</button>
+
+            </div>
+
 
 
             </>
@@ -137,7 +192,7 @@ function createNewRowData() {
     setRowData()
     return {
         number: newCount++,
-        product: ""
+        product: ''
     };
 }
 
@@ -145,16 +200,23 @@ function setRowData() {
     console.log("nowy wiersz");
 }
 
-function setPrinterFriendly(api) {
-    var eGridDiv = document.querySelector("#grid-wrapper");
-    eGridDiv.style.width = "";
-    eGridDiv.style.height = "";
-    api.setDomLayout("print");
-}
 
-function setNormal(api) {
-    var eGridDiv = document.querySelector("#grid-wrapper");
-    eGridDiv.style.width = "600px";
-    eGridDiv.style.height = "200px";
-    api.setDomLayout(null);
+
+function printResult(res) {
+    console.log("---------------------------------------");
+    if (res.add) {
+        res.add.forEach(function(rowNode) {
+            console.log("Added Row Node", rowNode.data);
+        });
+    }
+    if (res.remove) {
+        res.remove.forEach(function(rowNode) {
+            console.log("Removed Row Node", rowNode);
+        });
+    }
+    if (res.update) {
+        res.update.forEach(function(rowNode) {
+            console.log("Updated Row Node", rowNode.data);
+        });
+    }
 }

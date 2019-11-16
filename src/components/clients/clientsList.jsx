@@ -25,10 +25,10 @@ class ClientsList extends Component {
         this.state = {
             columnDefs: [
                 columnDef("Nabywca", "clientName", true, true, true, true, 100),
-                columnDef("NIP", "clientNumber", true, true, true, true, 100),
-                columnDef("Adres", "clientAddress", true, true, true, true, 100),
-                columnDef("Kod Pocztowy", "clientPostalCode", true, true, true, true, 100),
-                columnDef("Podpis", "clientSignature", true, true, true, true, 100),
+                columnDef("NIP", "clientNumber", true, true, false, true, 100),
+                columnDef("Adres", "clientAddress", true, true, false, true, 100),
+                columnDef("Kod Pocztowy", "clientPostalCode", true, true, false, true, 100),
+                columnDef("Podpis", "clientSignature", true, true, false, true, 100),
 
 
             ],
@@ -49,7 +49,6 @@ class ClientsList extends Component {
                 clientAddress: "Hr",
                 clientPostalCode: "00-235",
                 clientSignature: " Kar"
-
 
             },
                 {

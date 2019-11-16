@@ -6,16 +6,15 @@ class SelectOrTypeClient extends React.Component {
         super(props);
         this.state = {
 
-            currentUserVal: "",
-
+            currentUserVal: '',
+            elementIndex: "",
             rowData: []
         }
     }
 
 
-
     componentDidMount() {
-        db.collection('clients').get().then(
+        db.collection('clients').orderBy('clientName').get().then(
             querySnapshot => {
                 const clientsData = [];
                 querySnapshot.docs.forEach(doc => {
@@ -24,52 +23,52 @@ class SelectOrTypeClient extends React.Component {
                     clientsData.push(doc.data());
                 });
                 this.setState({
-                    rowData: clientsData
-                })
+                    rowData: clientsData,
+
+                });
+                console.log(this.state.rowData, "wszystkie dane klientow");
             }
         );
 
     }
 
-    checkIsFunction = () => {
+    checkIsFunction = (value) => {
         console.log("ojokokoko", this.props.getDataFromSelect);
-        console.log(this.state.currentUserVal, "arg current val");
+        console.log(value, "arg current val");
         if (typeof this.props.getDataFromSelect === 'function') {
-            this.props.getDataFromSelect(this.state.currentUserVal);
+            this.props.getDataFromSelect(this.state.rowData[value]);
         }
     };
     handleGetInputValue = (e) => {
         e.preventDefault();
         this.setState({
             currentUserVal: e.target.value,
-
-
         });
-        this.checkIsFunction();
+
+        this.checkIsFunction(e.target.value);
+
     };
+
+
 
     render() {
 
         return (
             <>
-                {/*onChange={this.checkIsFunction(this.state.currentUserVal)}*/}
+
                 <select name="clientName" id="" value={this.state.currentUserVal} onChange={this.handleGetInputValue}>
                     {this.state.rowData.map((el, i) => {
                         return (
-                            <option key={i} value={el.clientName}>{el.clientName}</option>
+                            <option key={i} value={i} >{el.clientName}</option>
                         )
 
                     })}
 
-                    <option value={"client"}> Klient</option>
+
                 </select>
 
 
-                {/*{this.state.showInput ?*/}
-                {/*    <div>*/}
-                {/*        <input type="text" value={this.state.currentUserVal} />*/}
-                {/*        <input type="submit" value={"wyslij"}/>*/}
-                {/*    </div> : null}*/}
+
 
 
             </>

@@ -289,31 +289,33 @@ class CommonData extends React.Component {
                                 </select>
                             </label>
                             <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessNumber"}
-                                               value={this.state.businessNumber} onChange={this.handleGetData}/></label>
+                                               value={this.state.businessNumber} onChange={this.handleGetData}
+                                               disabled={"disabled"}/></label>
                             <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}
                                                value={this.state.businessAddress}
-                                               onChange={this.handleGetData}/></label>
+                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}
                                                       value={this.state.businessPostalCode}
-                                                      onChange={this.handleGetData}/></label>
+                                                      onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Podpis<input type="text" value={this.state.businessSignature}
-                                                name={"businessSignature"} onChange={this.handleGetData}/></label>
+                                                name={"businessSignature"} onChange={this.handleGetData}
+                                                disabled={"disabled"}/></label>
 
                         </div>
                         <div className={"clientData"}>
 
-                            <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
+                            Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
                             <label> NIP <input type="text" placeholder={"000-000-00-00"} value={this.state.clientNumber}
                                                name={"clientNumber"}
-                                               onChange={this.handleGetData} required/></label>
+                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Adres<input type="text" placeholder={"ulica, nr, m"} value={this.state.clientAddress}
                                                name={"clientAddress"}
-                                               onChange={this.handleGetData} required/></label>
+                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Kod pocztowy<input type="text" placeholder={"00-000"}
                                                       value={this.state.clientPostalCode} name={"clientPostalCode"}
-                                                      onChange={this.handleGetData} required/></label>
+                                                      onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Podpis<input type="text" value={this.state.clientSignature}
-                                                name={"clientSignature"} onChange={this.handleGetData}/></label>
+                                                name={"clientSignature"} onChange={this.handleGetData} disabled={"disabled"}/></label>
                         </div>
                         <div className={"itemDescription"}>
                             <div>

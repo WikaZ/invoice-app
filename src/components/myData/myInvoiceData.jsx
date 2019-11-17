@@ -1,6 +1,6 @@
 import React from 'react';
 import {db} from '../../db/dbconfig';
-import {Formik} from 'formik';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 
 class MyInvoiceData extends React.Component {
     passMyInvoiceData = (values) => {
@@ -22,16 +22,6 @@ class MyInvoiceData extends React.Component {
             });
 
     };
-
-    showErrorList=(errors)=>{
-        let errorsList = Object.value(errors);
-        errorsList.map(function(el, i){
-            return(
-                /*<span key={i}>{el}</span>)*/
-                console.log({el}, "el z obj value")
-            )
-        })
-    }
 
 
 // // console.log(el);
@@ -82,9 +72,8 @@ class MyInvoiceData extends React.Component {
                             errors.businessSignature = 'Proszę pwisać Imię i Nazwisko';
                         }
                         console.log(errors, "errors");
-                        this.showErrorList(errors)
-                        return errors;
 
+                        return errors;
 
 
                     }
@@ -99,7 +88,8 @@ class MyInvoiceData extends React.Component {
                             console.log(Object.keys(values), "keys");
                             Object.values(values).forEach((el) => {
                                 console.log(el, "obj value");
-                            });
+                            })
+                            this.passMyInvoiceData(values);
                             setSubmitting(false);
 
 
@@ -121,60 +111,70 @@ class MyInvoiceData extends React.Component {
                           /* and other goodies */
                       }) => (
                         <form onSubmit={handleSubmit}>
-                            <label>Nazwa Firmy:<input
-                                type="text"
-                                name="businessName"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.businessName}
-                            /></label>
-                            {errors.businessName && touched.businessName && errors.businessName}
-                            <label>NIP:
-                                <input
+                            <div className={'myDataInput'}>
+                                <label>Nazwa Firmy:<input
                                     type="text"
-                                    name="businessNumber"
+                                    name="businessName"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.businessNumber}
+                                    value={values.businessName}
                                 /></label>
-                            {errors.businessNumber && touched.businessNumber && errors.businessNumber}
-                            <label>Adres:
-                                <input
+                                {errors.businessName && touched.businessName && errors.businessName}
+                            </div>
+                            <div className={'myDataInput'}>
+                                <label>NIP:
+                                    <input
+                                        type="text"
+                                        name="businessNumber"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.businessNumber}
+                                    /></label>
+                                {errors.businessNumber && touched.businessNumber && errors.businessNumber}
+                            </div>
+                            <div className={'myDataInput'}>
+                                <label>Adres:
+                                    <input
+                                        type="text"
+                                        name="businessAddress"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.businessAddress}
+                                    /></label>
+                                {errors.businessAddress && touched.businessAddress && errors.businessAddress}
+                            </div>
+                            <div className={'myDataInput'}>
+                                <label>Kod Pocztowy: <input
                                     type="text"
-                                    name="businessAddress"
+                                    name="businessPostalCode"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.businessAddress}
+                                    value={values.businessPostalCode}
                                 /></label>
-                            {errors.businessAddress && touched.businessAddress && errors.businessAddress}
-                            <label>Kod Pocztowy: <input
-                                type="text"
-                                name="businessPostalCode"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.businessPostalCode}
-                            /></label>
-                            {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
-                            <label>Podpis:
-                                <input
-                                    type="text"
-                                    name="businessSignature"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.businessSignature}
-                                /></label>
+                                {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
+                            </div>
+                            <div className={'myDataInput'}>
+                                <label>Podpis:
+                                    <input
+                                        type="text"
+                                        name="businessSignature"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.businessSignature}
+                                    /></label>
 
 
-                            })
-                            <span style={{
-                                color: "red",
-                                fontWeight: "bold"
-                            }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
+                                <span style={{
+                                    color: "red",
+                                    fontWeight: "bold"
+                                }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
 
-
-                            <button type="submit" disabled={isSubmitting}>
-                                Submit
-                            </button>
+                            </div>
+                            <div className={'myInvoiceDataSubmit'}>
+                                <button type="submit" disabled={isSubmitting}>
+                                    Submit
+                                </button>
+                            </div>
 
 
                         </form>

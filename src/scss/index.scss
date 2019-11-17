@@ -87,10 +87,42 @@ nav {
 }
 
 //styl dla list
-.mainTable{
-	margin-top: 100px;
+.mainTable {
+  margin-top: 100px;
 }
 
-.myInvoiceData{
-  margin-top: 100px;
+//ekran moje dane:
+.myInvoiceData {
+  margin: 100px auto;
+  width:70%;
+  border:1px solid #1f1080;
+  border-radius: 10px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+
+    .myInvoiceDataSubmit{
+      width:120px;
+      margin:50px auto;
+      button{
+        width:100%;
+
+      }
+    }
+  }
+
+}
+
+.myDataInput {
+width:70%;
+  margin:0 auto;
+  input{
+    float:right;
+  }
+  label{
+
+  }
 }

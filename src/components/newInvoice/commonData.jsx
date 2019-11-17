@@ -41,7 +41,7 @@ class CommonData extends React.Component {
         grossPrice: "",
         isActive: "notActive",
         isShow: false,
-        clientsIndex:"",
+        clientsIndex: "",
         errors: {
             invoice: "",
             invoiceNumber: "",
@@ -111,21 +111,19 @@ class CommonData extends React.Component {
 
     // dane z komponentu selectOr TypeClient
     handlePassClientName = (arg) => {
-        console.log(arg ,"handlePassClientName przekazany arg", arg);
+        console.log(arg, "handlePassClientName przekazany arg", arg);
         this.setState({
             ...arg
         })
     };
 
     handlePassVat = (arg) => {
-        console.log(arg ,"przekazany arg");
+        console.log(arg, "przekazany arg");
         this.setState({
             vat: arg,
 
         })
     }
-
-
 
 
     handleGetData = (e) => {
@@ -342,7 +340,7 @@ class CommonData extends React.Component {
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.unit} name={"unit"}
                                                    onChange={this.handleGetData}/></td>
-                                        <SelectVat handlePassVat={this.handlePassVat} vatData={[23,8,5,0]}/>
+                                        <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
 
                                         <td><input type="text" value={this.state.subtotal} name={"subtotal"}
                                                    onChange={this.handleGetData}/></td>

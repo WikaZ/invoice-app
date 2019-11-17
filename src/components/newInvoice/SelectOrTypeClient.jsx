@@ -33,7 +33,6 @@ class SelectOrTypeClient extends React.Component {
     }
 
     checkIsFunction = (value) => {
-        console.log("ojokokoko", this.props.getDataFromSelect);
         console.log(value, "arg current val");
         if (typeof this.props.getDataFromSelect === 'function') {
             this.props.getDataFromSelect(this.state.rowData[value]);

@@ -2,121 +2,178 @@ import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik} from 'formik';
 
-const MyInvoiceData = () => (
-    <div className={"myInvoiceData"}>
-        <h1>Moje dane:</h1>
-        <Formik
-            initialValues={{
-                businessName: '',
-                businessNumber: '',
-                businessAddress: "",
-                businessPostalCode: "",
-                businessSignature: ""
-            }}
+class MyInvoiceData extends React.Component {
+    passMyInvoiceData = (values) => {
+        //Object.values(values).map((el) => {
+        let el = Object.values(values);
+        console.error(el);
+            db.collection("invoice").doc().set({
+                businessName: el[0],
+                businessNumber: el[1],
+                businessAddress: el[2],
+                businessPostalCode: el[3],
+                businessSignature: el[4]
+            })
+                .then(function () {
+                    console.log("Document successfully written!");
+                })
+                .catch(function (error) {
+                    console.error("Error writing document: ", error);
+                });
+        //})
+    };
 
 
-            validate={values => {
-                let errors = {};
-                if (!values.businessName) {
-                    errors.businessName = 'Proszę wpisac imię';
+// // console.log(el);
+// //         })
+
+
+render()
+{
+
+    return (
+        <div className={"myInvoiceData"}>
+            <h1>Moje dane:</h1>
+            <Formik
+                initialValues={{
+                    businessName: '',
+                    businessNumber: '',
+                    businessAddress: "",
+                    businessPostalCode: "",
+                    businessSignature: ""
+                }}
+
+
+                validate={values => {
+                    let errors = {};
+                    if (!values.businessName) {
+                        errors.businessName = 'Proszę wpisac imię';
+                    }
+                    if (!values.businessNumber) {
+                        errors.businessNumber = 'Required';
+                    } else if (!/^[0-9]{1,}\/|-[0-9]{1,}$/g.test(values.businessNumber)) {
+                        errors.businessNumber = 'Invalid business number address';
+                    }
+
+                    if (!values.businessAddress) {
+                        errors.businessAddress = 'Required';
+                    } else if (values.businessAddress.length < 5) {
+                        errors.businessAddress = 'Must be 5 characters or more';
+                    }
+
+                    if (!values.businessPostalCode) {
+                        errors.businessPostalCode = 'Required';
+                    } else if (!/^[0-9]{2}-[0-9]{3}$/g.test(values.businessPostalCode)) {
+                        errors.businessPostalCode = 'Nieprawidłowy kod pocztowy';
+                    }
+
+                    if (!values.businessSignature) {
+                        errors.businessSignature = 'Required';
+                    } else if (!/^[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/ig.test(values.businessSignature)) {
+                        errors.businessSignature = 'Proszę pwisać Imię i Nazwisko';
+                    }
+
+                    // if (!errors.length) {
+                    //     this.passMyInvoiceData()
+                    // } else {
+                    //     return errors;
+                    // }
                 }
-                if (!values.businessNumber) {
-                    errors.businessNumber = 'Required';
-                } else if (!/^[0-9]{1,}\/|-[0-9]{1,}$/g.test(values.businessNumber)) {
-                    errors.businessNumber = 'Invalid business number address';
+
                 }
 
-                if (!values.businessAddress) {
-                    errors.businessAddress = 'Required';
-                } else if (values.businessAddress.length < 5) {
-                    errors.businessAddress = 'Must be 5 characters or more';
-                }
+                onSubmit={(values, {setSubmitting}) => {
+                    setTimeout(() => {
 
-                if (!values.businessPostalCode) {
-                    errors.businessPostalCode = 'Required';
-                } else if (!/^[0-9]{2}-[0-9]{3}$/g.test(values.businessPostalCode)) {
-                    errors.businessPostalCode = 'Nieprawidłowy kod pocztowy';
-                }
+                        alert(JSON.stringify(values, null, 2));
+                        console.log(values, "values in onsubmit");
+                        console.log(Object.keys(values), "keys");
+                        Object.values(values).forEach((el) => {
+                            console.log(el,"obj value");
+                        })
+                        this.passMyInvoiceData(values);
+                        setSubmitting(false);
 
-                if (!values.businessSignature) {
-                    errors.businessSignature = 'Required';
-                } else if (!/^[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/ig.test(values.businessSignature)) {
-                    errors.businessSignature = 'Proszę pwisać Imię i Nazwisko';
-                }
-                return errors;
-            }
-            }
 
-            onSubmit={(values, {setSubmitting}) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400);
-            }}
-        >
-            {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                  /* and other goodies */
-              }) => (
-                <form onSubmit={handleSubmit}>
-                    <label>Nazwa Firmy:<input
-                        type="text"
-                        name="businessName"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.businessName}
-                    /></label>
-                    {errors.businessName && touched.businessName && errors.businessName}
-                    <label>NIP:
-                        <input
+                    }, 400);
+
+                    // console.log(' submitting', values)
+
+                }
+                }
+            >
+                {({
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting,
+                      /* and other goodies */
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                        <label>Nazwa Firmy:<input
                             type="text"
-                            name="businessNumber"
+                            name="businessName"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.businessNumber}
+                            value={values.businessName}
                         /></label>
-                    {errors.businessNumber && touched.businessNumber && errors.businessNumber}
-                    <label>Adres:
-                        <input
+                        {errors.businessName && touched.businessName && errors.businessName}
+                        <label>NIP:
+                            <input
+                                type="text"
+                                name="businessNumber"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.businessNumber}
+                            /></label>
+                        {errors.businessNumber && touched.businessNumber && errors.businessNumber}
+                        <label>Adres:
+                            <input
+                                type="text"
+                                name="businessAddress"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.businessAddress}
+                            /></label>
+                        {errors.businessAddress && touched.businessAddress && errors.businessAddress}
+                        <label>Kod Pocztowy: <input
                             type="text"
-                            name="businessAddress"
+                            name="businessPostalCode"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.businessAddress}
+                            value={values.businessPostalCode}
                         /></label>
-                    {errors.businessAddress && touched.businessAddress && errors.businessAddress}
-                    <label>Kod Pocztowy: <input
-                        type="text"
-                        name="businessPostalCode"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.businessPostalCode}
-                    /></label>
-                    {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
-                    <label>Podpis:
-                        <input
-                            type="text"
-                            name="businessSignature"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.businessSignature}
-                        /></label>
-                    {errors.businessSignature && touched.businessSignature && errors.businessSignature}
+                        {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
+                        <label>Podpis:
+                            <input
+                                type="text"
+                                name="businessSignature"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.businessSignature}
+                            /></label>
+                        <span style={{
+                            color: "red",
+                            fontWeight: "bold"
+                        }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
 
-                    <button type="submit" disabled={isSubmitting}>
-                        Submit
-                    </button>
-                </form>
-            )}
-        </Formik>
-    </div>
-);
+                        <button type="submit" disabled={isSubmitting}>
+                            Submit
+                        </button>
+
+                    </form>
+                )}
+
+            </Formik>
+        </div>
+    )
+}
+
+}
+
 // class MyInvoiceData extends React.Component {
 //     constructor(props) {
 //         super(props);
@@ -149,7 +206,7 @@ const MyInvoiceData = () => (
 //         return (
 //             <>
 //                 <div className={"myInvoiceData"}>
-//                     <div className={'myInvoiceDataHeader'}>
+//                     <div className={' myInvoiceDataHeader'}>
 //                         <p> MOJE DANE</p>
 //                     </div>
 //                     <form action="" onSubmit={this.handleGetMyData}>

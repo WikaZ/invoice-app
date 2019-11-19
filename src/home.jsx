@@ -11,9 +11,7 @@ class Home extends React.Component {
         return (
             <>
                 <InvoiceForm/>
-                {/*<CommonData/>*/}
-                {/*<FromData/>*/}
-                {/*<ToData/>*/}
+
             </>)
 
     }

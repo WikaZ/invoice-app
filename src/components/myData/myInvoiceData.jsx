@@ -24,8 +24,7 @@ class MyInvoiceData extends React.Component {
     };
 
 
-// // console.log(el);
-// //         })
+
 
 
     render() {

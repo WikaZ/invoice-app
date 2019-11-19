@@ -12,7 +12,7 @@ class SelectOrTypeClient extends React.Component {
         }
     }
 
-
+// pobieramy wszystkie dane klientow i wrzucamy do rowData
     componentDidMount() {
         db.collection('clients').orderBy('clientName').get().then(
             querySnapshot => {
@@ -31,7 +31,7 @@ class SelectOrTypeClient extends React.Component {
         );
 
     }
-
+// przekazujemy w fn checkIsfunction wszystkie dane wybranego w select klienta[value] value= index wybranego klienta, czyli wiadomo pod ktorym indeksem w tab beda dane naszego klienta
     checkIsFunction = (value) => {
         console.log(value, "arg current val");
         if (typeof this.props.getDataFromSelect === 'function') {

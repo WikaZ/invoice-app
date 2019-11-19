@@ -17,7 +17,9 @@ import {
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+
+        }
     }
 
     render() {
@@ -25,8 +27,8 @@ class NavBar extends React.Component {
             <>
                 <HashRouter>
                     <>
-                        <nav >
-                            <ul >
+                        <nav>
+                            <ul>
                                 <Link to={"/"} className={"mainNav"}> Moje Dane</Link>
                                 <Link to={"/moje_dane"} className={"mainNav"}> Strona główna</Link>
                                 <Link to={"/klienci"} className={"mainNav"}>Moi klienci</Link>
@@ -35,7 +37,7 @@ class NavBar extends React.Component {
                             </ul>
                         </nav>
                         <Switch>
-                            <Route exact path='/' component={MyInvoiceData}/>
+                            <Route exact path='/' component={MyInvoiceData} />
                             <Route path='/moje_dane' component={Home}/>
                             <Route path='/klienci' component={Clients}/>
                             <Route path='/usługi' component={Products}/>

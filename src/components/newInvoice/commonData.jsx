@@ -36,9 +36,9 @@ class CommonData extends React.Component {
         qty: "",
         rate: "",
         unit: "",
-        vat: "",
-        subtotal: "",
-        grossPrice: "",
+        vat: "23",
+        subtotal: "0",
+        grossPrice: "0",
         isActive: "notActive",
         isShow: false,
         clientsIndex: "",
@@ -63,7 +63,8 @@ class CommonData extends React.Component {
             rate: "",
             unit: "",
             vat: ""
-        }
+        },
+        accountErrors: []
     };
 
 // sprawdzamy, czy value w obj error sa puste---> w render
@@ -239,6 +240,40 @@ class CommonData extends React.Component {
             });
     };
 
+
+    // rozliczenie
+    // checkIsProductData=()=>{
+    //     return every([this.state.product, this.state.qty, this.state.rate , this.state.unit , this.state.vat])
+    // }
+    //
+    // every=(arr)=>{
+    //     arr.every(el=>el)
+    // };
+    AddSubtotal = (e) => {
+        e.preventDefault();
+        console.log("zaczynam liczyc vat");
+        let {qty, rate, vat, subtotal, grossPrice, accountErrors} = this.state;
+        if ([this.state.product, this.state.qty, this.state.rate, this.state.unit, this.state.vat].every(el => el)) {
+            console.log("wszystkie dane sa, mozemy policzyc");
+            let subtotal;
+            subtotal = qty * rate;
+            let vatValue = (subtotal / 100) * vat;
+            let grossPrice;
+            grossPrice = subtotal + vatValue;
+// nie zmienia w state
+
+                this.initialState.subtotal=subtotal;
+                    this.initialState.grossPrice=grossPrice;
+
+            this.setState(this.initialState);
+            console.log(grossPrice, "gr price");
+            console.log(subtotal , "subt");
+        } else {
+            accountErrors.push("Proszę poprawnie wypełnić dane")
+        }
+    };
+
+
     render() {
         const date = new Date();
         const month = date.getMonth();
@@ -315,7 +350,8 @@ class CommonData extends React.Component {
                                                       value={this.state.clientPostalCode} name={"clientPostalCode"}
                                                       onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Podpis<input type="text" value={this.state.clientSignature}
-                                                name={"clientSignature"} onChange={this.handleGetData} disabled={"disabled"}/></label>
+                                                name={"clientSignature"} onChange={this.handleGetData}
+                                                disabled={"disabled"}/></label>
                         </div>
                         <div className={"itemDescription"}>
                             <div>
@@ -338,16 +374,16 @@ class CommonData extends React.Component {
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.rate} name={"rate"}
                                                    onChange={this.handleGetData}/></td>
-                                        <td><input type="number" value={this.state.qty} name={"qty"}
+                                        <td><input type="number" min={"0"} value={this.state.qty} name={"qty"}
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.unit} name={"unit"}
                                                    onChange={this.handleGetData}/></td>
                                         <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
 
                                         <td><input type="text" value={this.state.subtotal} name={"subtotal"}
-                                                   onChange={this.handleGetData}/></td>
+                                        /></td>
                                         <td><input type="text" value={this.state.grossPrice} name={"grossPrice"}
-                                                   onChange={this.handleGetData}/></td>
+                                        /></td>
                                     </tr>
 
                                     </tbody>
@@ -359,7 +395,7 @@ class CommonData extends React.Component {
                                         <th></th>
                                         <th></th>
                                         <th>SUMA NETTO:</th>
-                                        <th><input type="text" value={this.state.subtotal}/></th>
+                                        <th><input type="text" value={this.state.mainSubtotal}/></th>
                                     </tr>
                                     <tr>
                                         <th></th>
@@ -368,7 +404,7 @@ class CommonData extends React.Component {
                                         <th></th>
                                         <th></th>
                                         <th>SUMA :</th>
-                                        <th><input type="text" value={this.state.grossPrice}/></th>
+                                        <th><input type="text" value={this.state.mainGrossPrice}/></th>
                                     </tr>
 
                                     </tfoot>
@@ -377,6 +413,7 @@ class CommonData extends React.Component {
                         </div>
                         <input type="submit" value={"GOTOWE"} className={this.state.isActive}
                                onClick={this.handlePassData}/>
+                        <input type="button" name={'account_data'} value={"Policz"} onClick={this.AddSubtotal}/>
                     </div>
                 </form>
 
@@ -413,4 +450,30 @@ export default CommonData;
 //         .catch(function (error) {
 //             console.error("Error writing document: ", error);
 //         });
+// };
+
+//
+// AddSubtotal = () => {
+//     let {qty, rate, vat, subtotal, grossPrice, accountErrors} = this.state;
+//     if (checkIsProductData) {
+//         let subtotal;
+//         subtotal = qty * rate;
+//         let vatValue = subtotal / 100 * vat;
+//         let grossPrice;
+//         grossPrice = subtotal + vatValue;
+//         this.setState = ({
+//             subtotal: subtotal,
+//             grossPrice: grossPrice
+//         })
+//     } else {
+//         accountErrors.push("Proszę poprawnie wypełnić dane")
+//     }
+// }
+//
+// checkIsProductData = () => {
+//     return every([this.state.product, this.state.qty, this.state.rate, this.state.unit, this.state.vat])
+// }
+//
+// every = (arr) => {
+//     arr.every(el => el)
 // };

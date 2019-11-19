@@ -1,23 +1,6 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const os = require('os');
-// import firebase from "firebase/app";
-// import "firebase/auth";
-// import "firebase/database";
-// import "firebase/messaging";
-// import "firebase/storage";
-//  function created(){
-// 	 var firebaseConfig = {
-// 		 apiKey: "AIzaSyA1EHzaQaEos3rLFDrwqiJgoxOr3eSgOJw",
-// 		 authDomain: "invoice-generator-3ef22.firebaseapp.com",
-// 		 databaseURL: "https://invoice-generator-3ef22.firebaseio.com",
-// 		 projectId: "invoice-generator-3ef22",
-// 		 storageBucket: "invoice-generator-3ef22.appspot.com",
-// 		 messagingSenderId: "532412143501",
-// 		 appId: "1:532412143501:web:cf92e824228c12a9904fc4"
-//  }
-// 	 firebase.initializeApp(firebaseConfig);
-// Constants
 const inDevelopmentMode = (process.env.MODE === 'dev')
 
 // Main window reference

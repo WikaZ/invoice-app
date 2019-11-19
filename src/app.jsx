@@ -4,7 +4,9 @@ import NavBar from "./nav";
 class App extends React.Component {
     constructor(props) {
         super(props);
+        this.state = ({
 
+    })
     }
 
     render() {
@@ -16,4 +18,5 @@ class App extends React.Component {
         )
     }
 }
+
 export default App

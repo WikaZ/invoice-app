@@ -41,20 +41,23 @@ class CommonData extends React.Component {
         vat: "23",
         subtotal: "0",
         grossPrice: "0",
+        mainSubtotal: "",
+        mainGrossPrice: "",
 
         isActive: "notActive"
         ,
         isShow: false
         ,
-        rowIsAdded: false,
         rowIndex: 0,
-        rowTab:[
-            {product: "",
-            qty: "",
-            rate: "",
-            unit: "",
-            vat: ""}
-            ]
+        rowTab: [
+            {
+                product: "",
+                qty: "",
+                rate: "",
+                unit: "",
+                vat: ""
+            }
+        ]
         ,
         errors: {
             invoice: "",
@@ -133,13 +136,15 @@ class CommonData extends React.Component {
         })
     };
 
-    handlePassVat = (arg) => {
-        console.log(arg, "przekazany arg");
+    handlePassVat = (i, arg) => {
+        let rowTab = this.state.rowTab;
+        let row = rowTab[i];
+        row.vat = arg;
         this.setState({
-            vat: arg,
-
-        })
-    }
+            rowTab: rowTab
+        });
+        console.log(arg, "przekazany arg");
+    };
 
 
     handleGetData = (e) => {
@@ -257,40 +262,57 @@ class CommonData extends React.Component {
 
 
 // rozliczenie
-// checkIsProductData=()=>{
-//     return every([this.state.product, this.state.qty, this.state.rate , this.state.unit , this.state.vat])
-// }
-//
-// every=(arr)=>{
-//     arr.every(el=>el)
-// };
+
     AddSubtotal = (e) => {
         e.preventDefault();
         console.log("zaczynam liczyc vat");
-        let {qty, rate, vat, subtotal, grossPrice, accountErrors} = this.state;
-        let accErrors = [];
-        if ([this.state.product, this.state.qty, this.state.rate, this.state.unit, this.state.vat].every(el => el)) {
-            console.log("wszystkie dane sa, mozemy policzyc");
-            let subtotal;
-            subtotal = qty * rate;
-            let vatValue = (subtotal / 100) * vat;
-            let grossPrice;
-            grossPrice = subtotal + vatValue;
-// nie zmienia w state
+        let subtotal;
+        let grossPrice;
+        let rowTab = this.state.rowTab;
+        rowTab.map((el, i) => {
+            subtotal = el.rate * el.qty;
+            el.subtotal = subtotal;
+            el.grossPrice = subtotal * (1 + el.rate / 100);
+            console.log(subtotal, "subtotalw petli");
+        });
+        let mainSubtotal=0;
+        let mainGrossPrice=0;
+        rowTab.map((el,i)=>{
+            mainSubtotal += el.subtotal;
+            mainGrossPrice+= el.grossPrice;
+            console.log(mainSubtotal, mainGrossPrice, "mainsub i maingross");
+        })
+        this.setState({
+            rowTab: rowTab,
+            mainSubtotal:mainSubtotal,
+            mainGrossPrice:mainGrossPrice
+        });
 
-            this.initialState.subtotal = subtotal;
-            this.initialState.grossPrice = grossPrice;
 
-            this.setState(this.initialState);
-
-            console.log(grossPrice, "gr price");
-            console.log(subtotal, "subt");
-        } else {
-            accErrors.push("Proszę poprawnie wypełnić dane");
-            this.setState({
-                accountErrors: accErrors
-            })
-        }
+//         let {product,qty, rate, vat, unit, subtotal, grossPrice, accountErrors} = this.state.rowTab;
+//         let accErrors = [];
+//         if ([product, qty, rate, unit].every(el => el)) {
+//             console.log("wszystkie dane sa, mozemy policzyc");
+//             let subtotal;
+//             subtotal = qty * rate;
+//             let vatValue = (subtotal / 100) * vat;
+//             let grossPrice;
+//             grossPrice = subtotal + vatValue;
+// // nie zmienia w state
+//
+//             this.state.rowTab.subtotal = subtotal;
+//             this.state.rowTab.grossPrice = grossPrice;
+//
+//             // this.setState(this.initialState);
+//
+//             console.log(grossPrice, "gr price");
+//             console.log(subtotal, "subt");
+//         } else {
+//             accErrors.push("Proszę poprawnie wypełnić dane");
+//             this.setState({
+//                 accountErrors: accErrors
+//             })
+//         }
     };
 // dodaj nowy wiersz
 
@@ -298,8 +320,7 @@ class CommonData extends React.Component {
 
 
         this.setState({
-            rowIndex: this.state.rowIndex + 1,
-            rowIsAdded: true
+            rowIndex: this.state.rowIndex + 1
         });
         this.createRow();
 
@@ -307,21 +328,37 @@ class CommonData extends React.Component {
 
     };
 
-    createRow=()=>{
+    createRow = (e) => {
 
         this.state.rowTab.push(
-            {product: "",
+            {
+                product: "",
                 qty: "",
                 rate: "",
                 unit: "",
-                vat: ""}
+                vat: ""
+            }
         );
 
-       this.state.rowTab.map((el, i)=>{
-           return <tr>{el}</tr>
-       })
+        // this.state.rowTab.map((el, i)=>{
+        //     return <tr>{el}</tr>
+        // })
         console.log(this.state.rowTab, "tab");
-    }
+    };
+
+    modifyRow = (i, fieldName, value) => {
+        let rowTab = this.state.rowTab;
+        let row = rowTab[i];
+        row[fieldName] = value;
+        console.log("Modified row: ", this.state.rowTab);
+        this.setState({
+            rowTab: rowTab
+        });
+    };
+
+    getModifyFunction = (i, fieldName) => {
+        return (event) => this.modifyRow(i, fieldName, event.target.value);
+    };
 
 
     render() {
@@ -364,29 +401,6 @@ class CommonData extends React.Component {
                         </div>
 
 
-                        {/*<div className={'myData'}>*/}
-                        {/*    <label> Sprzedawca*/}
-                        {/*        <select name="" id="" value={this.state.businessName}*/}
-                        {/*                onChange={this.handleGetData}>*/}
-                        {/*            <option value="inne " name={"businessName"}>Inne</option>*/}
-                        {/*            <option value="mojaFirma" name={"businessName"}>Moja firma</option>*/}
-
-                        {/*        </select>*/}
-                        {/*    </label>*/}
-                        {/*    <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessNumber"}*/}
-                        {/*                       value={this.state.businessNumber} onChange={this.handleGetData}*/}
-                        {/*                       disabled={"disabled"}/></label>*/}
-                        {/*    <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}*/}
-                        {/*                       value={this.state.businessAddress}*/}
-                        {/*                       onChange={this.handleGetData} disabled={"disabled"}/></label>*/}
-                        {/*    <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}*/}
-                        {/*                              value={this.state.businessPostalCode}*/}
-                        {/*                              onChange={this.handleGetData} disabled={"disabled"}/></label>*/}
-                        {/*    <label>Podpis<input type="text" value={this.state.businessSignature}*/}
-                        {/*                        name={"businessSignature"} onChange={this.handleGetData}*/}
-                        {/*                        disabled={"disabled"}/></label>*/}
-
-                        {/*</div>*/}
                         <div className={"clientData"}>
 
                             Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
@@ -421,49 +435,35 @@ class CommonData extends React.Component {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td><input type="text" value={this.state.product} name={"product"}
-                                                   onChange={this.handleGetData} placeholder={'Nazwa usługi'}/></td>
-                                        <td><input type="text" value={this.state.rate} name={"rate"}
-                                                   onChange={this.handleGetData} placeholder={"00 zl"}/></td>
-                                        <td><input type="number" min={"0"} value={this.state.qty} name={"qty"}
-                                                   onChange={this.handleGetData}/></td>
-                                        <td><input type="text" value={this.state.unit} name={"unit"}
-                                                   onChange={this.handleGetData} placeholder={'szt/g'}/></td>
-                                        <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
 
-                                        <td><input type="text" value={this.state.subtotal} name={"subtotal"}
-                                        /></td>
-                                        <td><input type="text" value={this.state.grossPrice} name={"grossPrice"}
-                                        /></td>
-                                    </tr>
+                                    {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
+                                        this.state.rowTab.map((el, i) => {
 
-    {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
-                                    this.state.rowIsAdded ? this.state.rowTab.map((el,i)=>{
+                                            return (
+                                                <>
+                                                    <tr key={i}>
+                                                        <td><input type="text" value={el.product} name={"product"}
+                                                                   onChange={this.getModifyFunction(i, "product")}
+                                                                   placeholder={'Nazwa usługi'}/></td>
+                                                        <td><input type="text" value={el.rate} name={"rate"}
+                                                                   onChange={this.getModifyFunction(i, "rate")}
+                                                                   placeholder={"00 zl"}/></td>
+                                                        <td><input type="number" min={"0"} value={el.qty} name={"qty"}
+                                                                   onChange={this.getModifyFunction(i, "qty")}/></td>
+                                                        <td><input type="text" value={el.unit} name={"unit"}
+                                                                   onChange={this.getModifyFunction(i, "unit")}
+                                                                   placeholder={'szt/g'}/></td>
+                                                        <SelectVat handlePassVat={(e) => this.handlePassVat(i, e)}
+                                                                   vatData={[23, 8, 5, 0]}/>
 
-                                        return (
-                                            <>
-                                                <tr key={i}>
-                                                    <td><input type="text" value={this.state.rowTab.product} name={"product"}
-                                                               onChange={this.handleGetData} placeholder={'Nazwa usługi'}/></td>
-                                                    <td><input type="text" value={this.state.rowTab.rate} name={"rate"}
-                                                               onChange={this.handleGetData} placeholder={"00 zl"}/></td>
-                                                    <td><input type="number" min={"0"} value={this.state.rowTab.qty} name={"qty"}
-                                                               onChange={this.handleGetData}/></td>
-                                                    <td><input type="text" value={this.state.rowTab.unit} name={"unit"}
-                                                               onChange={this.handleGetData} placeholder={'szt/g'}/></td>
-                                                    <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
-
-                                                    <td><input type="text" value={this.state.rowTab.subtotal} name={"subtotal"}
-                                                    /></td>
-                                                    <td><input type="text" value={this.state.rowTab.grossPrice} name={"grossPrice"}
-                                                    /></td>
-                                                </tr>
-                                            </>
-                                        )
-                                        })
-
-                                         : null}
+                                                        <td><input type="text" value={el.subtotal} name={"subtotal"}
+                                                        /></td>
+                                                        <td><input type="text" value={el.grossPrice} name={"grossPrice"}
+                                                        /></td>
+                                                    </tr>
+                                                </>
+                                            )
+                                        })}
                                     </tbody>
                                     <tfoot>
                                     <tr>

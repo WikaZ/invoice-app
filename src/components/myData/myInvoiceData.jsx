@@ -7,7 +7,7 @@ class MyInvoiceData extends React.Component {
 
         let el = Object.values(values);
         console.error(el);
-        db.collection("invoice").doc().set({
+        db.collection("myCompData").doc().set({
             businessName: el[0],
             businessNumber: el[1],
             businessAddress: el[2],

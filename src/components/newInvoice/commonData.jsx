@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectOrTypeClient from "./SelectOrTypeClient"
 import SelectVat from "./selectVat"
+import AddNewRowProdData from "./addNewRowProdData"
 import moment from 'moment';
 
 
@@ -32,6 +33,7 @@ class CommonData extends React.Component {
         clientAddress: "",
         clientPostalCode: "",
         clientSignature: "",
+
         product: "",
         qty: "",
         rate: "",
@@ -39,9 +41,21 @@ class CommonData extends React.Component {
         vat: "23",
         subtotal: "0",
         grossPrice: "0",
-        isActive: "notActive",
-        isShow: false,
-        clientsIndex: "",
+
+        isActive: "notActive"
+        ,
+        isShow: false
+        ,
+        rowIsAdded: false,
+        rowIndex: 0,
+        rowTab:[
+            {product: "",
+            qty: "",
+            rate: "",
+            unit: "",
+            vat: ""}
+            ]
+        ,
         errors: {
             invoice: "",
             invoiceNumber: "",
@@ -63,7 +77,8 @@ class CommonData extends React.Component {
             rate: "",
             unit: "",
             vat: ""
-        },
+        }
+        ,
         accountErrors: []
     };
 
@@ -110,7 +125,7 @@ class CommonData extends React.Component {
         this.setState(stateChange);
     };
 
-    // dane z komponentu selectOr TypeClient
+// dane z komponentu selectOr TypeClient
     handlePassClientName = (arg) => {
         console.log(arg, "handlePassClientName przekazany arg", arg);
         this.setState({
@@ -184,7 +199,7 @@ class CommonData extends React.Component {
     };
 
 
-    // event dla submit --> active/ not active btn zapisz
+// event dla submit --> active/ not active btn zapisz
 
     handleValidateData = (stateChange) => {
         if (Object.values(stateChange.errors).every(this.isEmpty)) {
@@ -203,7 +218,7 @@ class CommonData extends React.Component {
     };
 
 
-    // wysylame dane
+// wysylame dane
 
     handlePassData = (e) => {
         e.preventDefault();
@@ -241,18 +256,19 @@ class CommonData extends React.Component {
     };
 
 
-    // rozliczenie
-    // checkIsProductData=()=>{
-    //     return every([this.state.product, this.state.qty, this.state.rate , this.state.unit , this.state.vat])
-    // }
-    //
-    // every=(arr)=>{
-    //     arr.every(el=>el)
-    // };
+// rozliczenie
+// checkIsProductData=()=>{
+//     return every([this.state.product, this.state.qty, this.state.rate , this.state.unit , this.state.vat])
+// }
+//
+// every=(arr)=>{
+//     arr.every(el=>el)
+// };
     AddSubtotal = (e) => {
         e.preventDefault();
         console.log("zaczynam liczyc vat");
         let {qty, rate, vat, subtotal, grossPrice, accountErrors} = this.state;
+        let accErrors = [];
         if ([this.state.product, this.state.qty, this.state.rate, this.state.unit, this.state.vat].every(el => el)) {
             console.log("wszystkie dane sa, mozemy policzyc");
             let subtotal;
@@ -262,16 +278,50 @@ class CommonData extends React.Component {
             grossPrice = subtotal + vatValue;
 // nie zmienia w state
 
-                this.initialState.subtotal=subtotal;
-                    this.initialState.grossPrice=grossPrice;
+            this.initialState.subtotal = subtotal;
+            this.initialState.grossPrice = grossPrice;
 
             this.setState(this.initialState);
+
             console.log(grossPrice, "gr price");
-            console.log(subtotal , "subt");
+            console.log(subtotal, "subt");
         } else {
-            accountErrors.push("Proszę poprawnie wypełnić dane")
+            accErrors.push("Proszę poprawnie wypełnić dane");
+            this.setState({
+                accountErrors: accErrors
+            })
         }
     };
+// dodaj nowy wiersz
+
+    handleAddRow = () => {
+
+
+        this.setState({
+            rowIndex: this.state.rowIndex + 1,
+            rowIsAdded: true
+        });
+        this.createRow();
+
+        console.log("dodano wiersz", this.state.rowIndex, ": rowIndex")
+
+    };
+
+    createRow=()=>{
+
+        this.state.rowTab.push(
+            {product: "",
+                qty: "",
+                rate: "",
+                unit: "",
+                vat: ""}
+        );
+
+       this.state.rowTab.map((el, i)=>{
+           return <tr>{el}</tr>
+       })
+        console.log(this.state.rowTab, "tab");
+    }
 
 
     render() {
@@ -314,36 +364,38 @@ class CommonData extends React.Component {
                         </div>
 
 
-                        <div className={'myData'}>
-                            <label> Sprzedawca
-                                <select name="" id="" value={this.state.businessName}
-                                        onChange={this.handleGetData}>
-                                    <option value="inne " name={"businessName"}>Inne</option>
-                                    <option value="mojaFirma" name={"businessName"}>Moja firma</option>
+                        {/*<div className={'myData'}>*/}
+                        {/*    <label> Sprzedawca*/}
+                        {/*        <select name="" id="" value={this.state.businessName}*/}
+                        {/*                onChange={this.handleGetData}>*/}
+                        {/*            <option value="inne " name={"businessName"}>Inne</option>*/}
+                        {/*            <option value="mojaFirma" name={"businessName"}>Moja firma</option>*/}
 
-                                </select>
-                            </label>
-                            <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessNumber"}
-                                               value={this.state.businessNumber} onChange={this.handleGetData}
-                                               disabled={"disabled"}/></label>
-                            <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}
-                                               value={this.state.businessAddress}
-                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}
-                                                      value={this.state.businessPostalCode}
-                                                      onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Podpis<input type="text" value={this.state.businessSignature}
-                                                name={"businessSignature"} onChange={this.handleGetData}
-                                                disabled={"disabled"}/></label>
+                        {/*        </select>*/}
+                        {/*    </label>*/}
+                        {/*    <label> NIP <input type="text" placeholder={"000-000-00-00"} name={"businessNumber"}*/}
+                        {/*                       value={this.state.businessNumber} onChange={this.handleGetData}*/}
+                        {/*                       disabled={"disabled"}/></label>*/}
+                        {/*    <label>Adres<input type="text" placeholder={"ulica, nr, m"} name={"businessAddress"}*/}
+                        {/*                       value={this.state.businessAddress}*/}
+                        {/*                       onChange={this.handleGetData} disabled={"disabled"}/></label>*/}
+                        {/*    <label>Kod pocztowy<input type="text" placeholder={"00-000"} name={"businessPostalCode"}*/}
+                        {/*                              value={this.state.businessPostalCode}*/}
+                        {/*                              onChange={this.handleGetData} disabled={"disabled"}/></label>*/}
+                        {/*    <label>Podpis<input type="text" value={this.state.businessSignature}*/}
+                        {/*                        name={"businessSignature"} onChange={this.handleGetData}*/}
+                        {/*                        disabled={"disabled"}/></label>*/}
 
-                        </div>
+                        {/*</div>*/}
                         <div className={"clientData"}>
 
                             Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
-                            <label> NIP <input type="text" placeholder={"000-000-00-00"} value={this.state.clientNumber}
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"}
+                                               value={this.state.clientNumber}
                                                name={"clientNumber"}
                                                onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Adres<input type="text" placeholder={"ulica, nr, m"} value={this.state.clientAddress}
+                            <label>Adres<input type="text" placeholder={"ulica, nr, m"}
+                                               value={this.state.clientAddress}
                                                name={"clientAddress"}
                                                onChange={this.handleGetData} disabled={"disabled"}/></label>
                             <label>Kod pocztowy<input type="text" placeholder={"00-000"}
@@ -371,13 +423,13 @@ class CommonData extends React.Component {
                                     <tbody>
                                     <tr>
                                         <td><input type="text" value={this.state.product} name={"product"}
-                                                   onChange={this.handleGetData}/></td>
+                                                   onChange={this.handleGetData} placeholder={'Nazwa usługi'}/></td>
                                         <td><input type="text" value={this.state.rate} name={"rate"}
-                                                   onChange={this.handleGetData}/></td>
+                                                   onChange={this.handleGetData} placeholder={"00 zl"}/></td>
                                         <td><input type="number" min={"0"} value={this.state.qty} name={"qty"}
                                                    onChange={this.handleGetData}/></td>
                                         <td><input type="text" value={this.state.unit} name={"unit"}
-                                                   onChange={this.handleGetData}/></td>
+                                                   onChange={this.handleGetData} placeholder={'szt/g'}/></td>
                                         <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
 
                                         <td><input type="text" value={this.state.subtotal} name={"subtotal"}
@@ -386,6 +438,32 @@ class CommonData extends React.Component {
                                         /></td>
                                     </tr>
 
+    {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
+                                    this.state.rowIsAdded ? this.state.rowTab.map((el,i)=>{
+
+                                        return (
+                                            <>
+                                                <tr key={i}>
+                                                    <td><input type="text" value={this.state.rowTab.product} name={"product"}
+                                                               onChange={this.handleGetData} placeholder={'Nazwa usługi'}/></td>
+                                                    <td><input type="text" value={this.state.rowTab.rate} name={"rate"}
+                                                               onChange={this.handleGetData} placeholder={"00 zl"}/></td>
+                                                    <td><input type="number" min={"0"} value={this.state.rowTab.qty} name={"qty"}
+                                                               onChange={this.handleGetData}/></td>
+                                                    <td><input type="text" value={this.state.rowTab.unit} name={"unit"}
+                                                               onChange={this.handleGetData} placeholder={'szt/g'}/></td>
+                                                    <SelectVat handlePassVat={this.handlePassVat} vatData={[23, 8, 5, 0]}/>
+
+                                                    <td><input type="text" value={this.state.rowTab.subtotal} name={"subtotal"}
+                                                    /></td>
+                                                    <td><input type="text" value={this.state.rowTab.grossPrice} name={"grossPrice"}
+                                                    /></td>
+                                                </tr>
+                                            </>
+                                        )
+                                        })
+
+                                         : null}
                                     </tbody>
                                     <tfoot>
                                     <tr>
@@ -409,13 +487,24 @@ class CommonData extends React.Component {
 
                                     </tfoot>
                                 </table>
+
                             </div>
                         </div>
                         <input type="submit" value={"GOTOWE"} className={this.state.isActive}
                                onClick={this.handlePassData}/>
-                        <input type="button" name={'account_data'} value={"Policz"} onClick={this.AddSubtotal}/>
+                        <input type="button" name={'account_data'} value={"CALC"} className={"calc"}
+                               onClick={this.AddSubtotal}/>
+                        <input type="button" name={"addRow"} value={"DODAJ WIERSZ"} className={"calc"}
+                               onClick={this.handleAddRow}/>
                     </div>
                 </form>
+
+                {this.state.accountErrors.map((el, i) => {
+                    return (
+                        <p>{el}</p>
+                    )
+                })}
+
 
                 {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
                     return (
@@ -434,6 +523,7 @@ class CommonData extends React.Component {
 }
 
 export default CommonData;
+
 // wyslat
 // onButtonClickAdd = () => {
 //     console.log("dodaj nabywce do listy ");

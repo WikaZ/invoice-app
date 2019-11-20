@@ -13,6 +13,11 @@ $main-nav-color: #aaa000;
   padding: 0;
   box-sizing: border-box;
 }
+@mixin btn{
+  width:100px;
+  height: 25px;
+  border-radius: 8px;
+}
 
 body {
   width: 100% !important;
@@ -69,11 +74,20 @@ nav {
 //btn in form zapisz
 
 .active {
+  @include btn;
   color: #010601;
   background-color: #fdca27;
 }
 
+
+.calc{
+@include btn;
+  border: 1px solid darkgreen;
+  background-color: darkolivegreen;
+  color:white;
+}
 .notActive {
+  @include btn;
   color: #fffff9;
   background-color: rgba(1, 6, 1, 0.8);
 }

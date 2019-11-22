@@ -1,3 +1,5 @@
+
+
 $body-bckg-color: #fffff9;
 $main-nav-color: #aaa000;
 /** Force App wrapper to bounds */
@@ -140,3 +142,19 @@ width:70%;
 
   }
 }
+
+
+//popup
+.mainDashboard{
+  position: relative;
+}
+.popup {
+  width:40vw;
+  height: 80vh;
+  background-color: white;
+  border: 1px solid darkgreen;
+  position: absolute;
+  top:10vh;
+  left:30vw;
+}
+

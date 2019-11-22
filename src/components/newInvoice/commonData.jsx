@@ -8,6 +8,7 @@ import SelectOrTypeClient from "./SelectOrTypeClient"
 import SelectVat from "./selectVat"
 import AddNewRowProdData from "./addNewRowProdData"
 import moment from 'moment';
+import InvoicePreview from '../invoicePreview/invoicePreview'
 
 
 class CommonData extends React.Component {
@@ -55,7 +56,7 @@ class CommonData extends React.Component {
                 qty: "",
                 rate: "",
                 unit: "",
-                vat: ""
+                vat: "23"
             }
         ]
         ,
@@ -82,7 +83,8 @@ class CommonData extends React.Component {
             vat: ""
         }
         ,
-        accountErrors: []
+        accountErrors: [],
+        showPopup: false
     };
 
 // sprawdzamy, czy value w obj error sa puste---> w render
@@ -157,7 +159,7 @@ class CommonData extends React.Component {
         let errors = this.state.errors;
         const {name, value} = e.target;
         console.log('Name: ', name);
-        const validateInvoice = RegExp(/^[a-z]{2,}$/g);
+        const validateInvoice = RegExp(/^[a-zA-Z]{2,}$/g);
         const validateNum = RegExp(/^[0-9]{1,}\/|-[0-9]{1,}$/g);
         switch (name) {
             case 'invoice':
@@ -222,7 +224,12 @@ class CommonData extends React.Component {
         return value ? value.toDate() : null;
     };
 
-
+// open/close new window
+    togglePopup = () => {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
 // wysylame dane
 
     handlePassData = (e) => {
@@ -245,11 +252,12 @@ class CommonData extends React.Component {
                 clientAddress: this.state.clientAddress,
                 clientPostalCode: this.state.clientPostalCode,
                 clientSignature: this.state.clientSignature,
-                product: this.state.product,
-                qty: this.state.qty,
-                rate: this.state.rate,
-                unit: this.state.unit,
-                vat: this.state.vat
+                productInfo: this.state.rowTab
+                // product: this.state.product,
+                // qty: this.state.qty,
+                // rate: this.state.rate,
+                // unit: this.state.unit,
+                // vat: this.state.vat
             }
         )
             .then(function () {
@@ -258,61 +266,41 @@ class CommonData extends React.Component {
             .catch(function (error) {
                 console.error("Error writing document: ", error);
             });
-    };
+        this.togglePopup()
 
+    };
 
 // rozliczenie
 
     AddSubtotal = (e) => {
         e.preventDefault();
         console.log("zaczynam liczyc vat");
-        let subtotal;
-        let grossPrice;
+
         let rowTab = this.state.rowTab;
         rowTab.map((el, i) => {
-            subtotal = el.rate * el.qty;
+            console.log("Calc: el=", el);
+            let subtotal = el.rate * el.qty;
             el.subtotal = subtotal;
-            el.grossPrice = subtotal * (1 + el.rate / 100);
+            // console.log("Partials:", 1 + el.vat, 1 + el.vat / 100);
+            let grossPrice = el.subtotal * (1 + parseInt(el.vat) / 100);
+            el.grossPrice = grossPrice;
             console.log(subtotal, "subtotalw petli");
+            console.log(el.grossPrice, "gr price");
         });
-        let mainSubtotal=0;
-        let mainGrossPrice=0;
-        rowTab.map((el,i)=>{
+        let mainSubtotal = 0;
+        let mainGrossPrice = 0;
+        rowTab.map((el, i) => {
             mainSubtotal += el.subtotal;
-            mainGrossPrice+= el.grossPrice;
+            mainGrossPrice += el.grossPrice;
             console.log(mainSubtotal, mainGrossPrice, "mainsub i maingross");
-        })
+        });
         this.setState({
             rowTab: rowTab,
-            mainSubtotal:mainSubtotal,
-            mainGrossPrice:mainGrossPrice
+            mainSubtotal: mainSubtotal,
+            mainGrossPrice: mainGrossPrice
         });
 
 
-//         let {product,qty, rate, vat, unit, subtotal, grossPrice, accountErrors} = this.state.rowTab;
-//         let accErrors = [];
-//         if ([product, qty, rate, unit].every(el => el)) {
-//             console.log("wszystkie dane sa, mozemy policzyc");
-//             let subtotal;
-//             subtotal = qty * rate;
-//             let vatValue = (subtotal / 100) * vat;
-//             let grossPrice;
-//             grossPrice = subtotal + vatValue;
-// // nie zmienia w state
-//
-//             this.state.rowTab.subtotal = subtotal;
-//             this.state.rowTab.grossPrice = grossPrice;
-//
-//             // this.setState(this.initialState);
-//
-//             console.log(grossPrice, "gr price");
-//             console.log(subtotal, "subt");
-//         } else {
-//             accErrors.push("Proszę poprawnie wypełnić dane");
-//             this.setState({
-//                 accountErrors: accErrors
-//             })
-//         }
     };
 // dodaj nowy wiersz
 
@@ -336,13 +324,11 @@ class CommonData extends React.Component {
                 qty: "",
                 rate: "",
                 unit: "",
-                vat: ""
+                vat: "23"
             }
         );
 
-        // this.state.rowTab.map((el, i)=>{
-        //     return <tr>{el}</tr>
-        // })
+
         console.log(this.state.rowTab, "tab");
     };
 
@@ -367,154 +353,158 @@ class CommonData extends React.Component {
         const year = date.getFullYear();
         return (
             <>
-                <form action="" onSubmit={this.handleValidateData}>
-                    <div className={'formWrapper'}>
-                        <div className={'commonInvoiceData'}>
-                            <label> Dokument
-                                <input type="text" placeholder={"faktura"} value={this.state.invoice}
-                                       name={"invoice"} onChange={this.handleGetData} required/>
-                            </label>
-                        </div>
-                        <div className={'formInvoiceNumber'}>
-                            <label> Numer
-                                <input type="text" placeholder={`${month}/${year}`} value={this.state.invoiceNumber}
-                                       name={"invoiceNumber"} onChange={this.handleGetData} required/>
-                            </label>
-                        </div>
-                        <div className={'formDate'}>
-                            <label>Data wystawienia
-                                <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
-                                            onChange={this.handleChangeDate}/>
-                            </label>
-                        </div>
-                        <div className={'formAddress'}>
-                            <label>Miejsce wystawienia
-                                <input type="text" value={this.state.address} name={"address"}
-                                       onChange={this.handleGetData} required/>
-                            </label>
-                        </div>
-                        <div className={'formTerms'}>
-                            <label>Data sprzedaży
-                                <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
-                                            onChange={this.handleChangeTerms}/>
-                            </label>
-                        </div>
-
-
-                        <div className={"clientData"}>
-
-                            Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
-                            <label> NIP <input type="text" placeholder={"000-000-00-00"}
-                                               value={this.state.clientNumber}
-                                               name={"clientNumber"}
-                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Adres<input type="text" placeholder={"ulica, nr, m"}
-                                               value={this.state.clientAddress}
-                                               name={"clientAddress"}
-                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Kod pocztowy<input type="text" placeholder={"00-000"}
-                                                      value={this.state.clientPostalCode} name={"clientPostalCode"}
-                                                      onChange={this.handleGetData} disabled={"disabled"}/></label>
-                            <label>Podpis<input type="text" value={this.state.clientSignature}
-                                                name={"clientSignature"} onChange={this.handleGetData}
-                                                disabled={"disabled"}/></label>
-                        </div>
-                        <div className={"itemDescription"}>
-                            <div>
-                                <table>
-                                    <thead className={"description"}>
-                                    <tr>
-                                        <th>Nazwa usługi</th>
-                                        <th>Cena</th>
-                                        <th>Ilość</th>
-                                        <th>Jednostka miary</th>
-                                        <th>Stawka VAT</th>
-                                        <th>Kwota faktury Netto</th>
-                                        <th>Kwota faktury Brutto</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
-                                        this.state.rowTab.map((el, i) => {
-
-                                            return (
-                                                <>
-                                                    <tr key={i}>
-                                                        <td><input type="text" value={el.product} name={"product"}
-                                                                   onChange={this.getModifyFunction(i, "product")}
-                                                                   placeholder={'Nazwa usługi'}/></td>
-                                                        <td><input type="text" value={el.rate} name={"rate"}
-                                                                   onChange={this.getModifyFunction(i, "rate")}
-                                                                   placeholder={"00 zl"}/></td>
-                                                        <td><input type="number" min={"0"} value={el.qty} name={"qty"}
-                                                                   onChange={this.getModifyFunction(i, "qty")}/></td>
-                                                        <td><input type="text" value={el.unit} name={"unit"}
-                                                                   onChange={this.getModifyFunction(i, "unit")}
-                                                                   placeholder={'szt/g'}/></td>
-                                                        <SelectVat handlePassVat={(e) => this.handlePassVat(i, e)}
-                                                                   vatData={[23, 8, 5, 0]}/>
-
-                                                        <td><input type="text" value={el.subtotal} name={"subtotal"}
-                                                        /></td>
-                                                        <td><input type="text" value={el.grossPrice} name={"grossPrice"}
-                                                        /></td>
-                                                    </tr>
-                                                </>
-                                            )
-                                        })}
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>SUMA NETTO:</th>
-                                        <th><input type="text" value={this.state.mainSubtotal}/></th>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>SUMA :</th>
-                                        <th><input type="text" value={this.state.mainGrossPrice}/></th>
-                                    </tr>
-
-                                    </tfoot>
-                                </table>
-
+                <div className={"mainDashboard"}>
+                    <form action="" onSubmit={this.handleValidateData}>
+                        <div className={'formWrapper'}>
+                            <div className={'commonInvoiceData'}>
+                                <label> Dokument
+                                    <input type="text" placeholder={"faktura"} value={this.state.invoice}
+                                           name={"invoice"} onChange={this.handleGetData} required/>
+                                </label>
                             </div>
+                            <div className={'formInvoiceNumber'}>
+                                <label> Numer
+                                    <input type="text" placeholder={`${month}/${year}`} value={this.state.invoiceNumber}
+                                           name={"invoiceNumber"} onChange={this.handleGetData} required/>
+                                </label>
+                            </div>
+                            <div className={'formDate'}>
+                                <label>Data wystawienia
+                                    <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
+                                                onChange={this.handleChangeDate}/>
+                                </label>
+                            </div>
+                            <div className={'formAddress'}>
+                                <label>Miejsce wystawienia
+                                    <input type="text" value={this.state.address} name={"address"}
+                                           onChange={this.handleGetData} required/>
+                                </label>
+                            </div>
+                            <div className={'formTerms'}>
+                                <label>Data sprzedaży
+                                    <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
+                                                onChange={this.handleChangeTerms}/>
+                                </label>
+                            </div>
+
+
+                            <div className={"clientData"}>
+
+                                Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
+                                <label> NIP <input type="text" placeholder={"000-000-00-00"}
+                                                   value={this.state.clientNumber}
+                                                   name={"clientNumber"}
+                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
+                                <label>Adres<input type="text" placeholder={"ulica, nr, m"}
+                                                   value={this.state.clientAddress}
+                                                   name={"clientAddress"}
+                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
+                                <label>Kod pocztowy<input type="text" placeholder={"00-000"}
+                                                          value={this.state.clientPostalCode} name={"clientPostalCode"}
+                                                          onChange={this.handleGetData} disabled={"disabled"}/></label>
+                                <label>Podpis<input type="text" value={this.state.clientSignature}
+                                                    name={"clientSignature"} onChange={this.handleGetData}
+                                                    disabled={"disabled"}/></label>
+                            </div>
+                            <div className={"itemDescription"}>
+                                <div>
+                                    <table>
+                                        <thead className={"description"}>
+                                        <tr>
+                                            <th>Nazwa usługi</th>
+                                            <th>Cena</th>
+                                            <th>Ilość</th>
+                                            <th>Jednostka miary</th>
+                                            <th>Stawka VAT</th>
+                                            <th>Kwota faktury Netto</th>
+                                            <th>Kwota faktury Brutto</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
+                                            this.state.rowTab.map((el, i) => {
+
+                                                return (
+                                                    <>
+                                                        <tr key={i}>
+                                                            <td><input type="text" value={el.product} name={"product"}
+                                                                       onChange={this.getModifyFunction(i, "product")}
+                                                                       placeholder={'Nazwa usługi'}/></td>
+                                                            <td><input type="text" value={el.rate} name={"rate"}
+                                                                       onChange={this.getModifyFunction(i, "rate")}
+                                                                       placeholder={"00 zl"}/></td>
+                                                            <td><input type="number" min={"0"} value={el.qty}
+                                                                       name={"qty"}
+                                                                       onChange={this.getModifyFunction(i, "qty")}/>
+                                                            </td>
+                                                            <td><input type="text" value={el.unit} name={"unit"}
+                                                                       onChange={this.getModifyFunction(i, "unit")}
+                                                                       placeholder={'szt/g'}/></td>
+                                                            <SelectVat handlePassVat={(e) => this.handlePassVat(i, e)}
+                                                                       vatData={[23, 8, 5, 0]}/>
+
+                                                            <td><input type="text" value={el.subtotal} name={"subtotal"}
+                                                            /></td>
+                                                            <td><input type="text" value={el.grossPrice}
+                                                                       name={"grossPrice"}
+                                                            /></td>
+                                                        </tr>
+                                                    </>
+                                                )
+                                            })}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>SUMA NETTO:</th>
+                                            <th><input type="text" value={this.state.mainSubtotal}/></th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>SUMA :</th>
+                                            <th><input type="text" value={this.state.mainGrossPrice}/></th>
+                                        </tr>
+
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <input type="submit" value={"GOTOWE"} className={this.state.isActive}
+                                   onClick={this.handlePassData}/>
+                            <input type="button" name={'account_data'} value={"CALC"} className={"calc"}
+                                   onClick={this.AddSubtotal}/>
+                            <input type="button" name={"addRow"} value={"DODAJ WIERSZ"} className={"calc"}
+                                   onClick={this.handleAddRow}/>
                         </div>
-                        <input type="submit" value={"GOTOWE"} className={this.state.isActive}
-                               onClick={this.handlePassData}/>
-                        <input type="button" name={'account_data'} value={"CALC"} className={"calc"}
-                               onClick={this.AddSubtotal}/>
-                        <input type="button" name={"addRow"} value={"DODAJ WIERSZ"} className={"calc"}
-                               onClick={this.handleAddRow}/>
-                    </div>
-                </form>
+                    </form>
 
-                {this.state.accountErrors.map((el, i) => {
-                    return (
-                        <p>{el}</p>
-                    )
-                })}
+                    {this.state.accountErrors.map((el, i) => {
+                        return (
+                            <p>{el}</p>
+                        )
+                    })}
 
 
-                {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
-                    return (
+                    {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
+                        return (
 
-                        <p key={i} style={{listStyleType: "none"}}> {el}</p>
+                            <p key={i} style={{listStyleType: "none"}}> {el}</p>
 
-                    )
-                }) : null}
-
-
+                        )
+                    }) : null}
+                </div>
+                {this.state.showPopup ? <InvoicePreview closePopup={this.togglePopup} rowData={this.state.rowTab}/> : null}
             </>
         )
     }

@@ -28,21 +28,13 @@ class InvoiceList extends Component {
                 columnDef("Data wystawienia", "date", true, true ,false),
                 columnDef("Adres", "address", true, true ,false),
                 columnDef("Data Sprzedaży", "terms", true, true ,false),
-                columnDef("Sprzedawca", "businessName", true, true ,false),
-                columnDef("NIP", "businessNumber", true, true ,false),
-                columnDef("Adres", "businessAddress", true, true ,false),
-                columnDef("Kod pocztowy", "businessPostalCode", true, true ,false),
-                columnDef("Podpis", "businessSignature", true, true ,false),
                 columnDef("Nabywca", "clientName", true, true ,false),
                 columnDef("NIP", "clientNumber", true, true ,false),
                 columnDef("Adres", "clientAddress", true, true ,false),
                 columnDef("Kod Pocztowy", "clientPostalCode", true, true ,false),
                 columnDef("Podpis", "clientSignature", true, true ,false),
-                columnDef("Usługa", "product", true, true ,false),
-                columnDef("Ilość", "qty", true, true ,false),
-                columnDef("Cena", "rate", true, true ,false),
-                columnDef("Jednostka Miary", "unit", true, true ,false),
-                columnDef("VAT", "vat", true, true ,false),
+                columnDef("", "product", true, true ,false),
+
             ],
             // tylko przyklad, pozniej usunac
             rowData: this.createRowData(),
@@ -70,6 +62,7 @@ class InvoiceList extends Component {
                 });
             }
         );
+
 
     };
 

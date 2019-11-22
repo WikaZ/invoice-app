@@ -4,13 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table'
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button'
 
 class InvoicePreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // productInfo:{}
+
             product: "jakis",
             rate: "",
             qty: "",
@@ -18,6 +19,8 @@ class InvoicePreview extends React.Component {
             vat: "",
             subtotal: "",
             grossPrice: ''
+
+
         }
     }
 
@@ -28,28 +31,29 @@ class InvoicePreview extends React.Component {
             <div className='popup'>
                 <div className='popup_inner'>
 
-                    <button onClick={this.props.closePopup}>ZAMKNIJ</button>
-                    {/*<button onClick={this.handleShowData}>open me</button>*/}
+                    <Button variant="dark" onClick={this.props.closePopup}>ZAMKNIJ</Button>
 
-                    <div>
 
-                        <table>
-                            <tbody>
-                            {this.props.rowData.map((el, i) => {
-                                return (
-                                    <tr style={{color: "blue"}}>
-                                        <td>{el.product}</td>
-                                        <td>{el.rate}</td>
-                                        <td>{el.qty}</td>
-                                        <td>{el.unit}</td>
-                                        <td>{el.vat}</td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+                    {/*<div>*/}
 
-                    </div>
+                    {/*    <table>*/}
+                    {/*        <tbody>*/}
+                    {/*        {this.props.rowData.map((el, i) => {*/}
+
+                    {/*            return (*/}
+                    {/*                <tr style={{color: "blue"}}>*/}
+                    {/*                    <td>{el.product}</td>*/}
+                    {/*                    <td>{el.rate}</td>*/}
+                    {/*                    <td>{el.qty}</td>*/}
+                    {/*                    <td>{el.unit}</td>*/}
+                    {/*                    <td>{el.vat}</td>*/}
+                    {/*                </tr>*/}
+                    {/*            )*/}
+                    {/*        })}*/}
+                    {/*        </tbody>*/}
+                    {/*    </table>*/}
+
+                    {/*</div>*/}
                     <Container style={{
                         fontSize: "12px"
                     }}>
@@ -110,22 +114,25 @@ class InvoicePreview extends React.Component {
                             </thead>
 
                             <tbody>
-                            <tr>
-                                <td>Pies</td>
-                                <td>12</td>
-                                <td>1</td>
-                                <td>szt</td>
-                                <td>23%</td>
-                                <td>12</td>
-                                <td>13.45</td>
-                            </tr>
+
+                                {this.props.rowData.map((el, i) => {
+
+                                    return (
+                                        <tr style={{color: "blue"}}>
+                                            <td>{el.product}</td>
+                                            <td>{el.rate}</td>
+                                            <td>{el.qty}</td>
+                                            <td>{el.unit}</td>
+                                            <td>{el.vat}</td>
+                                            <td>{el.subtotal}</td>
+                                            <td>{el.grossPrice}</td>
+                                        </tr>
+                                    )
+                                })}
 
 
-                            <tr>
-                                <td colSpan="5"></td>
-                                <td>SUMA NETTO:</td>
-                                <td>123</td>
-                            </tr>
+
+
 
                             <tr>
                                 <td colSpan="5"></td>
@@ -138,19 +145,25 @@ class InvoicePreview extends React.Component {
                             </tfoot>
                         </Table>
                         <Row>
-                            <Col style={{textAlign:"left", backgroundColor:"grey"}}> <p style={{textDecoration:"underline", fontWeight:"bold"}}>Do zapłaty: <span style={{textDecoration:"none"}}>1230zl</span></p> </Col>
+                            <Col style={{textAlign: "left", backgroundColor: "grey"}}><p
+                                style={{textDecoration: "underline", fontWeight: "bold"}}>Do zapłaty: <span
+                                style={{textDecoration: "none"}}>1230zl</span></p></Col>
 
                         </Row>
-                        <Row style={{marginTop:"50px"}}>
-                            <Col lg={"3"}> <hr style={{color:"black"}}/></Col>
-                            <Col lg={{span:3, offset:6}}> <hr style={{color:"black"}}/></Col>
+                        <Row style={{marginTop: "50px"}}>
+                            <Col lg={"3"}>
+                                <hr style={{color: "black"}}/>
+                            </Col>
+                            <Col lg={{span: 3, offset: 6}}>
+                                <hr style={{color: "black"}}/>
+                            </Col>
 
                         </Row>
                         <Row>
-                        <Col lg={"3"}> Osoba upoważniona do wystawiania </Col>
-                        <Col lg={{span:3, offset:6}}> Osoba upoważniona do odbioru</Col>
+                            <Col lg={"3"}> Osoba upoważniona do wystawiania </Col>
+                            <Col lg={{span: 3, offset: 6}}> Osoba upoważniona do odbioru</Col>
 
-                    </Row>
+                        </Row>
                     </Container>
                 </div>
             </div>

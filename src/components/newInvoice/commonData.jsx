@@ -8,7 +8,9 @@ import SelectOrTypeClient from "./SelectOrTypeClient"
 import SelectVat from "./selectVat"
 import AddNewRowProdData from "./addNewRowProdData"
 import moment from 'moment';
-import InvoicePreview from '../invoicePreview/invoicePreview'
+import InvoicePreview from '../invoicePreview/invoicePreview';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button'
 
 
 class CommonData extends React.Component {
@@ -480,12 +482,16 @@ class CommonData extends React.Component {
 
                                 </div>
                             </div>
-                            <input type="submit" value={"GOTOWE"} className={this.state.isActive}
-                                   onClick={this.handlePassData}/>
-                            <input type="button" name={'account_data'} value={"CALC"} className={"calc"}
-                                   onClick={this.AddSubtotal}/>
-                            <input type="button" name={"addRow"} value={"DODAJ WIERSZ"} className={"calc"}
-                                   onClick={this.handleAddRow}/>
+                            < div className={"btnGroup"}>
+                                <ButtonGroup>
+                                    <Button className={this.state.isActive} variant="secondary"
+                                            onClick={this.handlePassData}>Pokaż fakturę</Button>
+                                    <Button variant="secondary"
+                                            onClick={this.AddSubtotal}>Policz</Button>
+                                    <Button variant="secondary"
+                                            onClick={this.handleAddRow}>Dodaj wiersz</Button>
+                                </ButtonGroup>
+                            </div>
                         </div>
                     </form>
 
@@ -504,7 +510,8 @@ class CommonData extends React.Component {
                         )
                     }) : null}
                 </div>
-                {this.state.showPopup ? <InvoicePreview closePopup={this.togglePopup} rowData={this.state.rowTab}/> : null}
+                {this.state.showPopup ?
+                    <InvoicePreview closePopup={this.togglePopup} rowData={this.state.rowTab}/> : null}
             </>
         )
     }

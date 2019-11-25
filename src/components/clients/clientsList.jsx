@@ -27,6 +27,7 @@ class ClientsList extends Component {
                 columnDef("Nabywca", "clientName", true, true, true, true, 100),
                 columnDef("NIP", "clientNumber", true, true, false, true, 100),
                 columnDef("Adres", "clientAddress", true, true, false, true, 100),
+                columnDef("Miasto", "clientCity", true, true, false, true, 100),
                 columnDef("Kod Pocztowy", "clientPostalCode", true, true, false, true, 100),
                 columnDef("Podpis", "clientSignature", true, true, false, true, 100),
 
@@ -47,6 +48,7 @@ class ClientsList extends Component {
                 clientName: "Karamelka",
                 clientNumber: "000111111",
                 clientAddress: "Hr",
+                clientCity:"NY",
                 clientPostalCode: "00-235",
                 clientSignature: " Kar"
 
@@ -65,6 +67,7 @@ class ClientsList extends Component {
                     clientName: "Korzhyk",
                     clientNumber: "000111111",
                     clientAddress: "Ko",
+                    clientCity:"NY",
                     clientPostalCode: "00-235",
                     clientSignature: " Ko"
 
@@ -84,6 +87,7 @@ class ClientsList extends Component {
                     clientName: "Kompot",
                     clientNumber: "000111111",
                     clientAddress: "Hr",
+                    clientCity:"NY",
                     clientPostalCode: "00-235",
                     clientSignature: " Kom"
 

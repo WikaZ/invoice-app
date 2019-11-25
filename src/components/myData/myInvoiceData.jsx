@@ -5,15 +5,9 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 class MyInvoiceData extends React.Component {
     passMyInvoiceData = (values) => {
 
-        let el = Object.values(values);
+        let el = {... values};
         console.error(el);
-        db.collection("myCompData").doc().set({
-            businessName: el[0],
-            businessNumber: el[1],
-            businessAddress: el[2],
-            businessPostalCode: el[3],
-            businessSignature: el[4]
-        })
+        db.collection("myCompData").doc("myCompanyDataRecord").set(el)
             .then(function () {
                 console.log("Document successfully written!");
             })
@@ -37,6 +31,7 @@ class MyInvoiceData extends React.Component {
                         businessName: '',
                         businessNumber: '',
                         businessAddress: "",
+                        businessCity:"",
                         businessPostalCode: "",
                         businessSignature: ""
                     }}
@@ -58,6 +53,11 @@ class MyInvoiceData extends React.Component {
                         } else if (values.businessAddress.length < 5) {
                             errors.businessAddress = 'Adres musi zawierać więcej niż 5 znaków';
                         }
+                        if (!values.businessCity) {
+                            errors.businessCity = 'Required';
+                        } else if (values.businessCity.length < 1) {
+                            errors.businessCity = 'Prosze wpisac nazwę miasta';
+                        }
 
                         if (!values.businessPostalCode) {
                             errors.businessPostalCode = 'Required';
@@ -67,7 +67,7 @@ class MyInvoiceData extends React.Component {
 
                         if (!values.businessSignature) {
                             errors.businessSignature = 'Required';
-                        } else if (!/^[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/ig.test(values.businessSignature)) {
+                        } else if (!/^[a-zA-ZąĄćĆĘęŻżŹźŚśóÓŁłńŃ]{2,}\s[a-zA-ZąĄćĆĘęŻżŹźŚśóÓŁłńŃ]{2,}$/ig.test(values.businessSignature)) {
                             errors.businessSignature = 'Proszę pwisać Imię i Nazwisko';
                         }
                         console.log(errors, "errors");
@@ -144,6 +144,18 @@ class MyInvoiceData extends React.Component {
                                         placeholder={"ulica nr m"}
                                     /></label>
                                 {errors.businessAddress && touched.businessAddress && errors.businessAddress}
+                            </div>
+                            <div className={'myDataInput'}>
+                                <label>Miasto:
+                                    <input
+                                        type="text"
+                                        name="businessCity"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.businessCity}
+                                        placeholder={"miasto"}
+                                    /></label>
+                                {errors.businessCity && touched.businessCity && errors.businessCity}
                             </div>
                             <div className={'myDataInput'}>
                                 <label>Kod Pocztowy: <input

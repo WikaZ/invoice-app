@@ -76,6 +76,7 @@ class CommonData extends React.Component {
             clientName: "",
             clientNumber: "",
             clientAddress: "",
+            clientCity: '',
             clientPostalCode: "",
             clientSignature: "",
             product: "",
@@ -234,10 +235,10 @@ class CommonData extends React.Component {
             this.setState({
                 showPopup: !this.state.showPopup
             })
-        }, 3000)
+        }, 1000)
 
 
-    }
+    };
 
     componentWillUnmount() {
         clearTimeout(this.interval)
@@ -268,6 +269,7 @@ class CommonData extends React.Component {
                 clientName: this.state.clientName,
                 clientNumber: this.state.clientNumber,
                 clientAddress: this.state.clientAddress,
+                clientCity: this.state.clientCity,
                 clientPostalCode: this.state.clientPostalCode,
                 clientSignature: this.state.clientSignature,
                 productInfo: this.state.rowTab,
@@ -419,6 +421,11 @@ class CommonData extends React.Component {
                                                    value={this.state.clientAddress}
                                                    name={"clientAddress"}
                                                    onChange={this.handleGetData} disabled={"disabled"}/></label>
+
+                                <label>Miasto<input type="text" placeholder={"nazwa miejscowości"}
+                                                    value={this.state.clientCity}
+                                                    name={"clientCity"}
+                                                    onChange={this.handleGetData} disabled={"disabled"}/></label>
                                 <label>Kod pocztowy<input type="text" placeholder={"00-000"}
                                                           value={this.state.clientPostalCode} name={"clientPostalCode"}
                                                           onChange={this.handleGetData} disabled={"disabled"}/></label>

@@ -254,8 +254,8 @@ class CommonData extends React.Component {
         });
 
         console.log(this.state.invoiceId, "id kazdej faktury");
-
-        db.collection("invoice").doc().set({
+let {clientName}=this.state;
+        db.collection("invoice").doc(this.state.clientName).set({
                 invoice: this.state.invoice,
                 invoiceNumber: this.state.invoiceNumber,
                 date: (this.state.date).format('YYYY-MM-DD').toString(),

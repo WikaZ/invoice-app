@@ -410,7 +410,7 @@ class CommonData extends React.Component {
 
                             <div className={"clientData"}>
 
-                                Klient<SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
+                                Klient <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
                                 <label> NIP <input type="text" placeholder={"000-000-00-00"}
                                                    value={this.state.clientNumber}
                                                    name={"clientNumber"}

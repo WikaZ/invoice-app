@@ -86,7 +86,8 @@ class CommonData extends React.Component {
         }
         ,
         accountErrors: [],
-        showPopup: false
+        showPopup: false,
+        invoiceId: 0
     };
 
 // sprawdzamy, czy value w obj error sa puste---> w render
@@ -161,7 +162,7 @@ class CommonData extends React.Component {
         let errors = this.state.errors;
         const {name, value} = e.target;
         console.log('Name: ', name);
-        const validateInvoice = RegExp(/^[a-zA-Z]{2,}$/g);
+        const validateInvoice = RegExp(/^[a-zA-Z 0-9]{2,}$/g);
         const validateNum = RegExp(/^[0-9]{1,}\/|-[0-9]{1,}$/g);
         switch (name) {
             case 'invoice':
@@ -228,15 +229,30 @@ class CommonData extends React.Component {
 
 // open/close new window
     togglePopup = () => {
-        this.setState({
-            showPopup: !this.state.showPopup
-        });
+        this.interval = setTimeout(() => {
+
+            this.setState({
+                showPopup: !this.state.showPopup
+            })
+        }, 3000)
+
+
     }
+
+    componentWillUnmount() {
+        clearTimeout(this.interval)
+    }
+
 // wysylame dane
 
     handlePassData = (e) => {
         e.preventDefault();
         console.log(this.state, "state");
+        this.setState({
+            invoiceId: this.state.invoiceId + 1
+        });
+
+        console.log(this.state.invoiceId, "id kazdej faktury");
 
         db.collection("invoice").doc().set({
                 invoice: this.state.invoice,
@@ -254,7 +270,8 @@ class CommonData extends React.Component {
                 clientAddress: this.state.clientAddress,
                 clientPostalCode: this.state.clientPostalCode,
                 clientSignature: this.state.clientSignature,
-                productInfo: this.state.rowTab
+                productInfo: this.state.rowTab,
+                invoiceId: this.state.invoiceId
                 // product: this.state.product,
                 // qty: this.state.qty,
                 // rate: this.state.rate,
@@ -268,7 +285,8 @@ class CommonData extends React.Component {
             .catch(function (error) {
                 console.error("Error writing document: ", error);
             });
-        this.togglePopup()
+        this.togglePopup();
+
 
     };
 
@@ -511,7 +529,8 @@ class CommonData extends React.Component {
                     }) : null}
                 </div>
                 {this.state.showPopup ?
-                    <InvoicePreview closePopup={this.togglePopup} rowData={this.state.rowTab}/> : null}
+                    <InvoicePreview closePopup={this.togglePopup} productData={this.state.rowTab}
+                                    invoiceId={this.state.invoiceId} myInvoiceData={this.state}/> : null}
             </>
         )
     }

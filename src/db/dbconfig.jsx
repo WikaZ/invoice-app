@@ -17,6 +17,8 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 export var db = firebase.firestore();
+var dbRef = firebase.database().ref("MojeFaktury");
+console.log(dbRef, "dbref");
 
 // wyslat
 // onButtonClickAdd = () => {

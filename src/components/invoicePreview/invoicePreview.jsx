@@ -6,6 +6,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button'
+import {db} from "../../db/dbconfig";
+import *  as firebase from 'firebase';
+import moment from 'moment';
+
 
 class InvoicePreview extends React.Component {
     constructor(props) {
@@ -18,56 +22,91 @@ class InvoicePreview extends React.Component {
             unit: "",
             vat: "",
             subtotal: "",
-            grossPrice: ''
+            grossPrice: '',
+            productData:{},
+            invoice: "",
+            invoiceNumber: "",
+            date: "",
+            address: "",
+            terms: "",
+            businessName: "",
+            businessNumber: "",
+            businessAddress: "",
+            businessPostalCode: "",
+            businessSignature: "",
+            clientName: "",
+            clientNumber: "",
+            clientAddress: "",
+            clientPostalCode: "",
+            clientSignature: ""
+
 
 
         }
     }
+
+    componentDidMount() {
+      let el=  Object.values(this.props.myInvoiceData);
+      console.log(el, "el");
+            this.setState({
+                invoice: el[0],
+                invoiceNumber: el[1],
+                date: el[2].format('YYYY-MM-DD').toString(),
+                address: el[3],
+                terms: el[4].format('YYYY-MM-DD').toString(),
+                businessName: el[5],
+                businessNumber: el[6],
+                businessAddress: el[7],
+                businessPostalCode: el[8],
+                businessSignature: el[9],
+                clientName: el[10],
+                clientNumber: el[11],
+                clientAddress: el[12],
+                clientPostalCode: el[13],
+                clientSignature: el[14],
+                // subtotal:el[],
+                // grossPrice:el[],
+                mainSubtotal:el[22],
+        mainGrossPrice:el[23]
+            })
+        console.log(el.address, "el address");
+
+    }
+
+
+
+
+
+
+
+
 
 
     render() {
 
         return (
             <div className='popup'>
+                <Button variant="dark" onClick={this.props.closePopup}>ZAMKNIJ</Button>
                 <div className='popup_inner'>
 
-                    <Button variant="dark" onClick={this.props.closePopup}>ZAMKNIJ</Button>
 
 
-                    {/*<div>*/}
 
-                    {/*    <table>*/}
-                    {/*        <tbody>*/}
-                    {/*        {this.props.rowData.map((el, i) => {*/}
 
-                    {/*            return (*/}
-                    {/*                <tr style={{color: "blue"}}>*/}
-                    {/*                    <td>{el.product}</td>*/}
-                    {/*                    <td>{el.rate}</td>*/}
-                    {/*                    <td>{el.qty}</td>*/}
-                    {/*                    <td>{el.unit}</td>*/}
-                    {/*                    <td>{el.vat}</td>*/}
-                    {/*                </tr>*/}
-                    {/*            )*/}
-                    {/*        })}*/}
-                    {/*        </tbody>*/}
-                    {/*    </table>*/}
-
-                    {/*</div>*/}
                     <Container style={{
                         fontSize: "12px"
                     }}>
                         <Row style={{marginBottom: "50px"}}>
-                            <Col sm={4} style={{textAlign: "left"}}>Faktura VAT nr: 2019-11-11</Col>
+                            <Col sm={4} style={{textAlign: "left"}}>{this.state.invoice} nr: {this.state.invoiceNumber}</Col>
                             <Col sm={{span: 4, offset: 4}}>LOGO </Col>
 
                         </Row>
                         <Row>
                             <Col sm={5} style={{textAlign: "left"}}>
                                 <ul style={{listStyleType: "none", textAlign: "left"}}>
-                                    <li>Miejsce wystawienia: Wraszawa</li>
-                                    <li>Data wystawienia: 2019-12-12</li>
-                                    <li>Data sprzedaży: 2019-12-01</li>
+                                    <li>Miejsce wystawienia:{this.state.address}</li>
+                                    <li>Data wystawienia: {this.state.date}</li>
+                                    <li>Data sprzedaży: {this.state.terms}</li>
                                 </ul>
                             </Col>
                             <Col> </Col>
@@ -76,11 +115,10 @@ class InvoicePreview extends React.Component {
                             <Col sm={4} style={{textAlign: "left"}}>
                                 <span>Sprzedawca:</span>
                                 <ul style={{listStyleType: "none"}}>
-                                    <li>Nazwa/Firma: Nazwa</li>
-                                    <li>Adres: ul.Jana Kazimierza 28
-                                        01-248, Wraszawa
+                                    <li>Nazwa/Firma: ...</li>
+                                    <li>Adres:... , Wraszawa
                                     </li>
-                                    <li>NIP: 123-123-11-22</li>
+                                    <li>NIP:</li>
                                 </ul>
 
 
@@ -89,11 +127,11 @@ class InvoicePreview extends React.Component {
 
                                 <span>Nabywca: </span>
                                 <ul style={{listStyleType: "none"}}>
-                                    <li>Nazwa/Firma: Nazwa</li>
-                                    <li>Adres: ul.Jana Kazimierza 28
-                                        01-248, Wraszawa
+                                    <li>Nazwa/Firma: {this.state.clientName}</li>
+                                    <li>Adres: <p>{this.state.clientAddress}</p>
+                                        <p>{this.state.clientPostalCode}</p>, Wraszawa
                                     </li>
-                                    <li>NIP: 123-123-11-22</li>
+                                    <li>NIP:  {this.state.clientNumber}</li>
                                 </ul>
                             </Col>
                         </Row>
@@ -115,10 +153,10 @@ class InvoicePreview extends React.Component {
 
                             <tbody>
 
-                                {this.props.rowData.map((el, i) => {
+                                {this.props.productData.map((el, i) => {
 
                                     return (
-                                        <tr style={{color: "blue"}}>
+                                        <tr>
                                             <td>{el.product}</td>
                                             <td>{el.rate}</td>
                                             <td>{el.qty}</td>
@@ -135,9 +173,9 @@ class InvoicePreview extends React.Component {
 
 
                             <tr>
-                                <td colSpan="5"></td>
+                                <td colSpan="5"> </td>
                                 <td>SUMA:</td>
-                                <td>125</td>
+                                <td>{this.state.mainGrossPrice}</td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -147,7 +185,7 @@ class InvoicePreview extends React.Component {
                         <Row>
                             <Col style={{textAlign: "left", backgroundColor: "grey"}}><p
                                 style={{textDecoration: "underline", fontWeight: "bold"}}>Do zapłaty: <span
-                                style={{textDecoration: "none"}}>1230zl</span></p></Col>
+                                style={{textDecoration: "none"}}>{this.state.mainGrossPrice}</span></p></Col>
 
                         </Row>
                         <Row style={{marginTop: "50px"}}>
@@ -168,7 +206,7 @@ class InvoicePreview extends React.Component {
                 </div>
             </div>
         )
-            ;
+
     }
 }
 

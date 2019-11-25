@@ -119,6 +119,7 @@ class InvoicePreview extends React.Component {
                                         </ul>
                                     </li>
                                     <li><span className={"invoiceHeader"}>NIP:</span> {this.state.businessNumber}</li>
+                                    <li><span className={"invoiceHeader"}>Numer konta:</span> {this.state.businessBankAccountNum}</li>
                                 </ul>
 
 

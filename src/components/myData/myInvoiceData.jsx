@@ -5,7 +5,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 class MyInvoiceData extends React.Component {
     passMyInvoiceData = (values) => {
 
-        let el = {... values};
+        let el = {...values};
         console.error(el);
         db.collection("myCompData").doc("myCompanyDataRecord").set(el)
             .then(function () {
@@ -18,9 +18,6 @@ class MyInvoiceData extends React.Component {
     };
 
 
-
-
-
     render() {
 
         return (
@@ -31,9 +28,10 @@ class MyInvoiceData extends React.Component {
                         businessName: '',
                         businessNumber: '',
                         businessAddress: "",
-                        businessCity:"",
+                        businessCity: "",
                         businessPostalCode: "",
-                        businessSignature: ""
+                        businessSignature: "",
+                        businessBankAccountNum: ""
                     }}
 
 
@@ -63,6 +61,11 @@ class MyInvoiceData extends React.Component {
                             errors.businessPostalCode = 'Required';
                         } else if (!/^[0-9]{2}-[0-9]{3}$/g.test(values.businessPostalCode)) {
                             errors.businessPostalCode = 'Nieprawidłowy kod pocztowy';
+                        }
+                        if (!values.businessBankAccountNum) {
+                            errors.businessBankAccountNum = 'Required';
+                        } else if (!/^[0-9]{26}$/g.test(values.businessBankAccountNum)) {
+                            errors.businessBankAccountNum = 'Nice try!';
                         }
 
                         if (!values.businessSignature) {
@@ -186,6 +189,17 @@ class MyInvoiceData extends React.Component {
                                 }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
 
                             </div>
+                            <div className={'myDataInput'}>
+                                <label>Numer konta:<input
+                                    type="text"
+                                    name="businessBankAccountNum"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.businessBankAccountNum}
+                                    placeholder={"numer konta"}
+                                /></label>
+                                {errors.businessBankAccountNum && touched.businessBankAccountNum && errors.businessBankAccountNum}
+                            </div>
                             <div className={'myInvoiceDataSubmit'}>
                                 <button type="submit" disabled={isSubmitting}>
                                     Submit
@@ -205,59 +219,5 @@ class MyInvoiceData extends React.Component {
 
 }
 
-// class MyInvoiceData extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             businessName: "",
-//             businessNumber: "",
-//             businessAddress: "",
-//             businessPostalCode: "",
-//             businessSignature: "",
-//             errors: {
-//
-//                 businessName: "",
-//                 businessNumber: "",
-//                 businessAddress: "",
-//                 businessPostalCode: "",
-//                 businessSignature: ""
-//             }
-//         }
-//     }
-//
-//     handleGetMyData = (e) => {
-//         e.preventDefault();
-//         this.setState={
-//             [e.target.name]: e.currentTarget.value
-//         }
-//
-//     };
-//
-//     render() {
-//         return (
-//             <>
-//                 <div className={"myInvoiceData"}>
-//                     <div className={' myInvoiceDataHeader'}>
-//                         <p> MOJE DANE</p>
-//                     </div>
-//                     <form action="" onSubmit={this.handleGetMyData}>
-//                         <label>Nazwa firmy: <input type="text" placeholder={"Nazwa"}
-//                                                    value={this.state.businessName} name={"businessName"}/></label>
-//                         <label>NIP: <input type="text" placeholder={""} value={this.state.businessNumber}
-//                                            name={"businessNumber"}/></label>
-//                         <label>Adres: <input type="text" placeholder={"000-000-00-00"}
-//                                              value={this.state.businessAddress} name={"businessAddress"}/></label>
-//                         <label>Kod pocztowy: <input type="text" placeholder={"00-000"}
-//                                                     value={this.state.businessPostalCode} name={"businessPostalCode"}/></label>
-//                         <label>Podpis: <input type="text" placeholder={""}
-//                                               value={this.state.businessSignature} name={"businessSignature"}/></label>
-//                         <input type="sumit" value={"ZAPISZ"}/>
-//                     </form>
-//                 </div>
-//             </>
-//         )
-//     }
-//
-// }
 
 export default MyInvoiceData

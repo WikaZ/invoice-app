@@ -49,14 +49,14 @@ class MyInvoiceData extends React.Component {
                         }
                         if (!values.businessNumber) {
                             errors.businessNumber = 'Required';
-                        } else if (!/^[0-9]{1,}\/|-[0-9]{1,}$/g.test(values.businessNumber)) {
-                            errors.businessNumber = 'Invalid business number address';
+                        } else if (!/^[0-9]{10}$/g.test(values.businessNumber)) {
+                            errors.businessNumber = 'Niepoprawny NIP';
                         }
 
                         if (!values.businessAddress) {
                             errors.businessAddress = 'Required';
                         } else if (values.businessAddress.length < 5) {
-                            errors.businessAddress = 'Must be 5 characters or more';
+                            errors.businessAddress = 'Adres musi zawierać więcej niż 5 znaków';
                         }
 
                         if (!values.businessPostalCode) {
@@ -117,6 +117,7 @@ class MyInvoiceData extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.businessName}
+                                    placeholder={"twoja nazwa"}
                                 /></label>
                                 {errors.businessName && touched.businessName && errors.businessName}
                             </div>
@@ -128,6 +129,7 @@ class MyInvoiceData extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.businessNumber}
+                                        placeholder={"000 000 00 00"}
                                     /></label>
                                 {errors.businessNumber && touched.businessNumber && errors.businessNumber}
                             </div>
@@ -139,6 +141,7 @@ class MyInvoiceData extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.businessAddress}
+                                        placeholder={"ulica nr m"}
                                     /></label>
                                 {errors.businessAddress && touched.businessAddress && errors.businessAddress}
                             </div>
@@ -149,6 +152,7 @@ class MyInvoiceData extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.businessPostalCode}
+                                    placeholder={"00-123"}
                                 /></label>
                                 {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
                             </div>
@@ -160,6 +164,7 @@ class MyInvoiceData extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.businessSignature}
+                                        placeholder={"imię nazwisko"}
                                     /></label>
 
 

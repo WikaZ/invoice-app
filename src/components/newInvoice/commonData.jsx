@@ -24,7 +24,7 @@ class CommonData extends React.Component {
         invoice: "Faktura",
         invoiceNumber: "01/2019",
         date: moment("2019-01-01", "YYYY-MM-DD"),
-        address: "Jk",
+        address: "Warszawa",
         terms: moment("2019-01-01", "YYYY-MM-DD"),
         businessName: "",
         businessNumber: "",
@@ -254,8 +254,8 @@ class CommonData extends React.Component {
         });
 
         console.log(this.state.invoiceId, "id kazdej faktury");
-let {clientName}=this.state;
-        db.collection("invoice").doc(this.state.clientName).set({
+
+        db.collection("invoice").doc(this.state.clientNumber).set({
                 invoice: this.state.invoice,
                 invoiceNumber: this.state.invoiceNumber,
                 date: (this.state.date).format('YYYY-MM-DD').toString(),
@@ -274,11 +274,7 @@ let {clientName}=this.state;
                 clientSignature: this.state.clientSignature,
                 productInfo: this.state.rowTab,
                 invoiceId: this.state.invoiceId
-                // product: this.state.product,
-                // qty: this.state.qty,
-                // rate: this.state.rate,
-                // unit: this.state.unit,
-                // vat: this.state.vat
+
             }
         )
             .then(function () {
@@ -372,6 +368,8 @@ let {clientName}=this.state;
     render() {
         const date = new Date();
         const month = date.getMonth();
+
+        console.log(month , "miesiac teraz")
         const year = date.getFullYear();
         return (
             <>

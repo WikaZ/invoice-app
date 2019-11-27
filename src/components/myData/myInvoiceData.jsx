@@ -144,7 +144,7 @@ class MyInvoiceData extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.businessNumber}
-                                        placeholder={"000 000 00 00"}
+                                        placeholder={"0000000000"}
                                     /></label>
                                 {errors.businessNumber && touched.businessNumber && errors.businessNumber}
                             </div>

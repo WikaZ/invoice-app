@@ -6,6 +6,11 @@ import {AgGridReact} from '@ag-grid-community/react';
 import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
+import AddClientForm from './addClient'
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import {db} from "../../db/dbconfig";
+
 
 function columnDef(headerName, fieldName, sortable, filter, checkboxSelection, editable, width) {
     return {
@@ -23,6 +28,7 @@ class ClientsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showPopUp: false,
             columnDefs: [
                 columnDef("Nabywca", "clientName", true, true, true, true, 100),
                 columnDef("NIP", "clientNumber", true, true, false, true, 100),
@@ -34,73 +40,42 @@ class ClientsList extends Component {
 
             ],
             // tylko przyklad, pozniej usunac
-            rowData: [{
-                invoice: "Faktura ",
-                invoiceNumber: "01/2019",
-                date: "12-12-2010",
-                address: "Jk",
-                terms: "12.01.2011",
-                businessName: "Al",
-                businessNumber: "000000000",
-                businessAddress: "SK",
-                businessPostalCode: "01-248",
-                businessSignature: "Ola",
-                clientName: "Karamelka",
-                clientNumber: "000111111",
-                clientAddress: "Hr",
-                clientCity:"NY",
-                clientPostalCode: "00-235",
-                clientSignature: " Kar"
-
-            },
-                {
-                    invoice: "Faktura ",
-                    invoiceNumber: "10/2019",
-                    date: "13-12-2010",
-                    address: "KJ",
-                    terms: "13.01.2011",
-                    businessName: "Kl",
-                    businessNumber: "000000000",
-                    businessAddress: "SK",
-                    businessPostalCode: "01-248",
-                    businessSignature: "Ola",
-                    clientName: "Korzhyk",
-                    clientNumber: "000111111",
-                    clientAddress: "Ko",
-                    clientCity:"NY",
-                    clientPostalCode: "00-235",
-                    clientSignature: " Ko"
-
-
-                },
-                {
-                    invoice: "Faktura ",
-                    invoiceNumber: "10/2019",
-                    date: "13-12-2010",
-                    address: "KJ",
-                    terms: "13.01.2011",
-                    businessName: "Kl",
-                    businessNumber: "000000000",
-                    businessAddress: "SK",
-                    businessPostalCode: "01-248",
-                    businessSignature: "Ola",
-                    clientName: "Kompot",
-                    clientNumber: "000111111",
-                    clientAddress: "Hr",
-                    clientCity:"NY",
-                    clientPostalCode: "00-235",
-                    clientSignature: " Kom"
-
-
-                }]
+            rowData: this.createRowData(),
         }
 
     }
 
+    createRowData = () => {
+        this.reloadTable();
+        console.log('Finished row data');
+        return [];
+    };
+    // set row
+    reloadTable = () => {
 
-    // fn dla onClick na selected row
-    onButtonClick = () => {
-        console.log("mam wszystkie dane tej faktury");
+        db.collection('clients').get().then(
+            querySnapshot => {
+                let rowData = [];
+                querySnapshot.docs.forEach(doc => {
+                    console.log('clientsData: ', doc.data());
+                    rowData.push(doc.data());
+                });
+                this.setState({
+                    rowData: rowData
+                });
+            }
+        );
+
+
+    };
+
+
+
+    handleTogglePopup = () => {
+        this.setState({
+                showPopUp: !this.state.showPopUp
+            }
+        )
     };
 // Here, we replaced the rowData assignment in the constructor with a data fetch from a remote service
     // componentDidMount() {
@@ -132,24 +107,31 @@ class ClientsList extends Component {
 
     render() {
         return (
-            <div
-                className="ag-theme-balham mainTable"
-                style={{
-                    height: '100vh',
-                    width: '100vw'
-                }}
-            >
-                <button onClick={this.onButtonClick}>Get selected rows</button>
-                <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
-                <AgGridReact
-                    columnDefs={this.state.columnDefs}
-                    rowData={this.state.rowData}
-                    modules={AllCommunityModules}
-                    rowSelection="single"
-                    onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
-                </AgGridReact>
+            <>
+
+                <div
+                    className="ag-theme-balham mainTable"
+                    style={{
+                        height: '100vh',
+                        width: '100vw'
+                    }}
+
+                >
+
+                    <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
+                        <Button variant="secondary"
+                                onClick={this.handletogglePopup}>Dodaj klienta</Button>
+                        <AgGridReact
+                            columnDefs={this.state.columnDefs}
+                            rowData={this.state.rowData}
+                            modules={AllCommunityModules}
+                            rowSelection="single"
+                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                        </AgGridReact>
                     </div>
-            </div>
+                </div>
+                {this.state.showPopUp && <AddClientForm  handletogglePopup={this.handleTogglePopup}/>}
+            </>
         );
     }
 }

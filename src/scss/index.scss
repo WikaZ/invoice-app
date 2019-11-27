@@ -18,6 +18,11 @@ $main-nav-color: #aaa000;
 @mixin btn{
 color:white;
 }
+@mixin popup{
+  background-color: white;
+  border: 1px solid darkgreen;
+  position: absolute;
+}
 
 body {
   width: 100% !important;
@@ -151,11 +156,10 @@ width:70%;
   position: relative;
 }
 .popup {
+  @include popup;
   width:40vw;
   height: 80vh;
-  background-color: white;
-  border: 1px solid darkgreen;
-  position: absolute;
+
   top:10vh;
   left:30vw;
 }
@@ -164,4 +168,14 @@ width:70%;
 }
 .underlineText{
   border-top: 1px solid black;
+}
+
+.addClientForm{
+  @include popup;
+  width:30vw;
+  height: 40vh;
+
+  top:30vh;
+  left:35vw;
+
 }

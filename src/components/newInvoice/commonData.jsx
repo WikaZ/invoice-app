@@ -22,16 +22,20 @@ class CommonData extends React.Component {
 
     initialState = {
         invoice: "Faktura",
-        invoiceNumber: "01/2019",
-        date: moment("2019-01-01", "YYYY-MM-DD"),
+        invoiceNumber: moment().format("MM/YYYY"),
+        // "01/2019",
+        date: moment(new Date())
+        // moment("2019-01-01", "YYYY-MM-DD")
+        ,
         address: "Warszawa",
-        terms: moment("2019-01-01", "YYYY-MM-DD"),
+        terms: moment(new Date()),
+        // moment("2019-01-01", "YYYY-MM-DD"),
         businessName: "",
         businessNumber: "",
         businessAddress: "",
         businessPostalCode: "",
         businessSignature: "",
-        clientName: "",
+        clientName: "lista klientów",
         clientNumber: "",
         clientAddress: "",
         clientPostalCode: "",
@@ -134,12 +138,29 @@ class CommonData extends React.Component {
         this.setState(stateChange);
     };
 
-// dane z komponentu selectOr TypeClient
+    pickUnknownClient = (arg) => {
+        return !arg;
+    };
+
+
+// dane z komponentu selectOrTypeClient
     handlePassClientName = (arg) => {
-        console.log(arg, "handlePassClientName przekazany arg", arg);
-        this.setState({
-            ...arg
-        })
+
+        if (this.pickUnknownClient(arg)) {
+            console.log("nic nie wybrales, pusty wiersz z danymi klienta");
+            this.setState({
+                clientName: "",
+                clientNumber: "",
+                clientAddress: "",
+                clientCity: '',
+                clientPostalCode: "",
+                clientSignature: ""
+            });
+        } else {
+            console.log("handlePassClientName przekazany arg", arg);
+            this.setState(arg)
+        }
+
     };
 
     handlePassVat = (i, arg) => {
@@ -369,7 +390,7 @@ class CommonData extends React.Component {
         const date = new Date();
         const month = date.getMonth();
 
-        console.log(month , "miesiac teraz")
+        console.log(month, "miesiac teraz")
         const year = date.getFullYear();
         return (
             <>
@@ -391,7 +412,7 @@ class CommonData extends React.Component {
                             <div className={'formDate'}>
                                 <label>Data wystawienia
                                     <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
-                                                onChange={this.handleChangeDate}/>
+                                                onChange={this.handleChangeDate} placeholder={"RRRR-MM-DD"}/>
                                 </label>
                             </div>
                             <div className={'formAddress'}>

@@ -35,6 +35,8 @@ class InvoicePreview extends React.Component {
             businessCity: "",
             businessPostalCode: "",
             businessSignature: "",
+            businessLogo: "",
+
             clientName: "",
             clientNumber: "",
             clientAddress: "",
@@ -58,6 +60,7 @@ class InvoicePreview extends React.Component {
             terms: el.terms.format('YYYY-MM-DD').toString()
         });
         console.log(el.address, "el address");
+
 // wszystkie dane mojej firmy:
         db.collection('myCompData').doc("myCompanyDataRecord").get().then(
             doc => {
@@ -90,7 +93,7 @@ class InvoicePreview extends React.Component {
                                      fontSize: "18px",
                                      fontWeight: "bold"
                                  }}>{this.state.invoice} nr: {this.state.invoiceNumber}</Col>
-                            <Col sm={{span: 4, offset: 4}}>LOGO </Col>
+                            <Col sm={{span: 4, offset: 4}}>{this.state.businessLogo}</Col>
 
                         </Row>
                         <Row>
@@ -119,7 +122,9 @@ class InvoicePreview extends React.Component {
                                         </ul>
                                     </li>
                                     <li><span className={"invoiceHeader"}>NIP:</span> {this.state.businessNumber}</li>
-                                    <li><span className={"invoiceHeader"}>Numer konta:</span> {this.state.businessBankAccountNum}</li>
+                                    <li><span
+                                        className={"invoiceHeader"}>Numer konta:</span> {this.state.businessBankAccountNum}
+                                    </li>
                                 </ul>
 
 

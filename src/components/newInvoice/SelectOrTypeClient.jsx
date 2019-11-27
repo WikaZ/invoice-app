@@ -56,7 +56,7 @@ class SelectOrTypeClient extends React.Component {
             <>
 
                 <select name="clientName" id="" value={this.state.currentUserVal} onChange={this.handleGetInputValue}>
-                    <option  selected value> -- lista klientów -- </option>
+                    <option  selected value> lista klientów</option>
                     {this.state.rowData.map((el, i) => {
                         return (
                             <option key={i} value={i} >{el.clientName}</option>

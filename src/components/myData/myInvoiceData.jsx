@@ -3,6 +3,12 @@ import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 
 class MyInvoiceData extends React.Component {
+    constructor(props) {
+        super(props);
+        // this.fileInput = React.createRef();
+
+    }
+
     passMyInvoiceData = (values) => {
 
         let el = {...values};
@@ -18,6 +24,7 @@ class MyInvoiceData extends React.Component {
     };
 
 
+
     render() {
 
         return (
@@ -31,13 +38,17 @@ class MyInvoiceData extends React.Component {
                         businessCity: "",
                         businessPostalCode: "",
                         businessSignature: "",
-                        businessBankAccountNum: ""
+                        businessBankAccountNum: "",
+                        businessLogo: ""
                     }}
 
 
                     validate={values => {
                         let errors = {};
                         if (!values.businessName) {
+                            errors.businessName = 'Proszę wpisac imię';
+                        }
+                        if (!values.businessLogo) {
                             errors.businessName = 'Proszę wpisac imię';
                         }
                         if (!values.businessNumber) {
@@ -107,6 +118,7 @@ class MyInvoiceData extends React.Component {
                           errors,
                           touched,
                           handleChange,
+                          onImageChange,
                           handleBlur,
                           handleSubmit,
                           isSubmitting,
@@ -172,11 +184,22 @@ class MyInvoiceData extends React.Component {
                                 {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
                             </div>
                             <div className={'myDataInput'}>
+                                <label>Dodaj logo: <input
+                                    type="file"
+                                    name="businessLogo"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    ref={this.fileInput}
+
+                                /></label>
+                                {errors.businessLogo && touched.businessLogo && errors.businessLogo}
+                            </div>
+                            <div className={'myDataInput'}>
                                 <label>Podpis:
                                     <input
                                         type="text"
                                         name="businessSignature"
-                                        onChange={handleChange}
+                                        onChange={onImageChange}
                                         onBlur={handleBlur}
                                         value={values.businessSignature}
                                         placeholder={"imię nazwisko"}

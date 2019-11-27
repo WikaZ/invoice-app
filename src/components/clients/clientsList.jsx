@@ -77,12 +77,6 @@ class ClientsList extends Component {
             }
         )
     };
-// Here, we replaced the rowData assignment in the constructor with a data fetch from a remote service
-    // componentDidMount() {
-    //     fetch('https://api.myjson.com/bins/15psn9')
-    //         .then(result => result.json())
-    //         .then(rowData => this.setState({rowData}))
-    // }
 
     // szerokosc tabelki
     onGridSizeChanged(params) {
@@ -120,7 +114,7 @@ class ClientsList extends Component {
 
                     <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
                         <Button variant="secondary"
-                                onClick={this.handletogglePopup}>Dodaj klienta</Button>
+                                onClick={this.handleTogglePopup}>Dodaj klienta</Button>
                         <AgGridReact
                             columnDefs={this.state.columnDefs}
                             rowData={this.state.rowData}
@@ -130,7 +124,7 @@ class ClientsList extends Component {
                         </AgGridReact>
                     </div>
                 </div>
-                {this.state.showPopUp && <AddClientForm  handletogglePopup={this.handleTogglePopup}/>}
+                {this.state.showPopUp && <AddClientForm  handleTogglePopup={this.handleTogglePopup}/>}
             </>
         );
     }

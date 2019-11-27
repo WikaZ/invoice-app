@@ -1,8 +1,11 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const os = require('os');
-const inDevelopmentMode = (process.env.MODE === 'dev')
+const inDevelopmentMode = (process.env.MODE === 'dev');
 
+
+
+// © 2019 GitHub, Inc.
 // Main window reference
 let mainWindow = null;
 
@@ -13,8 +16,8 @@ let mainWindow = null;
 function createWindow() {
 	// Configure our main window
 	mainWindow = new BrowserWindow({
-		width:600,
-		height:400
+		width:900,
+		height:600
 	});
 	// Display developer tools
 	if (inDevelopmentMode) {

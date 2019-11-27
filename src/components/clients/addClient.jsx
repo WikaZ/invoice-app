@@ -1,6 +1,7 @@
 import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
+import Button from "react-bootstrap/Button";
 
 class AddClientForm extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class AddClientForm extends React.Component {
 
         return (
             <div className={"addClientForm"}>
-                <h1>Moje dane:</h1>
+                <h1>Dane nowego klienta:</h1>
                 <Formik
                     initialValues={{
                         clientName: '',
@@ -196,8 +197,9 @@ class AddClientForm extends React.Component {
 
                             <div className={'myInvoiceDataSubmit'}>
                                 <button type="submit" disabled={isSubmitting}>
-                                    Submit
+                                  Zapisz
                                 </button>
+
                             </div>
 
 

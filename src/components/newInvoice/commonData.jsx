@@ -10,7 +10,9 @@ import AddNewRowProdData from "./addNewRowProdData"
 import moment from 'moment';
 import InvoicePreview from '../invoicePreview/invoicePreview';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
 
 
 class CommonData extends React.Component {
@@ -394,171 +396,194 @@ class CommonData extends React.Component {
         const year = date.getFullYear();
         return (
             <>
-                <div className={"mainDashboard"}>
-                    <form action="" onSubmit={this.handleValidateData}>
-                        <div className={'formWrapper'}>
-                            <div className={'commonInvoiceData'}>
-                                <label> Dokument
-                                    <input type="text" placeholder={"faktura"} value={this.state.invoice}
-                                           name={"invoice"} onChange={this.handleGetData} required/>
-                                </label>
-                            </div>
-                            <div className={'formInvoiceNumber'}>
-                                <label> Numer
-                                    <input type="text" placeholder={`${month}/${year}`} value={this.state.invoiceNumber}
-                                           name={"invoiceNumber"} onChange={this.handleGetData} required/>
-                                </label>
-                            </div>
-                            <div className={'formDate'}>
-                                <label>Data wystawienia
-                                    <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
-                                                onChange={this.handleChangeDate} placeholder={"RRRR-MM-DD"}/>
-                                </label>
-                            </div>
-                            <div className={'formAddress'}>
-                                <label>Miejsce wystawienia
-                                    <input type="text" value={this.state.address} name={"address"}
-                                           onChange={this.handleGetData} required/>
-                                </label>
-                            </div>
-                            <div className={'formTerms'}>
-                                <label>Data sprzedaży
-                                    <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
-                                                onChange={this.handleChangeTerms}/>
-                                </label>
-                            </div>
+            <div className={"mainDashboard"}>
 
+                <form action="" onSubmit={this.handleValidateData}>
 
-                            <div className={"clientData"}>
+                    <div className={'formWrapper'}>
+                        <Container>
+                            <Row>
+                                <div className={'commonInvoiceData'}>
 
-                                Klient <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
-                                <label> NIP <input type="text" placeholder={"000-000-00-00"}
-                                                   value={this.state.clientNumber}
-                                                   name={"clientNumber"}
-                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Adres<input type="text" placeholder={"ulica, nr, m"}
-                                                   value={this.state.clientAddress}
-                                                   name={"clientAddress"}
-                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
-
-                                <label>Miasto<input type="text" placeholder={"nazwa miejscowości"}
-                                                    value={this.state.clientCity}
-                                                    name={"clientCity"}
-                                                    onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Kod pocztowy<input type="text" placeholder={"00-000"}
-                                                          value={this.state.clientPostalCode} name={"clientPostalCode"}
-                                                          onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Podpis<input type="text" value={this.state.clientSignature}
-                                                    name={"clientSignature"} onChange={this.handleGetData}
-                                                    disabled={"disabled"}/></label>
-                            </div>
-                            <div className={"itemDescription"}>
-                                <div>
-                                    <table>
-                                        <thead className={"description"}>
-                                        <tr>
-                                            <th>Nazwa usługi</th>
-                                            <th>Cena</th>
-                                            <th>Ilość</th>
-                                            <th>Jednostka miary</th>
-                                            <th>Stawka VAT</th>
-                                            <th>Kwota faktury Netto</th>
-                                            <th>Kwota faktury Brutto</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
-                                            this.state.rowTab.map((el, i) => {
-
-                                                return (
-                                                    <>
-                                                        <tr key={i}>
-                                                            <td><input type="text" value={el.product} name={"product"}
-                                                                       onChange={this.getModifyFunction(i, "product")}
-                                                                       placeholder={'Nazwa usługi'}/></td>
-                                                            <td><input type="text" value={el.rate} name={"rate"}
-                                                                       onChange={this.getModifyFunction(i, "rate")}
-                                                                       placeholder={"00 zl"}/></td>
-                                                            <td><input type="number" min={"0"} value={el.qty}
-                                                                       name={"qty"}
-                                                                       onChange={this.getModifyFunction(i, "qty")}/>
-                                                            </td>
-                                                            <td><input type="text" value={el.unit} name={"unit"}
-                                                                       onChange={this.getModifyFunction(i, "unit")}
-                                                                       placeholder={'szt/g'}/></td>
-                                                            <SelectVat handlePassVat={(e) => this.handlePassVat(i, e)}
-                                                                       vatData={[23, 8, 5, 0]}/>
-
-                                                            <td><input type="text" value={el.subtotal} name={"subtotal"}
-                                                            /></td>
-                                                            <td><input type="text" value={el.grossPrice}
-                                                                       name={"grossPrice"}
-                                                            /></td>
-                                                        </tr>
-                                                    </>
-                                                )
-                                            })}
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>SUMA NETTO:</th>
-                                            <th><input type="text" value={this.state.mainSubtotal}/></th>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>SUMA :</th>
-                                            <th><input type="text" value={this.state.mainGrossPrice}/></th>
-                                        </tr>
-
-                                        </tfoot>
-                                    </table>
-
+                                    <label> Dokument
+                                        <input type="text" placeholder={"faktura"} value={this.state.invoice}
+                                               name={"invoice"} onChange={this.handleGetData} required/>
+                                    </label>
                                 </div>
-                            </div>
-                            < div className={"btnGroup"}>
-                                <ButtonGroup>
-                                    <Button className={this.state.isActive} variant="secondary"
-                                            onClick={this.handlePassData}>Pokaż fakturę</Button>
-                                    <Button variant="secondary"
-                                            onClick={this.AddSubtotal}>Policz</Button>
-                                    <Button variant="secondary"
-                                            onClick={this.handleAddRow}>Dodaj wiersz</Button>
-                                </ButtonGroup>
-                            </div>
+                            </Row>
+                            <Row>
+                                <div className={'formInvoiceNumber'}>
+                                    <label> Numer
+                                        <input type="text" placeholder={`${month}/${year}`}
+                                               value={this.state.invoiceNumber}
+                                               name={"invoiceNumber"} onChange={this.handleGetData} required/>
+                                    </label>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className={'formDate'}>
+                                    <label>Data wystawienia
+                                        <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
+                                                    onChange={this.handleChangeDate} placeholder={"RRRR-MM-DD"}/>
+                                    </label>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className={'formAddress'}>
+                                    <label>Miejsce wystawienia
+                                        <input type="text" value={this.state.address} name={"address"}
+                                               onChange={this.handleGetData} required/>
+                                    </label>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className={'formTerms'}>
+                                    <label>Data sprzedaży
+                                        <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
+                                                    onChange={this.handleChangeTerms}/>
+                                    </label>
+                                </div>
+                            </Row>
+                        </Container>
+
+
+                        <div className={"clientData"}>
+
+                            Klient <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
+                            <label> NIP <input type="text" placeholder={"000-000-00-00"}
+                                               value={this.state.clientNumber}
+                                               name={"clientNumber"}
+                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
+                            <label>Adres<input type="text" placeholder={"ulica, nr, m"}
+                                               value={this.state.clientAddress}
+                                               name={"clientAddress"}
+                                               onChange={this.handleGetData} disabled={"disabled"}/></label>
+
+                            <label>Miasto<input type="text" placeholder={"nazwa miejscowości"}
+                                                value={this.state.clientCity}
+                                                name={"clientCity"}
+                                                onChange={this.handleGetData} disabled={"disabled"}/></label>
+                            <label>Kod pocztowy<input type="text" placeholder={"00-000"}
+                                                      value={this.state.clientPostalCode} name={"clientPostalCode"}
+                                                      onChange={this.handleGetData} disabled={"disabled"}/></label>
+                            <label>Podpis<input type="text" value={this.state.clientSignature}
+                                                name={"clientSignature"} onChange={this.handleGetData}
+                                                disabled={"disabled"}/></label>
                         </div>
-                    </form>
+                    </div>
 
-                    {this.state.accountErrors.map((el, i) => {
-                        return (
-                            <p>{el}</p>
-                        )
-                    })}
+                    <div className={"itemDescription"}>
+                        <div>
+                            <table>
+                                <thead className={"description"}>
+                                <tr>
+                                    <th>Nazwa usługi</th>
+                                    <th>Cena</th>
+                                    <th>Ilość</th>
+                                    <th>Jednostka miary</th>
+                                    <th>Stawka VAT</th>
+                                    <th>Kwota faktury Netto</th>
+                                    <th>Kwota faktury Brutto</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {/*/////////////////////////////////////*dodajemy nowy wiersz*/////////////////////////////////////////////*/}
+                                    this.state.rowTab.map((el, i) => {
+
+                                        return (
+                                            <>
+                                                <tr key={i}>
+                                                    <td><input type="text" value={el.product} name={"product"}
+                                                               onChange={this.getModifyFunction(i, "product")}
+                                                               placeholder={'Nazwa usługi'}/></td>
+                                                    <td><input type="text" value={el.rate} name={"rate"}
+                                                               onChange={this.getModifyFunction(i, "rate")}
+                                                               placeholder={"00 zl"}/></td>
+                                                    <td><input type="number" min={"0"} value={el.qty}
+                                                               name={"qty"}
+                                                               onChange={this.getModifyFunction(i, "qty")}/>
+                                                    </td>
+                                                    <td><input type="text" value={el.unit} name={"unit"}
+                                                               onChange={this.getModifyFunction(i, "unit")}
+                                                               placeholder={'szt/g'}/></td>
+                                                    <SelectVat handlePassVat={(e) => this.handlePassVat(i, e)}
+                                                               vatData={[23, 8, 5, 0]}/>
+
+                                                    <td><input type="text" value={el.subtotal} name={"subtotal"}
+                                                    /></td>
+                                                    <td><input type="text" value={el.grossPrice}
+                                                               name={"grossPrice"}
+                                                    /></td>
+                                                </tr>
+                                            </>
+                                        )
+                                    })}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>SUMA NETTO:</th>
+                                    <th><input type="text" value={this.state.mainSubtotal}/></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>SUMA :</th>
+                                    <th><input type="text" value={this.state.mainGrossPrice}/></th>
+                                </tr>
+
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                    < div className={"btnGroup"}>
+                        <ButtonGroup>
+                            <Button className={this.state.isActive} variant="secondary"
+                                    onClick={this.handlePassData}>Pokaż fakturę</Button>
+                            <Button variant="secondary"
+                                    onClick={this.AddSubtotal}>Policz</Button>
+                            <Button variant="secondary"
+                                    onClick={this.handleAddRow}>Dodaj wiersz</Button>
+                        </ButtonGroup>
+                    </div>
+            </form>
+            </div>
 
 
-                    {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
-                        return (
-
-                            <p key={i} style={{listStyleType: "none"}}> {el}</p>
-
-                        )
-                    }) : null}
-                </div>
-                {this.state.showPopup ?
-                    <InvoicePreview closePopup={this.togglePopup} productData={this.state.rowTab}
-                                    invoiceId={this.state.invoiceId} myInvoiceData={this.state}/> : null}
-            </>
+    {this.state.accountErrors.map((el, i) => {
+        return (
+            <p>{el}</p>
         )
+    })}
+
+
+    {!this.state.isShow ? Object.values(this.state.errors).filter(el => !this.isEmpty(el)).map((el, i) => {
+        return (
+
+            <p key={i} style={{listStyleType: "none"}}> {el}</p>
+
+        )
+    }) : null}
+
+
+        {
+            this.state.showPopup ?
+                <InvoicePreview closePopup={this.togglePopup} productData={this.state.rowTab}
+                                invoiceId={this.state.invoiceId} myInvoiceData={this.state}/> : null
+        }
+
+    </>
+    )
     }
 
 

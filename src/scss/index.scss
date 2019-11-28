@@ -72,7 +72,7 @@ nav {
 }
 
 //form
-.formWrapper {
+.mainDashboard {
   margin-top: 100px;
 }
 
@@ -164,7 +164,11 @@ width:70%;
   left:30vw;
 }
 
-
+.popupBackground{
+  width:100%;
+  height: 100%;
+  background-color: rgba(21, 107, 14, 0.5);
+}
 
 @media (max-width: 1500px)  {
 
@@ -182,8 +186,7 @@ width:70%;
   .popup{
     width:100vw;
     height: 100vh;
-    top:0;
-    left:0;
+
 
   }
 }

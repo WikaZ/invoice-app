@@ -11,9 +11,6 @@ import *  as firebase from 'firebase';
 import moment from 'moment';
 
 
-
-
-
 class InvoicePreview extends React.Component {
     constructor(props) {
         super(props);
@@ -86,7 +83,7 @@ class InvoicePreview extends React.Component {
                 <div className='popup_inner'>
 
 
-                    <Container style={{
+                    <Container fluid={true} style={{
                         fontSize: "12px"
                     }}>
                         <Row style={{marginBottom: "50px"}}>
@@ -151,50 +148,52 @@ class InvoicePreview extends React.Component {
                                 </ul>
                             </Col>
                         </Row>
-                        <Table style={{padding: "14px"}} bordered>
+                        <Row style={{margin: "0"}} width={"auto"}>
+                            <Table style={{padding: "14px"}} bordered size="sm">
 
 
-                            <thead style={{backgroundColor: "grey", color: "white"}}>
+                                <thead style={{backgroundColor: "grey", color: "white"}}>
 
-                            <tr>
-                                <th>Nazwa usługi</th>
-                                <th>Cena</th>
-                                <th>Ilość</th>
-                                <th>Jednostka miary</th>
-                                <th>Stawka VAT</th>
-                                <th>Kwota Netto</th>
-                                <th>Kwota Brutto</th>
-                            </tr>
-                            </thead>
+                                <tr>
+                                    <th>Nazwa usługi</th>
+                                    <th>Cena</th>
+                                    <th>Ilość</th>
+                                    <th>Jednostka miary</th>
+                                    <th>Stawka VAT</th>
+                                    <th>Kwota Netto</th>
+                                    <th>Kwota Brutto</th>
+                                </tr>
+                                </thead>
 
-                            <tbody>
+                                <tbody>
 
-                            {this.props.productData.map((el, i) => {
+                                {this.props.productData.map((el, i) => {
 
-                                return (
-                                    <tr>
-                                        <td>{el.product}</td>
-                                        <td>{el.rate}</td>
-                                        <td>{el.qty}</td>
-                                        <td>{el.unit}</td>
-                                        <td>{el.vat}</td>
-                                        <td>{el.subtotal}</td>
-                                        <td>{el.grossPrice}</td>
-                                    </tr>
-                                )
-                            })}
+                                    return (
+                                        <tr>
+                                            <td>{el.product}</td>
+                                            <td>{el.rate}</td>
+                                            <td>{el.qty}</td>
+                                            <td>{el.unit}</td>
+                                            <td>{el.vat}</td>
+                                            <td>{el.subtotal}</td>
+                                            <td>{el.grossPrice}</td>
+                                        </tr>
+                                    )
+                                })}
 
 
-                            <tr>
-                                <td colSpan="5"></td>
-                                <td>SUMA:</td>
-                                <td>{this.state.mainGrossPrice}</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
+                                <tr>
+                                    <td colSpan="5"></td>
+                                    <td>SUMA:</td>
+                                    <td>{this.state.mainGrossPrice}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
 
-                            </tfoot>
-                        </Table>
+                                </tfoot>
+                            </Table>
+                        </Row>
                         <Row style={{margin: "0"}}>
                             <Col style={{textAlign: "left", backgroundColor: "grey"}}><p
                                 style={{textDecoration: "underline", fontWeight: "bold", padding: "0", margin: "0"}}>Do

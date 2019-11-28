@@ -36,6 +36,7 @@ class ClientsList extends Component {
                 columnDef("Miasto", "clientCity", true, true, false, true, 100),
                 columnDef("Kod Pocztowy", "clientPostalCode", true, true, false, true, 100),
                 columnDef("Podpis", "clientSignature", true, true, false, true, 100),
+                columnDef(" ", "showPreview", true, true, false, true, 100),
 
 
             ],
@@ -46,13 +47,13 @@ class ClientsList extends Component {
     }
 
     createRowData = () => {
+
         this.reloadTable();
         console.log('Finished row data');
         return [];
     };
     // set row
     reloadTable = () => {
-
         db.collection('clients').get().then(
             querySnapshot => {
                 let rowData = [];
@@ -60,7 +61,9 @@ class ClientsList extends Component {
                     console.log('clientsData: ', doc.data());
                     rowData.push(doc.data());
                 });
+
                 this.setState({
+
                     rowData: rowData
                 });
             }
@@ -69,7 +72,13 @@ class ClientsList extends Component {
 
     };
 
-
+    getLastSelectedNode(){
+        let rows = gridApi.getSelectedRows();
+        if(rows.length > 0)
+            console.log(rows[rows.length - 1]);
+        else
+            console.log('No rows selected');
+    }
 
     handleTogglePopup = () => {
         this.setState({
@@ -99,6 +108,8 @@ class ClientsList extends Component {
         params.api.sizeColumnsToFit();
     }
 
+
+
     render() {
         return (
             <>
@@ -120,7 +131,9 @@ class ClientsList extends Component {
                             rowData={this.state.rowData}
                             modules={AllCommunityModules}
                             rowSelection="single"
-                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}>
+                            onGridSizeChanged={this.onGridSizeChanged.bind(this)}
+                            onSelectionChanged={this.getLastSelectedNode.bind(this)}
+                         >
                         </AgGridReact>
                     </div>
                 </div>

@@ -19,6 +19,7 @@
     "bootstrap": "^4.3.1",
     "firebase": "^7.3.0",
     "formik": "^2.0.4",
+    "mdbreact": "^4.23.0",
     "moment": "^2.24.0",
     "path": "^0.12.7",
     "react": "^16.6.3",

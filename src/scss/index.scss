@@ -163,6 +163,36 @@ width:70%;
   top:10vh;
   left:30vw;
 }
+
+
+
+@media (max-width: 1500px)  {
+
+  .popup{
+    width:55vw;
+    //height: 70vh;
+    top:15vh;
+    left:22vw;
+
+  }
+}
+
+@media (max-width: 1000px) {
+
+  .popup{
+    width:100vw;
+    height: 100vh;
+    top:0;
+    left:0;
+
+  }
+}
+
+
+
+.popup_inner{
+  margin-bottom: 50px;
+}
 .invoiceHeader{
   font-weight: bold;
 }

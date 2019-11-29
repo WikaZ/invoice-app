@@ -399,93 +399,159 @@ class CommonData extends React.Component {
         const year = date.getFullYear();
         return (
             <>
-                <div className={"mainDashboard"}>
+                <Container className={"mainDashboard"}>
 
                     <form action="" onSubmit={this.handleValidateData}>
 
                         <div className={'formWrapper'}>
-                            <Container>
-                                <Row>
+                            <Row>
+                                <Col lg={5} sm={12}>
+                                    <Container>
+                                        <Row>
 
 
-                                    <Col xs={4} lg={4} className={"colStyle"}><label htmlFor={"name"}>Dokument</label></Col>
-                                    <Col xs={4} lg={4} className={"mainFormInput"}> <input type="text" placeholder={"faktura"} value={this.state.invoice}
-                                                        name={"invoice"} id={"name"} onChange={this.handleGetData}
-                                                        required/>
-                                    </Col>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"name"}>Dokument</label></Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}> <input type="text"
+                                                                                                   placeholder={"faktura"}
+                                                                                                   value={this.state.invoice}
+                                                                                                   name={"invoice"}
+                                                                                                   id={"name"}
+                                                                                                   onChange={this.handleGetData}
+                                                                                                   required/>
+                                            </Col>
 
 
-                                </Row>
-                                <Row>
+                                        </Row>
+                                        <Row>
 
-                                    <Col xs={4} lg={4} className={"colStyle"}><label htmlFor={"number"}> Numer
-                                    </label>
-                                    </Col>
-                                    <Col xs={4} lg={4} className={"mainFormInput"}>
-                                        <input type="text" placeholder={`${month}/${year}`}
-                                               value={this.state.invoiceNumber}
-                                               name={"invoiceNumber"} id={"number"} onChange={this.handleGetData}
-                                               required/>
-                                    </Col>
-
-
-                                </Row>
-                                <Row>
-                                    <Col xs={4}  lg={4} className={"colStyle"}><label htmlFor={"date"}>Data wystawienia </label>
-                                    </Col>
-                                    <Col xs={4} lg={4} className={"mainFormInput"}>
-                                        <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
-                                                    id={"date "} onChange={this.handleChangeDate}
-                                                    placeholder={"RRRR-MM-DD"}/>
-                                    </Col>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label htmlFor={"number"}> Numer
+                                            </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" placeholder={`${month}/${year}`}
+                                                       value={this.state.invoiceNumber}
+                                                       name={"invoiceNumber"} id={"number"}
+                                                       onChange={this.handleGetData}
+                                                       required/>
+                                            </Col>
 
 
-                                </Row>
-                                <Row>
-                                    <Col xs={4}  lg={4} className={"colStyle"}><label htmlFor={"address"}>Miejsce
-                                        wystawienia </label>
-                                    </Col>
-                                    <Col xs={4} lg={4} className={"mainFormInput"}>
-                                        <input type="text" value={this.state.address} name={"address"} id={"address"}
-                                               onChange={this.handleGetData} required/>
-                                    </Col>
-
-                                </Row>
-                                <Row>
-                                    <Col xs={4} lg={4} className={"colStyle"}><label htmlFor={"terms"}>Data sprzedaży
-                                    </label>
-                                    </Col>
-                                    <Col xs={4} lg={4} className={"mainFormInput"}><DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('terms')}
-                                                            onChange={this.handleChangeTerms}/>
-                                    </Col>
-
-                                </Row>
-                            </Container>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label htmlFor={"date"}>Data
+                                                wystawienia </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <DatePicker dateFormat="yyyy-MM-dd" selected={this.dateOrNull('date')}
+                                                            id={"date "} onChange={this.handleChangeDate}
+                                                            placeholder={"RRRR-MM-DD"}/>
+                                            </Col>
 
 
-                            <div className={"clientData"}>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label htmlFor={"address"}>Miejsce
+                                                wystawienia </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" value={this.state.address} name={"address"}
+                                                       id={"address"}
+                                                       onChange={this.handleGetData} required/>
+                                            </Col>
 
-                                Klient <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}/>
-                                <label> NIP <input type="text" placeholder={"000-000-00-00"}
-                                                   value={this.state.clientNumber}
-                                                   name={"clientNumber"}
-                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Adres<input type="text" placeholder={"ulica, nr, m"}
-                                                   value={this.state.clientAddress}
-                                                   name={"clientAddress"}
-                                                   onChange={this.handleGetData} disabled={"disabled"}/></label>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label htmlFor={"terms"}>Data
+                                                sprzedaży
+                                            </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}><DatePicker
+                                                dateFormat="yyyy-MM-dd"
+                                                selected={this.dateOrNull('terms')}
+                                                onChange={this.handleChangeTerms}/>
+                                            </Col>
 
-                                <label>Miasto<input type="text" placeholder={"nazwa miejscowości"}
-                                                    value={this.state.clientCity}
-                                                    name={"clientCity"}
-                                                    onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Kod pocztowy<input type="text" placeholder={"00-000"}
-                                                          value={this.state.clientPostalCode} name={"clientPostalCode"}
-                                                          onChange={this.handleGetData} disabled={"disabled"}/></label>
-                                <label>Podpis<input type="text" value={this.state.clientSignature}
-                                                    name={"clientSignature"} onChange={this.handleGetData}
-                                                    disabled={"disabled"}/></label>
-                            </div>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                                <Col lg={5} sm={12}>
+
+                                    <Container className={"clientData"}>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label htmlFor={"clientName"}>
+                                                Klient </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <SelectOrTypeClient getDataFromSelect={this.handlePassClientName}
+                                                                    id={"clientName"}/>
+                                            </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"clientNumber"}> NIP </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" placeholder={"000-000-00-00"}
+                                                       value={this.state.clientNumber}
+                                                       name={"clientNumber"}
+                                                       onChange={this.handleGetData} disabled={"disabled"}/>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"clientAddress"}>
+                                                Adres
+                                            </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" placeholder={"ulica, nr, m"}
+                                                       value={this.state.clientAddress}
+                                                       name={"clientAddress"}
+                                                       onChange={this.handleGetData} disabled={"disabled"}
+                                                       id={"clientAddress"}/>
+                                            </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"clientCity"}>
+                                                Miasto </label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" placeholder={"nazwa miejscowości"}
+                                                       value={this.state.clientCity}
+                                                       name={"clientCity"}
+                                                       onChange={this.handleGetData} disabled={"disabled"}
+                                                       id={"clientCity"}/>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"clientPostalCode"}>Kod pocztowy</label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" placeholder={"00-000"}
+                                                       value={this.state.clientPostalCode} name={"clientPostalCode"}
+                                                       onChange={this.handleGetData} disabled={"disabled"}
+                                                       id={"clientPostalCode"}/>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={4} lg={5} className={"colStyle"}><label
+                                                htmlFor={"clientSignature"}>Podpis</label>
+                                            </Col>
+                                            <Col xs={4} lg={5} className={"mainFormInput"}>
+                                                <input type="text" value={this.state.clientSignature}
+                                                       name={"clientSignature"} onChange={this.handleGetData}
+                                                       disabled={"disabled"} id={"clientSignature"}/>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>
+
                         </div>
 
                         <div className={"itemDescription"}>
@@ -573,7 +639,7 @@ class CommonData extends React.Component {
                             </ButtonGroup>
                         </div>
                     </form>
-                </div>
+                </Container>
 
 
                 {this.state.accountErrors.map((el, i) => {

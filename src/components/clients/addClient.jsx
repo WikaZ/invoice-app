@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 class AddClientForm extends React.Component {
     constructor(props) {
         super(props);
-        // this.fileInput = React.createRef();
+
 
     }
 
@@ -38,7 +38,7 @@ class AddClientForm extends React.Component {
                         clientAddress: "",
                         clientCity: "",
                         clientPostalCode: "",
-                        clientSignature: "ko muu",
+                        clientSignature: "",
 
                     }}
 
@@ -94,7 +94,7 @@ class AddClientForm extends React.Component {
                             console.log(Object.keys(values), "keys");
                             Object.values(values).forEach((el) => {
                                 console.log(el, "obj value");
-                            })
+                            });
                             this.passMyInvoiceData(values);
                             this.props.handleTogglePopup();
                             setSubmitting(false);
@@ -181,7 +181,7 @@ class AddClientForm extends React.Component {
                                     <input
                                         type="text"
                                         name="clientSignature"
-                                        onChange={onImageChange}
+                                        onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.clientSignature}
                                         placeholder={"imię nazwisko"}

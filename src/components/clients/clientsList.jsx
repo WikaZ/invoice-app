@@ -84,7 +84,12 @@ class ClientsList extends Component {
         this.setState({
                 showPopUp: !this.state.showPopUp
             }
-        )
+        );
+
+        if(!this.state.showPopUp){
+            console.log("reload table");
+            this.reloadTable();
+        }
     };
 
     // szerokosc tabelki

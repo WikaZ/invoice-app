@@ -101,7 +101,7 @@ class MyInvoiceData extends React.Component {
                             console.log(Object.keys(values), "keys");
                             Object.values(values).forEach((el) => {
                                 console.log(el, "obj value");
-                            })
+                            });
                             this.passMyInvoiceData(values);
                             setSubmitting(false);
 
@@ -199,7 +199,7 @@ class MyInvoiceData extends React.Component {
                                     <input
                                         type="text"
                                         name="businessSignature"
-                                        onChange={onImageChange}
+                                        onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.businessSignature}
                                         placeholder={"imię nazwisko"}

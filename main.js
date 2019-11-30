@@ -35,10 +35,10 @@ function createWindow() {
 		if (process.platform !== 'darwin') app.quit();
 	});
 
-	workerWindow = new BrowserWindow();
+	workerWindow = new BrowserWindow({ show: false });
 	workerWindow.loadURL(inDevelopmentMode ? `http://localhost:9000/worker.html` : `file://${__dirname}/build/worker.html`);
 	// workerWindow.hide();
-	workerWindow.webContents.openDevTools();
+	// workerWindow.webContents.openDevTools();
 	workerWindow.on("closed", () => {
 		workerWindow = undefined;
 	});

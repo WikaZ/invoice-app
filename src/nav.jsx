@@ -27,7 +27,7 @@ class NavBar extends React.Component {
             <>
                 <HashRouter>
                     <>
-                        <nav>
+                        <nav style={{zIndex: "1000"}}>
                             <ul>
                                 <NavLink exact to={"/"} className={"mainNav"}> Moje Dane</NavLink>
                                 <NavLink to={"/moje_dane"} className={"mainNav"}> Strona główna</NavLink>

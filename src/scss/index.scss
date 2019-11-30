@@ -123,7 +123,8 @@ nav{
 //ekran moje dane:
 .myInvoiceData {
   margin: 100px auto;
-  width: 70%;
+  padding:50px 50px;
+  width: 45%;
   border: 1px solid #1f1080;
   border-radius: 10px;
 
@@ -145,6 +146,13 @@ nav{
   }
 
 }
+ @media (max-width: 1300px) {
+  .myInvoiceData{
+    width:100%;
+  }
+ }
+
+
 
 .myDataInput {
   width: 70%;
@@ -253,4 +261,10 @@ nav{
 
 .mainFormInput {
   text-align: left;
+}
+.centeredBtn{
+  margin:0 auto;
+}
+.alignSubmitBtn{
+  margin-top: 25px;
 }

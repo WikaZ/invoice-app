@@ -2,6 +2,10 @@ import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import Button from "react-bootstrap/Button";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class MyInvoiceData extends React.Component {
     constructor(props) {
@@ -25,11 +29,10 @@ class MyInvoiceData extends React.Component {
     };
 
 
-
     render() {
 
         return (
-            <div className={"myInvoiceData"}>
+            <div >
                 <h1>Moje dane:</h1>
                 <Formik
                     initialValues={{
@@ -47,7 +50,7 @@ class MyInvoiceData extends React.Component {
                     validate={values => {
                         let errors = {};
                         if (!values.businessName) {
-                            errors.businessName = 'Proszę wpisac imię';
+                            errors.businessName = 'Required';
                         }
                         // if (!values.businessLogo) {
                         //     errors.businessName = 'Proszę dodać logo';
@@ -126,111 +129,179 @@ class MyInvoiceData extends React.Component {
                           /* and other goodies */
                       }) => (
                         <form onSubmit={handleSubmit}>
-                            <div className={'myDataInput'}>
-                                <label>Nazwa Firmy:<input
-                                    type="text"
-                                    name="businessName"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.businessName}
-                                    placeholder={"twoja nazwa"}
-                                /></label>
-                                {errors.businessName && touched.businessName && errors.businessName}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>NIP:
-                                    <input
-                                        type="text"
-                                        name="businessNumber"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.businessNumber}
-                                        placeholder={"0000000000"}
-                                    /></label>
-                                {errors.businessNumber && touched.businessNumber && errors.businessNumber}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Adres:
-                                    <input
-                                        type="text"
-                                        name="businessAddress"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.businessAddress}
-                                        placeholder={"ulica nr m"}
-                                    /></label>
-                                {errors.businessAddress && touched.businessAddress && errors.businessAddress}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Miasto:
-                                    <input
-                                        type="text"
-                                        name="businessCity"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.businessCity}
-                                        placeholder={"miasto"}
-                                    /></label>
-                                {errors.businessCity && touched.businessCity && errors.businessCity}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Kod Pocztowy: <input
-                                    type="text"
-                                    name="businessPostalCode"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.businessPostalCode}
-                                    placeholder={"00-123"}
-                                /></label>
-                                {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Dodaj logo: <input
-                                    type="file"
-                                    name="businessLogo"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    ref={this.fileInput}
+                            <Container className={"myInvoiceData"}>
+                                <Row >
+                                    <Col lg={2} sm={2}></Col>
 
-                                /></label>
-                                {errors.businessLogo && touched.businessLogo && errors.businessLogo}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Podpis:
-                                    <input
-                                        type="text"
-                                        name="businessSignature"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.businessSignature}
-                                        placeholder={"imię nazwisko"}
-                                    /></label>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessName"}>Nazwa Firmy:</label>
+                                    </Col>
+
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessName"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessName}
+                                            placeholder={"twoja nazwa"}
+                                        />
+                                        {errors.businessName && touched.businessName && errors.businessName}
+                                    </Col>
 
 
-                                <span style={{
-                                    color: "red",
-                                    fontWeight: "bold"
-                                }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
 
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Numer konta:<input
-                                    type="text"
-                                    name="businessBankAccountNum"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.businessBankAccountNum}
-                                    placeholder={"numer konta"}
-                                /></label>
-                                {errors.businessBankAccountNum && touched.businessBankAccountNum && errors.businessBankAccountNum}
-                            </div>
-                            <div className={'myInvoiceDataSubmit'}>
-                                <Button variant="secondary" type="submit" disabled={isSubmitting}>
-                                    Submit
-                                </Button>
-                            </div>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessNumber"}>NIP:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessNumber"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessNumber}
+                                            placeholder={"0000000000"}
+                                        />
+                                        {errors.businessNumber && touched.businessNumber && errors.businessNumber}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessAddress"}>Adres:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessAddress"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessAddress}
+                                            placeholder={"ulica nr m"}
+                                        />
+
+                                        {errors.businessAddress && touched.businessAddress && errors.businessAddress}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessCity"}>Miasto:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessCity"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessCity}
+                                            placeholder={"miasto"}
+                                        />
+                                        {errors.businessCity && touched.businessCity && errors.businessCity}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessPostalCode"}>Kod Pocztowy:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessPostalCode"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessPostalCode}
+                                            placeholder={"00-123"}
+                                        />
+                                        {errors.businessPostalCode && touched.businessPostalCode && errors.businessPostalCode}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessLogo"}>Dodaj logo:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="file"
+                                            name="businessLogo"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            ref={this.fileInput}
+
+                                        />
+                                        {errors.businessLogo && touched.businessLogo && errors.businessLogo}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessSignature"}>Podpis:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessSignature"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessSignature}
+                                            placeholder={"imię nazwisko"}
+                                        />
 
 
+                                        <span style={{
+                                            color: "red",
+                                            fontWeight: "bold"
+                                        }}> {errors.businessSignature && touched.businessSignature && errors.businessSignature}</span>
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"businessBankAccountNum"}>Numer konta:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="businessBankAccountNum"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.businessBankAccountNum}
+                                            placeholder={"numer konta"}
+                                        />
+                                        {errors.businessBankAccountNum && touched.businessBankAccountNum && errors.businessBankAccountNum}
+                                    </Col>
+                                    <Col lg={2} sm={2}></Col>
+                                </Row>
+                                <Row>
+                                    <Col md={12} xs={12} className={"alignSubmitBtn"} >
+                                        <Button variant="secondary" type="submit" disabled={isSubmitting} className={"centeredBtn"}>
+                                            Submit
+                                        </Button>
+                                    </Col>
+                                </Row>
+
+                            </Container>
                         </form>
 
                     )}

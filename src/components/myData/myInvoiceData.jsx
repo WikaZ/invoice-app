@@ -48,9 +48,9 @@ class MyInvoiceData extends React.Component {
                         if (!values.businessName) {
                             errors.businessName = 'Proszę wpisac imię';
                         }
-                        if (!values.businessLogo) {
-                            errors.businessName = 'Proszę wpisac imię';
-                        }
+                        // if (!values.businessLogo) {
+                        //     errors.businessName = 'Proszę dodać logo';
+                        // }
                         if (!values.businessNumber) {
                             errors.businessNumber = 'Required';
                         } else if (!/^[0-9]{10}$/g.test(values.businessNumber)) {

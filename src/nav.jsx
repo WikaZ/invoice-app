@@ -29,11 +29,11 @@ class NavBar extends React.Component {
                     <>
                         <nav>
                             <ul>
-                                <Link to={"/"} className={"mainNav"}> Moje Dane</Link>
-                                <Link to={"/moje_dane"} className={"mainNav"}> Strona główna</Link>
-                                <Link to={"/klienci"} className={"mainNav"}>Moi klienci</Link>
-                                <Link to={"/usługi"} className={"mainNav"}> Moje Usługi</Link>
-                                <Link to={"/faktury"} className={"mainNav"}>Moje Faktury</Link>
+                                <NavLink exact to={"/"} className={"mainNav"}> Moje Dane</NavLink>
+                                <NavLink to={"/moje_dane"} className={"mainNav"}> Strona główna</NavLink>
+                                <NavLink to={"/klienci"} className={"mainNav"}>Moi klienci</NavLink>
+                                <NavLink to={"/usługi"} className={"mainNav"}> Moje Usługi</NavLink>
+                                <NavLink to={"/faktury"} className={"mainNav"}>Moje Faktury</NavLink>
                             </ul>
                         </nav>
                         <Switch>

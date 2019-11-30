@@ -32,7 +32,7 @@ class MyInvoiceData extends React.Component {
     render() {
 
         return (
-            <div >
+            <div  >
                 <h1>Moje dane:</h1>
                 <Formik
                     initialValues={{
@@ -128,8 +128,11 @@ class MyInvoiceData extends React.Component {
                           isSubmitting,
                           /* and other goodies */
                       }) => (
+
                         <form onSubmit={handleSubmit}>
+
                             <Container className={"myInvoiceData"}>
+                                <h1 className={"myInvoiceDataStyle"}>Dane mojej firmy:</h1>
                                 <Row >
                                     <Col lg={2} sm={2}></Col>
 

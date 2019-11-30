@@ -401,11 +401,11 @@ class CommonData extends React.Component {
             <>
                 <Container className={"mainDashboard"}>
 
-                    <form action="" onSubmit={this.handleValidateData}>
+                    <form action="" onSubmit={this.handleValidateData} className={"mainForm"}>
 
                         <div className={'formWrapper'}>
                             <Row>
-                                <Col lg={5} sm={12}>
+                                <Col lg={{ span: 5, offset: 1 }} sm={12}>
                                     <Container>
                                         <Row>
 

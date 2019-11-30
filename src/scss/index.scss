@@ -138,6 +138,7 @@ nav{
       width: 120px;
       margin: 50px auto;
 
+
       button {
         width: 100%;
 
@@ -146,9 +147,22 @@ nav{
   }
 
 }
+.myInvoiceDataStyle{
+
+
+    color:black;
+    margin-bottom: 40px;
+    font-size: 32px;
+
+}
+
+.itemDescription{
+  margin-top: 50px;
+}
  @media (max-width: 1300px) {
   .myInvoiceData{
     width:100%;
+
   }
  }
 
@@ -176,6 +190,11 @@ nav{
 
 .mainDashboard {
   position: relative;
+  margin:100px auto;
+}
+
+.mainForm{
+  margin:0 auto;
 }
 
 .popup {
@@ -254,7 +273,7 @@ nav{
 
 //columny form main
 .colStyle {
-  text-align: right;
+  //text-align: right;
   font-weight: bold;
   color: #156b0e;
 }

@@ -191,6 +191,7 @@ nav{
 .mainDashboard {
   position: relative;
   margin:100px auto;
+
 }
 
 .mainForm{
@@ -201,7 +202,7 @@ nav{
   @include popup;
   width: 40vw;
   height: 80vh;
-
+  z-index: 2;
   top: 10vh;
   left: 30vw;
 }

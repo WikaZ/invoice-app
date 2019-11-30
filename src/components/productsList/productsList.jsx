@@ -353,7 +353,7 @@ class ProductList extends Component {
 
                     <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
                         <Button variant="secondary"
-                                onClick={this.handleTogglePopup} className={'addBtn'}>Dodaj usługę</Button>
+                                onClick={this.handleTogglePopup} className={'addProductBtn'}>Dodaj usługę</Button>
                         <AgGridReact
                             columnDefs={this.state.columnDefs}
                             rowData={this.state.rowData}

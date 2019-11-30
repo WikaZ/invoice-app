@@ -234,16 +234,16 @@ class InvoicePreview extends React.Component {
                             </Row>
 
                             <Row style={{marginTop: "70px", marginLeft: "0", marginRight: "0"}}>
-                                <Col lg={"3"}> {this.state.businessSignature}</Col>
-                                <Col lg={{span: 3, offset: 6}}> {this.state.clientSignature}</Col>
+                                <Col lg={"3"} xs={"3"}> {this.state.businessSignature}</Col>
+                                <Col lg={{span: 3, offset: 6}} xs={{span: 3, offset: 6}}> {this.state.clientSignature}</Col>
 
                             </Row>
                             <Row style={{margin: "0"}}>
-                                <Col lg={"3"} className={"underlineText"}>
+                                <Col lg={"3"} xs={"3"} className={"underlineText"}>
                                 <span className={"invoiceHeader"}>Osoba upoważniona do
                                 wystawiania </span>
                                 </Col>
-                                <Col lg={{span: 3, offset: 6}} className={"underlineText"}><span
+                                <Col lg={{span: 3, offset: 6}} xs={{span: 3, offset: 6}} className={"underlineText"}><span
                                     className={"invoiceHeader"}> Osoba upoważniona do
                                 odbioru
                             </span>

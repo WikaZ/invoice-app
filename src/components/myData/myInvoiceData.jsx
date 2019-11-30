@@ -33,7 +33,7 @@ class MyInvoiceData extends React.Component {
 
         return (
             <div  >
-                <h1>Moje dane:</h1>
+
                 <Formik
                     initialValues={{
                         businessName: '',

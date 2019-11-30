@@ -1,0 +1,15 @@
+<head>
+    <script>
+        const ipcRenderer = require("electron").ipcRenderer;
+
+        ipcRenderer.on("printPDF", (event, content) => {
+            console.log('Content: ', content);
+            document.body.innerHTML = content;
+
+            ipcRenderer.send("readyToPrintPDF");
+        });
+    </script>
+</head>
+<body>
+
+</body>

@@ -1,9 +1,11 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
-const os = require('os');
+// const os = require('os');
 const inDevelopmentMode = (process.env.MODE === 'dev');
-
-
+// dla print
+const fs = require('fs');
+const os=require('os');
+const ipc=ipcMain;
 
 // © 2019 GitHub, Inc.
 // Main window reference
@@ -31,6 +33,34 @@ function createWindow() {
 	// Handle 'closed' window event
 	mainWindow.on('closed', () => {
 		if (process.platform !== 'darwin') app.quit();
+	});
+
+	workerWindow = new BrowserWindow();
+	workerWindow.loadURL(inDevelopmentMode ? `http://localhost:9000/worker.html` : `file://${__dirname}/build/worker.html`);
+	// workerWindow.hide();
+	workerWindow.webContents.openDevTools();
+	workerWindow.on("closed", () => {
+		workerWindow = undefined;
+	});
+
+	// retransmit it to workerWindow
+	ipcMain.on("printPDF", (event, content) => {
+		workerWindow.webContents.send("printPDF", content);
+	});
+// when worker window is ready
+	ipcMain.on("readyToPrintPDF", (event) => {
+		const pdfPath = path.join(os.tmpdir(), 'print.pdf');
+		// Use default printing options
+		workerWindow.webContents.printToPDF({}, function (error, data) {
+			if (error) throw error
+			fs.writeFile(pdfPath, data, function (error) {
+				if (error) {
+					throw error
+				}
+				shell.openItem(pdfPath)
+				event.sender.send('wrote-pdf', pdfPath)
+			})
+		})
 	});
 }
 
@@ -64,4 +94,21 @@ app.on('activate', () => {
 ipcMain.on('link:open', (event, link) => {
 	if ('string' === typeof link && link.length > 0)
 		shell.openExternal(link);
+});
+
+ipc.on('print-to-pdf', function (event) {
+	console.warn(event);
+	const pdfPath= path.join(os.tmpdir(), "print.pdf");
+	const win=BrowserWindow.fromWebContents(event.sender)
+	win.webContents.printToPDF({}, function (error, data) {
+		if(error) return console.log(error.message);
+		fs.writeFile(pdfPath, data, function (err) {
+			console.warn(data);
+			if(error)return console.log(err.message);
+			shell.openExternal("file//" + pdfPath)
+			event.sender.send('wrote-pdf', pdfPath)
+			
+		})
+		
+	})
 })

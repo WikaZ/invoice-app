@@ -255,8 +255,8 @@ class ProductList extends Component {
             showPopUp: false,
             columnDefs: [
                 columnDef("Nazwa usługi", "product", true, true, true, true, 100),
-                columnDef("Jednostka miary", "productUnit", true, true, false, true, 100),
-                columnDef("Cena", "productRate", true, true, false, true, 100),
+                columnDef("Jednostka miary", "productUnit", true, true, false, true,100 ),
+                columnDef("Cena", "productRate", true, true, false, true,100),
 
             ],
             // tylko przyklad, pozniej usunac
@@ -271,6 +271,8 @@ class ProductList extends Component {
         console.log('Finished row data');
         return [];
     };
+
+
     // set row
     reloadTable = () => {
         db.collection('productList').get().then(
@@ -342,7 +344,9 @@ class ProductList extends Component {
                     className="ag-theme-balham mainTable"
                     style={{
                         height: '100vh',
-                        width: '100vw'
+                        width: '100vw',
+                        margin:"0 auto",
+                        textAlign:"center"
                     }}
 
                 >

@@ -11,6 +11,17 @@ import *  as firebase from 'firebase';
 import moment from 'moment';
 
 
+
+
+
+const { webContents } = require('electron');
+
+const ipc=require('electron').ipcRenderer;
+
+ipc.on("wrote-pdf", function (event, path) {
+    document.getElementById("pdf-path").innerText = `Wrote pdf to:${path}`
+});
+
 class InvoicePreview extends React.Component {
     constructor(props) {
         super(props);
@@ -72,8 +83,15 @@ class InvoicePreview extends React.Component {
         // let personalInfo=Object.values(this.state.myCompData);
 
 
-    }
+    };
 
+
+    handlePrint = () => {
+        console.log('handlePrint:', this.popupRef);
+        ipc.send("printPDF", this.popupRef.current.innerHTML);
+    };
+
+    popupRef = React.createRef();
 
     render() {
 
@@ -82,12 +100,14 @@ class InvoicePreview extends React.Component {
                 <div className={"popupBackground"}> </div>
                 <div className='popup'>
                     <Button variant="dark" onClick={this.props.closePopup}>ZAMKNIJ</Button>
-                    <div className='popup_inner'>
+                    <label id={'pdf-path'}> </label>
+                    <Button variant={"primary"} id={"print-pdf"} onClick={this.handlePrint}>print</Button>
+                    <div className='popup_inner' id='invoice-to-print' >
 
 
                         <Container fluid={true} style={{
                             fontSize: "12px"
-                        }}>
+                        }} ref={this.popupRef}>
                             <Row style={{marginBottom: "50px"}}>
                                 <Col sm={4}
                                      style={{

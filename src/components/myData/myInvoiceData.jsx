@@ -1,6 +1,7 @@
 import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
+import Button from "react-bootstrap/Button";
 
 class MyInvoiceData extends React.Component {
     constructor(props) {
@@ -224,9 +225,9 @@ class MyInvoiceData extends React.Component {
                                 {errors.businessBankAccountNum && touched.businessBankAccountNum && errors.businessBankAccountNum}
                             </div>
                             <div className={'myInvoiceDataSubmit'}>
-                                <button type="submit" disabled={isSubmitting}>
+                                <Button variant="secondary" type="submit" disabled={isSubmitting}>
                                     Submit
-                                </button>
+                                </Button>
                             </div>
 
 

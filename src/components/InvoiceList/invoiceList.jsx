@@ -5,6 +5,7 @@ import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css';
 import {AllCommunityModules} from '@ag-grid-community/all-modules';
 import {db} from "../../db/dbconfig";
+import Button from "react-bootstrap/Button";
 
 
 function columnDef(headerName, fieldName, sortable, filter, checkboxSelection) {
@@ -103,7 +104,7 @@ class InvoiceList extends Component {
                         width: '100vw'
                     }}
                 >
-                    <button onClick={this.onButtonClick}>Get selected rows</button>
+                    <Button variant="secondary" onClick={this.onButtonClick} className={'addBtn'}>Pokaz fakturę</Button>
                     <div id="grid-wrapper" style={{width: "100%", height: "100%"}}>
                         <AgGridReact
                             columnDefs={this.state.columnDefs}

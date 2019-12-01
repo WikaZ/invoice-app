@@ -299,7 +299,7 @@ class MyInvoiceData extends React.Component {
                                 <Row>
                                     <Col md={12} xs={12} className={"alignSubmitBtn"} >
                                         <Button variant="secondary" type="submit" disabled={isSubmitting} className={"centeredBtn"}>
-                                            Submit
+                                            Zapisz
                                         </Button>
                                     </Col>
                                 </Row>

@@ -2,6 +2,10 @@ import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import Button from "react-bootstrap/Button";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class AddProductForm extends React.Component {
     constructor(props) {
@@ -29,7 +33,7 @@ class AddProductForm extends React.Component {
 
         return (
             <div className={"addProductForm"}>
-                <h1>Dane nową usługę:</h1>
+                <h1> Dodaj nową usługę</h1>
                 <Formik
                     initialValues={{
                         product: '',
@@ -99,61 +103,80 @@ class AddProductForm extends React.Component {
                           /* and other goodies */
                       }) => (
                         <form onSubmit={handleSubmit}>
-                            <div className={'myDataInput'}>
-                                <label>Usługa:<input
-                                    type="text"
-                                    name="product"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.product}
-                                    placeholder={"usługi programistyczne"}
-                                /></label>
-                                {errors.product && touched.product && errors.product}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Cena:
-                                    <input
-                                        type="text"
-                                        name="productRate"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.productRate}
-                                        placeholder={"00.00"}
-                                    /></label>
-                                {errors.productRate && touched.productRate && errors.productRate}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Jednostka miary:
-                                    <input
-                                        type="text"
-                                        name="productUnit"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.productUnit}
-                                        placeholder={"ulica nr m"}
-                                    /></label>
-                                {errors.productUnit && touched.productUnit && errors.productUnit}
-                            </div>
+                            <Container>
 
-                            <div className={'myInvoiceDataSubmit'}>
-                                <button type="submit" disabled={isSubmitting}>
-                                    Zapisz
-                                </button>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"product"}>Usługa:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="product"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.product}
+                                            placeholder={"usługi programistyczne"}
+                                        />
+                                        {errors.product && touched.product && errors.product}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"productRate"}>Cena:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="productRate"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.productRate}
+                                            placeholder={"00.00"}
+                                        /></Col>
+                                    {errors.productRate && touched.productRate && errors.productRate}
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"productUnit"}>Jednostka miary:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="productUnit"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.productUnit}
+                                            placeholder={"ulica nr m"}
+                                        /></Col>
+                                    {errors.productUnit && touched.productUnit && errors.productUnit}
+                                </Row>
+                                <Row>
+                                    <Col md={12} xs={12} className={"alignSubmitBtn"}>
+                                        <Button variant="secondary" type="submit" disabled={isSubmitting}
+                                                className={"centeredBtn"}>
+                                            Zapisz
+                                        </Button>
+                                    </Col>
 
-                            </div>
+                                </Row>
 
-
+                            </Container>
                         </form>
 
-                    )}
+                        )}
 
 
-                </Formik>
-            </div>
-        )
-    }
+                        </Formik>
+                        </div>
+                        )
+                    }
 
-}
+                    }
 
 
-export default AddProductForm
+                    export default AddProductForm

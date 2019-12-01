@@ -2,6 +2,9 @@ import React from 'react';
 import {db} from '../../db/dbconfig';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
 class AddClientForm extends React.Component {
     constructor(props) {
@@ -23,7 +26,6 @@ class AddClientForm extends React.Component {
             });
 
     };
-
 
 
     render() {
@@ -117,91 +119,128 @@ class AddClientForm extends React.Component {
                           /* and other goodies */
                       }) => (
                         <form onSubmit={handleSubmit}>
-                            <div className={'myDataInput'}>
-                                <label>Nazwa Firmy:<input
-                                    type="text"
-                                    name="clientName"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.clientName}
-                                    placeholder={"twoja nazwa"}
-                                /></label>
-                                {errors.clientName && touched.clientName && errors.clientName}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>NIP:
-                                    <input
-                                        type="text"
-                                        name="clientNumber"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.clientNumber}
-                                        placeholder={"000 000 00 00"}
-                                    /></label>
-                                {errors.clientNumber && touched.clientNumber && errors.clientNumber}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Adres:
-                                    <input
-                                        type="text"
-                                        name="clientAddress"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.clientAddress}
-                                        placeholder={"ulica nr m"}
-                                    /></label>
-                                {errors.clientAddress && touched.clientAddress && errors.clientAddress}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Miasto:
-                                    <input
-                                        type="text"
-                                        name="clientCity"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.clientCity}
-                                        placeholder={"miasto"}
-                                    /></label>
-                                {errors.clientCity && touched.clientCity && errors.clientCity}
-                            </div>
-                            <div className={'myDataInput'}>
-                                <label>Kod Pocztowy: <input
-                                    type="text"
-                                    name="clientPostalCode"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.clientPostalCode}
-                                    placeholder={"00-123"}
-                                /></label>
-                                {errors.clientPostalCode && touched.clientPostalCode && errors.clientPostalCode}
-                            </div>
+                            <Container>
 
-                            <div className={'myDataInput'}>
-                                <label>Podpis:
-                                    <input
-                                        type="text"
-                                        name="clientSignature"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.clientSignature}
-                                        placeholder={"imię nazwisko"}
-                                    /></label>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientName"}>Nazwa Firmy:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientName"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientName}
+                                            placeholder={"twoja nazwa"}
+                                        />
+                                    </Col>
+                                    {errors.clientName && touched.clientName && errors.clientName}
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientNumber"}>NIP:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientNumber"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientNumber}
+                                            placeholder={"000 000 00 00"}
+                                        /></Col>
+                                    {errors.clientNumber && touched.clientNumber && errors.clientNumber}
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientAddress"}>Adres:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientAddress"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientAddress}
+                                            placeholder={"ulica nr m"}
+                                        /></Col>
+                                    {errors.clientAddress && touched.clientAddress && errors.clientAddress}
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientCity"}>Miasto:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientCity"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientCity}
+                                            placeholder={"miasto"}
+                                        /></Col>
+                                    {errors.clientCity && touched.clientCity && errors.clientCity}
+                                </Row>
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientPostalCode"}>Kod Pocztowy:
+                                        </label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientPostalCode"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientPostalCode}
+                                            placeholder={"00-123"}
+                                        /></Col>
+                                    {errors.clientPostalCode && touched.clientPostalCode && errors.clientPostalCode}
+                                </Row>
+
+                                <Row>
+                                    <Col lg={2} sm={2}></Col>
+                                    <Col lg={4} sm={4} className={"colStyle"}>
+                                        <label htmlFor={"clientSignature"}>Podpis:</label>
+                                    </Col>
+                                    <Col lg={4} sm={4} className={"mainFormInput"}>
+                                        <input
+                                            type="text"
+                                            name="clientSignature"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.clientSignature}
+                                            placeholder={"imię nazwisko"}
+                                        /></Col>
 
 
-                                <span style={{
-                                    color: "red",
-                                    fontWeight: "bold"
-                                }}> {errors.clientSignature && touched.clientSignature && errors.clientSignature}</span>
+                                    <span style={{
+                                        color: "red",
+                                        fontWeight: "bold"
+                                    }}> {errors.clientSignature && touched.clientSignature && errors.clientSignature}</span>
 
-                            </div>
+                                </Row>
 
-                            <div className={'myInvoiceDataSubmit'}>
-                                <button type="submit" disabled={isSubmitting}>
-                                  Zapisz
-                                </button>
+                                <Row>
+                                    <Col md={12} xs={12} className={"alignSubmitBtn"}>
+                                        <Button variant="secondary" type="submit" disabled={isSubmitting}
+                                                className={"centeredBtn"}>
 
-                            </div>
+                                            Zapisz
+                                        </Button>
 
+
+                                    </Col>
+                                </Row>
+                            </Container>
 
                         </form>
 
